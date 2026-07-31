@@ -30,9 +30,12 @@ function initLoader() {
    ============================================ */
 function initTheme() {
   const btn = document.getElementById('theme-toggle');
-  const saved = localStorage.getItem('theme');
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const theme = saved || (prefersDark ? 'dark' : 'light');
+
+  // Varsayılan DAİMA açık tema (Palet A). Sistemin koyu tema tercihi
+  // bilerek dikkate alınmıyor: sitenin kimliği Palet A üzerine kurulu,
+  // ilk izlenim onunla verilmeli. Koyu tema (Palet C) kullanıcının
+  // kendi seçimiyle açılır ve tercih olarak saklanır.
+  const theme = localStorage.getItem('theme') || 'light';
 
   document.documentElement.setAttribute('data-theme', theme);
 
