@@ -1,0 +1,174 @@
+/* ============================================
+   PROJELER
+   İki görünüm: Izgara (Eames'in görsel envanteri) ve
+   Katalog (Eldem'in Türk Evi plan tipolojisi).
+   ============================================ */
+
+/* === GÖRÜNÜM DEĞİŞTİRİCİ === */
+.view-switch {
+  display: inline-flex;
+  border: var(--grid-line) solid var(--color-border);
+}
+
+.view-switch__btn {
+  padding: var(--space-sm) var(--space-md);
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  letter-spacing: var(--ls-wider);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  transition:
+    background var(--duration-normal) var(--ease-out),
+    color var(--duration-normal) var(--ease-out);
+}
+
+.view-switch__btn + .view-switch__btn {
+  border-left: var(--grid-line) solid var(--color-border);
+}
+
+.view-switch__btn.is-active {
+  background: var(--color-text);
+  color: var(--color-bg);
+}
+
+/* === PROJE KARTI (ızgara görünümü) === */
+.project-card {
+  position: relative;
+  display: block;
+  background: var(--color-bg);
+  overflow: hidden;
+}
+
+.project-card__media {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-bg-alt);
+}
+
+.project-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--duration-slow) var(--ease-out);
+}
+
+.project-card:hover .project-card__media img {
+  transform: scale(1.04);
+}
+
+/* Görsel üstü bilgi katmanı — burada beyaz metin doğru,
+   çünkü zemin her temada koyu overlay. */
+.project-card__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: var(--space-xs);
+  padding: var(--space-lg);
+  background: linear-gradient(
+    to top,
+    var(--color-overlay) 0%,
+    rgba(26, 26, 24, 0.2) 55%,
+    transparent 100%
+  );
+  color: var(--color-on-overlay);
+  opacity: 0;
+  transition: opacity var(--duration-normal) var(--ease-out);
+}
+
+.project-card:hover .project-card__overlay,
+.project-card:focus-visible .project-card__overlay {
+  opacity: 1;
+}
+
+.project-card__title {
+  font-family: var(--font-serif);
+  font-optical-sizing: auto;
+  font-size: var(--fs-h4);
+  font-weight: var(--fw-regular);
+  color: var(--color-on-overlay);
+}
+
+.project-card__meta {
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  letter-spacing: var(--ls-wider);
+  text-transform: uppercase;
+  color: var(--color-on-overlay-muted);
+}
+
+/* === KATALOG GÖRÜNÜMÜ ===
+   Ansiklopedi / tipoloji listesi. Satırlar çizgiyle ayrılır. */
+.catalog {
+  border-top: var(--grid-line) solid var(--color-border);
+}
+
+.catalog__row {
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1fr);
+  align-items: baseline;
+  gap: var(--space-md);
+  width: 100%;
+  padding-block: var(--space-lg);
+  border-bottom: var(--grid-line) solid var(--color-border);
+  text-align: left;
+  transition: background var(--duration-fast) var(--ease-out);
+}
+
+@media (min-width: 768px) {
+  .catalog__row {
+    grid-template-columns: 3rem minmax(0, 1fr) 12rem 6rem;
+  }
+}
+
+.catalog__row:hover {
+  background: var(--color-accent-subtle);
+}
+
+.catalog__index {
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.catalog__name {
+  font-family: var(--font-serif);
+  font-optical-sizing: auto;
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-light);
+  letter-spacing: var(--ls-tight);
+  color: var(--color-text);
+}
+
+/* === FİLTRELER === */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.filter-btn {
+  padding: var(--space-xs) var(--space-md);
+  border: var(--grid-line) solid var(--color-border);
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  transition:
+    border-color var(--duration-normal) var(--ease-out),
+    color var(--duration-normal) var(--ease-out);
+}
+
+.filter-btn:hover {
+  border-color: var(--color-text);
+  color: var(--color-text);
+}
+
+.filter-btn.is-active {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-bg);
+}

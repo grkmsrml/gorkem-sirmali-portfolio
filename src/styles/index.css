@@ -1,0 +1,17 @@
+/* ============================================
+   ANA CSS GİRİŞİ
+   Sıra önemli: tokenlar → reset → tipografi → layout
+   → animasyonlar → componentler
+   ============================================ */
+
+@import './variables.css';
+@import './reset.css';
+@import './typography.css';
+@import './layout.css';
+@import './animations.css';
+
+@import './components/navbar.css';
+@import './components/footer.css';
+@import './components/hero.css';
+@import './components/projects.css';
+@import './components/pages.css';

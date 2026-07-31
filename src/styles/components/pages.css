@@ -1,0 +1,35 @@
+/* ============================================
+   SAYFA ORTAK PARÇALARI
+   ============================================ */
+
+.page {
+  min-height: 60vh;
+}
+
+/* Sayfa başlığı — üstte etiket, altında büyük serif başlık */
+.page-head {
+  padding-top: calc(var(--navbar-height) + var(--space-3xl));
+  padding-bottom: var(--space-2xl);
+  border-bottom: var(--grid-line) solid var(--color-border);
+}
+
+.page-head__title {
+  margin-block: var(--space-md) var(--space-lg);
+}
+
+.page-head__lead {
+  max-width: 52ch;
+}
+
+/* Yer tutucu bölüm — henüz kurulmamış sayfalar için */
+.placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-lg);
+  padding-block: var(--space-4xl);
+}
+
+.placeholder__note {
+  max-width: 52ch;
+}

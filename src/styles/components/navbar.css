@@ -1,0 +1,183 @@
+/* ============================================
+   NAVBAR
+   Üstte tek saç teli çizgi üzerine oturur — kendi çerçevesi.
+   ============================================ */
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-navbar);
+  height: var(--navbar-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-lg);
+  padding-inline: var(--container-padding);
+  background: var(--color-bg);
+  border-bottom: var(--grid-line) solid var(--color-border);
+  transition:
+    transform var(--duration-normal) var(--ease-out),
+    background var(--duration-normal) var(--ease-out);
+}
+
+/* Aşağı kaydırırken gizlenir, yukarı kaydırırken geri gelir */
+.navbar.is-hidden {
+  transform: translateY(-100%);
+}
+
+.navbar__logo {
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--ls-widest);
+  color: var(--color-text);
+  white-space: nowrap;
+  transition: color var(--duration-normal) var(--ease-out);
+}
+
+.navbar__logo:hover {
+  color: var(--color-accent);
+}
+
+/* === MENÜ === */
+.navbar__menu {
+  display: none;
+  align-items: center;
+  gap: var(--space-xl);
+}
+
+.navbar__link {
+  position: relative;
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+  padding-block: var(--space-xs);
+  transition: color var(--duration-normal) var(--ease-out);
+}
+
+.navbar__link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--color-accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--duration-normal) var(--ease-out);
+}
+
+.navbar__link:hover {
+  color: var(--color-text);
+}
+
+.navbar__link:hover::after,
+.navbar__link.is-active::after {
+  transform: scaleX(1);
+}
+
+.navbar__link.is-active {
+  color: var(--color-text);
+}
+
+/* === AKSİYONLAR === */
+.navbar__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.navbar__btn {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: var(--grid-line) solid var(--color-border);
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  letter-spacing: var(--ls-wide);
+  color: var(--color-text-secondary);
+  transition:
+    border-color var(--duration-normal) var(--ease-out),
+    color var(--duration-normal) var(--ease-out);
+}
+
+.navbar__btn:hover {
+  border-color: var(--color-text);
+  color: var(--color-text);
+}
+
+/* Tema ikonu: açık temada ay, koyu temada güneş görünür */
+.icon-moon { display: block; }
+.icon-sun  { display: none; }
+
+[data-theme="dark"] .icon-moon { display: none; }
+[data-theme="dark"] .icon-sun  { display: block; }
+
+/* === HAMBURGER === */
+.navbar__toggle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 34px;
+  height: 34px;
+  margin-left: auto;
+  margin-right: var(--space-sm);
+}
+
+.navbar__toggle span {
+  display: block;
+  width: 20px;
+  height: 1px;
+  margin-inline: auto;
+  background: var(--color-text);
+  transition: transform var(--duration-normal) var(--ease-out),
+              opacity var(--duration-fast) var(--ease-out);
+}
+
+.navbar__toggle[aria-expanded="true"] span:first-child {
+  transform: translateY(3px) rotate(45deg);
+}
+
+.navbar__toggle[aria-expanded="true"] span:last-child {
+  transform: translateY(-3px) rotate(-45deg);
+}
+
+/* === MOBİL MENÜ === */
+@media (max-width: 1023px) {
+  .navbar__menu {
+    position: fixed;
+    inset: var(--navbar-height) 0 auto 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    padding: var(--space-xl) var(--container-padding) var(--space-2xl);
+    background: var(--color-bg);
+    border-bottom: var(--grid-line) solid var(--color-border);
+    clip-path: inset(0 0 100% 0);
+    transition: clip-path var(--duration-slow) var(--ease-out);
+  }
+
+  .navbar__menu.is-open {
+    display: flex;
+    clip-path: inset(0 0 0 0);
+  }
+
+  .navbar__link {
+    width: 100%;
+    padding-block: var(--space-md);
+    border-bottom: var(--grid-line) solid var(--color-border);
+    font-size: var(--fs-small);
+  }
+}
+
+@media (min-width: 1024px) {
+  .navbar__menu { display: flex; }
+  .navbar__toggle { display: none; }
+}

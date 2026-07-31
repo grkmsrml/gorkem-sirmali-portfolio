@@ -1,0 +1,169 @@
+/* ============================================
+   DESIGN TOKENS — "Çerçeve ve Dolgu"
+   Eames çifti + Sedad Hakkı Eldem okuması:
+   okunur modüler ızgara, sıcak malzeme, ölçülü renk.
+
+   Varsayılan tema: AÇIK (Palet A — Case Study)
+   Koyu tema eşi: [data-theme="dark"] (Palet C — Gölge)
+
+   Renk disiplini: %90 nötr, %10 aksan.
+   Aksan-2 (mavi) ve aksan-3 (hardal) SADECE ızgaradaki
+   düz renk dolgu panellerinde kullanılır — metinde asla.
+   ============================================ */
+
+:root {
+  /* === COLORS — Palet A: Case Study === */
+  --color-bg: #F7F4ED;            /* kâğıt */
+  --color-bg-alt: #E8E1D4;        /* kum */
+  --color-bg-elevated: #FFFFFF;   /* alçı */
+  --color-surface: #D8B98C;       /* kontrplak — sıcak dolgu yüzeyi */
+  --color-border: #D2C9B8;
+  --color-border-hover: #B9AE99;
+
+  --color-text: #1A1A18;          /* çelik profil */
+  --color-text-secondary: #57534A;
+  --color-text-muted: #8A8478;
+
+  /* Aksan — Eames paneli */
+  --color-accent: #C8352A;        /* kırmızı — birincil */
+  --color-accent-hover: #A82A21;
+  --color-accent-subtle: rgba(200, 53, 42, 0.08);
+  --color-accent-2: #2E5A87;      /* mavi — yalnız panel dolgusu */
+  --color-accent-3: #DFA92B;      /* hardal — yalnız panel dolgusu */
+
+  /* Görsel üstü overlay (temadan bağımsız — her zaman koyu zemin) */
+  --color-overlay: rgba(26, 26, 24, 0.78);
+  --color-overlay-strong: rgba(26, 26, 24, 0.94);
+  --color-on-overlay: #F7F4ED;
+  --color-on-overlay-muted: rgba(247, 244, 237, 0.62);
+
+  /* Semantic */
+  --color-success: #3F6B3F;
+  --color-error: #C8352A;
+
+  /* === TYPOGRAPHY === */
+  --font-serif: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Archivo', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Consolas, monospace;
+
+  --fs-display: clamp(3rem, 8vw, 7rem);
+  --fs-h1: clamp(2.25rem, 5vw, 4rem);
+  --fs-h2: clamp(1.75rem, 3.5vw, 2.75rem);
+  --fs-h3: clamp(1.25rem, 2.5vw, 1.75rem);
+  --fs-h4: clamp(1.1rem, 2vw, 1.35rem);
+  --fs-body: clamp(0.95rem, 1.2vw, 1.05rem);
+  --fs-small: clamp(0.8rem, 1vw, 0.88rem);
+  --fs-caption: clamp(0.65rem, 0.8vw, 0.72rem);
+
+  --fw-light: 300;
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+
+  --lh-tight: 1.05;
+  --lh-snug: 1.25;
+  --lh-normal: 1.7;
+  --lh-relaxed: 1.85;
+
+  --ls-tight: -0.03em;
+  --ls-normal: 0;
+  --ls-wide: 0.06em;
+  --ls-wider: 0.12em;
+  --ls-widest: 0.2em;
+
+  /* === SPACING === */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+  --space-4xl: 6rem;
+  --space-5xl: 8rem;
+  --space-section: clamp(5rem, 12vh, 10rem);
+
+  /* === LAYOUT & IZGARA ===
+     Izgara görünür bir yapı elemanı: hücreler arası boşluk yerine
+     --grid-line kalınlığında çizgi bırakılır (Eames House cephesi /
+     Zeyrek çerçeve-dolgu). --module, oran sisteminin temel birimi. */
+  --container-max: 1400px;
+  --container-narrow: 900px;
+  --container-wide: 1600px;
+  --container-padding: clamp(1.25rem, 4vw, 3rem);
+  --navbar-height: 68px;
+
+  --grid-line: 1px;
+  --grid-columns: 12;
+  --module: 90px;                 /* taşıyıcı modül */
+
+  /* Görsel kırpma oranları — bu üçünün dışına çıkma */
+  --ratio-square: 1 / 1;
+  --ratio-landscape: 3 / 2;
+  --ratio-portrait: 4 / 5;
+
+  /* === BORDERS & RADIUS ===
+     Keskin köşe bilinçli: çerçeve-dolgu dilinde yuvarlatma yok.
+     Token isimleri korunuyor ki componentler kırılmasın. */
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+  --radius-xl: 0;
+  --radius-full: 9999px;          /* yalnız hap/pill formlar */
+
+  /* === SHADOWS — saçak gölgesi: uzak, yumuşak, sıcak === */
+  --shadow-sm: 0 1px 2px rgba(26, 26, 24, 0.06);
+  --shadow-md: 0 6px 16px rgba(26, 26, 24, 0.08);
+  --shadow-lg: 0 16px 40px rgba(26, 26, 24, 0.10);
+  --shadow-xl: 0 28px 70px rgba(26, 26, 24, 0.13);
+
+  /* === TRANSITIONS ===
+     Eames filmleri gibi: kesin, kısa, mekanik. Zıplama yok. */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);  /* bilinçli olarak yaysız */
+
+  --duration-fast: 140ms;
+  --duration-normal: 240ms;
+  --duration-slow: 380ms;
+  --duration-slower: 600ms;
+
+  /* === Z-INDEX === */
+  --z-base: 1;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-navbar: 500;
+  --z-modal: 900;
+  --z-cursor: 1000;
+  --z-loader: 9999;
+}
+
+/* === KOYU TEMA — Palet C: Gölge ===
+   Saf siyah değil, sıcak kömür. Öğle gölgesi. */
+[data-theme="dark"] {
+  --color-bg: #1B1917;
+  --color-bg-alt: #26231F;
+  --color-bg-elevated: #2E2A25;
+  --color-surface: #8C6A4A;       /* kafes ahşabı */
+  --color-border: #35312B;
+  --color-border-hover: #4A443B;
+
+  --color-text: #EDE8DE;
+  --color-text-secondary: #A39B8D;
+  --color-text-muted: #7A7264;
+
+  --color-accent: #C86B4E;        /* kiremit+ */
+  --color-accent-hover: #DA8163;
+  --color-accent-subtle: rgba(200, 107, 78, 0.12);
+  --color-accent-2: #6F8CA6;
+  --color-accent-3: #D8B98C;
+
+  --color-success: #7FA97F;
+  --color-error: #E08A72;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 6px 16px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 28px 70px rgba(0, 0, 0, 0.6);
+}

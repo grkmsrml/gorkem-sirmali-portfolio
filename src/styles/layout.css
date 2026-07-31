@@ -1,0 +1,188 @@
+/* ============================================
+   LAYOUT — "ÇERÇEVE VE DOLGU"
+   Sitenin taşıyıcı grameri.
+
+   Izgara bir boşluk sistemi değil, görünür bir yapı elemanı:
+   hücreler arasında boşluk (gap) yerine --grid-line kalınlığında
+   çizgi bırakılır. Eames House cephesindeki çelik çerçeve ile
+   Eldem'in Zeyrek'teki betonarme çerçevesi aynı işi yapar —
+   taşıyıcı okunur kalır, dolgu değişir.
+   ============================================ */
+
+/* === KAPSAYICI === */
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+}
+
+.container--narrow { max-width: var(--container-narrow); }
+.container--wide   { max-width: var(--container-wide); }
+
+/* === BÖLÜM === */
+.section {
+  padding-block: var(--space-section);
+}
+
+.section--tight {
+  padding-block: var(--space-3xl);
+}
+
+/* Bölüm başlığı — sol üstte etiket, altında saç teli çizgi */
+.section__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-md) var(--space-xl);
+  padding-bottom: var(--space-lg);
+  margin-bottom: var(--space-2xl);
+  border-bottom: var(--grid-line) solid var(--color-border);
+}
+
+.section__title {
+  font-size: var(--fs-h2);
+  font-weight: var(--fw-light);
+}
+
+/* === SAÇ TELİ ÇİZGİ === */
+.rule {
+  height: var(--grid-line);
+  background: var(--color-border);
+  border: none;
+  margin: 0;
+}
+
+/* ============================================
+   ÇERÇEVE — hücreler arası çizgi, boşluk değil
+   ============================================ */
+
+.frame {
+  display: grid;
+  gap: var(--grid-line);
+  background: var(--color-border);
+  border: var(--grid-line) solid var(--color-border);
+}
+
+/* Kolon şemaları */
+.frame--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.frame--3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.frame--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+/* Asimetrik: 5/7 — Eldem'in oran çalışmalarına selam */
+.frame--split { grid-template-columns: minmax(0, 1fr); }
+
+@media (min-width: 900px) {
+  .frame--3     { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .frame--4     { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .frame--split { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
+}
+
+/* ============================================
+   DOLGU HÜCRESİ
+   ============================================ */
+
+.cell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--space-lg);
+  padding: clamp(1.25rem, 2.5vw, 2rem);
+  background: var(--color-bg);
+  overflow: hidden;
+}
+
+/* Sıcak dolgu — kontrplak */
+.cell--warm {
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+/* --- İMZA HAMLESİ: düz renk dolgu paneli ---
+   Izgaranın içinde görselin yerini alan tek renk panel.
+   Eames House cephesinde renkli panellerin yaptığı iş.
+   Sayfada en fazla BİR tane bulunsun — disiplin burada. */
+.panel {
+  background: var(--color-accent);
+  color: var(--color-bg);
+  justify-content: flex-end;
+}
+
+.panel--blue { background: var(--color-accent-2); color: var(--color-bg); }
+.panel--gold { background: var(--color-accent-3); color: var(--color-text); }
+
+.panel .meta {
+  color: currentColor;
+  opacity: 0.78;
+}
+
+/* ============================================
+   GÖRSEL ORANLARI
+   Üç orandan başkası kullanılmaz.
+   ============================================ */
+
+.ratio {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-bg-alt);
+}
+
+.ratio--square    { aspect-ratio: var(--ratio-square); }
+.ratio--landscape { aspect-ratio: var(--ratio-landscape); }
+.ratio--portrait  { aspect-ratio: var(--ratio-portrait); }
+
+.ratio > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ============================================
+   SAÇAK / TAŞMA
+   Eldem'in derin saçağı: element kendi kolonunu taşar.
+   Yalnız geniş ekranda — dar ekranda taşma kırılır.
+   ============================================ */
+
+@media (min-width: 1100px) {
+  .overhang-start { margin-inline-start: calc(var(--module) * -0.5); }
+  .overhang-end   { margin-inline-end: calc(var(--module) * -0.5); }
+}
+
+/* ============================================
+   BUTONLAR
+   ============================================ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-lg);
+  border: var(--grid-line) solid var(--color-text);
+  background: transparent;
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  letter-spacing: var(--ls-wider);
+  text-transform: uppercase;
+  transition:
+    background var(--duration-normal) var(--ease-out),
+    color var(--duration-normal) var(--ease-out),
+    border-color var(--duration-normal) var(--ease-out);
+}
+
+.btn:hover {
+  background: var(--color-text);
+  color: var(--color-bg);
+}
+
+.btn--accent {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.btn--accent:hover {
+  background: var(--color-accent);
+  color: var(--color-bg);
+}

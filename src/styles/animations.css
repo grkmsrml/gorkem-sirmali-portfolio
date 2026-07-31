@@ -1,0 +1,120 @@
+/* ============================================
+   ANIMATIONS
+   Eames filmleri gibi: kesin, kısa, mekanik. Yay/zıplama yok.
+   ============================================ */
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Perde: element kendi kutusunun içinden açılır (panel takılıyor hissi) */
+@keyframes unveil {
+  from { clip-path: inset(0 0 100% 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+
+/* Izgara çizgisinin çizilmesi */
+@keyframes draw-line {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+/* ============================================
+   SCROLL REVEAL
+   ScrollReveal gözlemcisi .is-visible sınıfını ekler.
+   ============================================ */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity var(--duration-slow) var(--ease-out),
+    transform var(--duration-slow) var(--ease-out);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Sıralı gecikme — ızgara hücreleri sırayla yerleşir */
+.reveal[data-delay="1"] { transition-delay: 60ms; }
+.reveal[data-delay="2"] { transition-delay: 120ms; }
+.reveal[data-delay="3"] { transition-delay: 180ms; }
+.reveal[data-delay="4"] { transition-delay: 240ms; }
+.reveal[data-delay="5"] { transition-delay: 300ms; }
+
+/* ============================================
+   SAYFA GEÇİŞİ
+   ============================================ */
+
+.page {
+  animation: fade-in var(--duration-normal) var(--ease-out);
+}
+
+.page.is-leaving {
+  opacity: 0;
+  transition: opacity var(--duration-fast) var(--ease-out);
+}
+
+/* ============================================
+   GİRİŞ EKRANI (LOADER)
+   ============================================ */
+
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-loader);
+  display: grid;
+  place-items: center;
+  background: var(--color-bg);
+  transition:
+    opacity var(--duration-slow) var(--ease-out),
+    visibility var(--duration-slow) var(--ease-out);
+}
+
+.loader.is-done {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.loader__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  padding: 0 var(--space-lg);
+}
+
+.loader__rule {
+  width: clamp(2rem, 12vw, 8rem);
+  height: 1px;
+  background: var(--color-text);
+  transform-origin: left center;
+  animation: draw-line var(--duration-slower) var(--ease-out) forwards;
+}
+
+.loader__inner .loader__rule:last-child {
+  transform-origin: right center;
+}
+
+.loader__text {
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--ls-widest);
+  white-space: nowrap;
+  animation: fade-in var(--duration-slower) var(--ease-out) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
