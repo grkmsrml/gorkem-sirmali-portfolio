@@ -6,14 +6,14 @@
 
 import { t, pick } from '../i18n.js';
 import { featuredProjects, projects } from '../data/projects.js';
-import { drawing } from '../components/Drawing.js';
+import { cover } from '../components/Drawing.js';
 
 function heroSection() {
   const featured = featuredProjects().slice(0, 3);
 
   const cells = featured.map((p, i) => `
     <a href="#/projeler/${p.id}" class="cell reveal" data-delay="${i + 1}">
-      <div class="cell__art">${drawing(p.art)}</div>
+      ${cover(p)}
       <div>
         <div class="cell__title">${pick(p.title)}</div>
         <div class="meta">${p.year} · ${pick(p.location)}</div>
@@ -78,10 +78,10 @@ function selectedSection() {
       <div class="frame frame--3">
         ${featuredProjects().map((p, i) => `
           <a href="#/projeler/${p.id}" class="cell reveal" data-delay="${i + 1}">
-            <div class="cell__art">${drawing(p.art)}</div>
+            ${cover(p)}
             <div>
               <div class="cell__title">${pick(p.title)}</div>
-              <div class="meta">${p.year} · ${p.scale} · ${pick(p.location)}</div>
+              <div class="meta">${p.year} · ${pick(p.course)}</div>
             </div>
           </a>
         `).join('')}

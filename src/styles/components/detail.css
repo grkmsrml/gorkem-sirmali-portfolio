@@ -206,9 +206,17 @@
   padding: var(--space-lg);
 }
 
-.catalog__detail-art svg {
+.catalog__detail-art svg,
+.catalog__detail-art img {
   width: 100%;
   height: auto;
+}
+
+/* Gerçek görsel varsa opaklık düşürülmez */
+.catalog__detail-art:has(img) {
+  opacity: 1;
+  padding: 0;
+  border: none;
 }
 
 .catalog__detail-text {

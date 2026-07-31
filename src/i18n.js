@@ -51,6 +51,9 @@ export const translations = {
     'detail.next': 'Sonraki',
     'detail.backToProjects': 'Projelere dön',
     'detail.openFull': 'Projeyi aç',
+    'detail.ongoing': 'Devam ediyor',
+    'detail.video': 'Video',
+    'detail.watch': 'Modeli izle',
 
     'about.title': 'Hakkımda',
     'about.lead': 'İnşaat mühendisliğinden mimarlığa geçen, teknik rasyonaliteyi tasarım vizyonuyla birleştirmeye çalışan bir mimarlık öğrencisi.',
@@ -163,6 +166,9 @@ export const translations = {
     'detail.next': 'Next',
     'detail.backToProjects': 'Back to projects',
     'detail.openFull': 'Open project',
+    'detail.ongoing': 'Ongoing',
+    'detail.video': 'Video',
+    'detail.watch': 'Watch the model',
 
     'about.title': 'About',
     'about.lead': 'An architecture student who moved from civil engineering to architecture, working to combine technical rationality with design vision.',

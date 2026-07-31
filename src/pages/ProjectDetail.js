@@ -21,12 +21,15 @@ function categoryName(id) {
 /** Pafta anteti: projenin künyesi. */
 function specSheet(project) {
   const rows = [
-    [t('detail.year'), project.year],
+    [t('detail.year'), project.ongoing ? `${project.year} — ${t('detail.ongoing')}` : project.year],
     [t('detail.category'), categoryName(project.category)],
     [t('detail.location'), pick(project.location)],
-    [t('detail.scale'), project.scale],
     [t('detail.course'), pick(project.course)],
-  ].filter(([, value]) => value);
+    [t('detail.scale'), project.scale],
+    project.video
+      ? [t('detail.video'), `<a href="${project.video}" target="_blank" rel="noopener" class="link">${t('detail.watch')} →</a>`]
+      : null,
+  ].filter((row) => row && row[1]);
 
   return `
     <dl class="spec-sheet">

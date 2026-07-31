@@ -32,6 +32,34 @@ const drawings = {
   `,
 };
 
+/**
+ * Kart kapağı: proje görseli varsa onu, yoksa çizim yer tutucusunu verir.
+ * Izgara kartlarında küçük (thumb), büyük yüzeylerde tam sürüm kullanılır.
+ */
+export function cover(project, { thumb = true } = {}) {
+  const first = project.images?.[0];
+
+  if (!first) {
+    return `<div class="cell__art">${drawing(project.art)}</div>`;
+  }
+
+  const src = thumb ? (first.thumb ?? first.src) : first.src;
+
+  return `
+    <div class="cell__media ratio ratio--landscape">
+      <img src="${src}" alt="${pickTitle(project)}" loading="lazy" />
+    </div>
+  `;
+}
+
+function pickTitle(project) {
+  const title = project.title;
+  if (title && typeof title === 'object') {
+    return title[document.documentElement.lang] ?? title.tr ?? '';
+  }
+  return title ?? '';
+}
+
 /** Verilen anahtara ait SVG çizimini döndürür. */
 export function drawing(key = 'plan') {
   const paths = drawings[key] ?? drawings.plan;

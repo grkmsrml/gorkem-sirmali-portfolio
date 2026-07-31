@@ -11,7 +11,7 @@
 
 import { t, pick } from '../i18n.js';
 import { projects, categories } from '../data/projects.js';
-import { drawing } from '../components/Drawing.js';
+import { drawing, cover } from '../components/Drawing.js';
 
 // Sayfa durumu — dil değişse de korunur
 const state = {
@@ -36,10 +36,10 @@ function gridView(list) {
     <div class="frame frame--3">
       ${list.map((p, i) => `
         <a href="#/projeler/${p.id}" class="cell reveal" data-delay="${(i % 5) + 1}">
-          <div class="cell__art">${drawing(p.art)}</div>
+          ${cover(p)}
           <div>
             <h3 class="cell__title">${pick(p.title)}</h3>
-            <div class="meta">${p.year} · ${categoryName(p.category)}</div>
+            <div class="meta">${p.year} · ${categoryName(p.category)}${p.ongoing ? ` · ${t('detail.ongoing')}` : ''}</div>
           </div>
         </a>
       `).join('')}
@@ -64,12 +64,16 @@ function catalogView(list) {
 
             ${open ? `
               <div class="catalog__detail">
-                <div class="catalog__detail-art">${drawing(p.art)}</div>
+                <div class="catalog__detail-art">
+                  ${p.images?.length
+                    ? `<img src="${p.images[0].thumb ?? p.images[0].src}" alt="${pick(p.title)}" loading="lazy" />`
+                    : drawing(p.art)}
+                </div>
                 <div class="catalog__detail-text">
                   <p>${pick(p.summary)}</p>
                   <div class="meta meta-row catalog__detail-meta">
                     <span>${pick(p.location)}</span>
-                    <span>${t('detail.scale')} ${p.scale}</span>
+                    <span>${pick(p.course)}</span>
                   </div>
                   <a href="#/projeler/${p.id}" class="btn">${t('detail.openFull')}</a>
                 </div>

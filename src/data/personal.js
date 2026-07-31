@@ -35,7 +35,7 @@ export const contact = {
   email: 'gorkemsirmali@gmail.com',
   phone: '+90 553 677 79 22',   // sitede gösterilmiyor — yukarıdaki nota bak
   social: [
-    { id: 'linkedin',  label: 'LinkedIn',  url: 'https://linkedin.com/' },
+    { id: 'linkedin',  label: 'LinkedIn',  url: 'https://www.linkedin.com/in/gorkemsirmali/' },
     { id: 'instagram', label: 'Instagram', url: 'https://instagram.com/' },
     { id: 'behance',   label: 'Behance',   url: 'https://www.behance.net/' },
     { id: 'github',    label: 'GitHub',    url: 'https://github.com/' },

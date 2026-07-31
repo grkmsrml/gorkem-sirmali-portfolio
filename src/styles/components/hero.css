@@ -66,7 +66,27 @@
   padding: var(--space-md);
 }
 
-/* Hücre içi çizim yer tutucusu — gerçek görseller gelene kadar */
+/* Hücre kapağı — gerçek proje görseli */
+.cell__media {
+  width: calc(100% + 2 * clamp(1.25rem, 2.5vw, 2rem));
+  margin: calc(-1 * clamp(1.25rem, 2.5vw, 2rem));
+  margin-bottom: 0;
+  overflow: hidden;
+  background: var(--color-bg-alt);
+}
+
+.cell__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--duration-slow) var(--ease-out);
+}
+
+.cell:hover .cell__media img {
+  transform: scale(1.03);
+}
+
+/* Hücre içi çizim yer tutucusu — görseli olmayan projeler için */
 .cell__art {
   flex: 1;
   display: grid;
