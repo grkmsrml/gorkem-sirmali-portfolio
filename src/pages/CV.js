@@ -12,7 +12,7 @@
    çıkar; o zamana kadar "hazırlanıyor" notu görünür.
    ============================================ */
 
-import { t, pick, getLang } from '../i18n.js';
+import { t, pick, getLang, setLang } from '../i18n.js';
 import {
   profile, contact, cvFiles, education, experience,
   involvement, leadership, software, languages, competencies,
@@ -24,7 +24,35 @@ function icon(path) {
 }
 
 const downloadIcon = () => icon('<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>');
-const printIcon = () => icon('<path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/>');
+
+/**
+ * İngilizce özgeçmişi indirilebilir hale getirir.
+ * Resmî İngilizce PDF hazır olmadığı için çıktı sayfadan üretilir:
+ * dil geçici olarak İngilizce'ye alınır, tarayıcının "PDF olarak
+ * kaydet" akışı açılır, ardından dil eski haline döner.
+ * cvFiles.en doldurulduğunda bu yola hiç girilmez — gerçek dosya inilir.
+ */
+export async function downloadEnglishCV() {
+  const previousLang = getLang();
+  const previousTitle = document.title;
+
+  if (previousLang !== 'en') {
+    setLang('en');
+    // Sayfanın İngilizce çizilmesini bekle (langchange → redraw)
+    await new Promise((resolve) =>
+      requestAnimationFrame(() => requestAnimationFrame(resolve)));
+  }
+
+  // Kaydedilen dosyanın varsayılan adı sekme başlığından gelir
+  document.title = 'Gorkem-Sirmali-CV-EN';
+
+  try {
+    window.print();
+  } finally {
+    document.title = previousTitle;
+    if (previousLang !== 'en') setLang(previousLang);
+  }
+}
 
 /* --- Sayfa içi özgeçmiş bölümleri --- */
 
@@ -133,11 +161,10 @@ export function renderCV() {
     cvFiles.tr
       ? `<a href="${cvFiles.tr}" download class="btn btn--accent">${downloadIcon()} ${t('cv.downloadTr')}</a>`
       : '',
-    // İngilizce PDF hazır değil — not korunuyor.
+    // Resmî İngilizce PDF varsa doğrudan inilir; yoksa sayfadan üretilir.
     cvFiles.en
       ? `<a href="${cvFiles.en}" download class="btn">${downloadIcon()} ${t('cv.downloadEn')}</a>`
-      : `<span class="meta cv__note">${t('cv.enSoon')}</span>`,
-    `<button class="btn" data-print>${printIcon()} ${t('cv.print')}</button>`,
+      : `<button class="btn" data-download-en>${downloadIcon()} ${t('cv.downloadEnOngoing')}</button>`,
   ].join('');
 
   return `
@@ -152,7 +179,7 @@ export function renderCV() {
         ${buttons}
       </div>
 
-      ${getLang() === 'en' ? `<p class="meta cv__hint">${t('cv.langHint')}</p>` : ''}
+      ${!cvFiles.en ? `<p class="meta cv__note">${t('cv.enSoon')}</p>` : ''}
 
       ${renderSheet()}
 

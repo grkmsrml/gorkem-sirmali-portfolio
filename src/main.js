@@ -8,6 +8,7 @@ import { initRouter, redraw } from './router.js';
 import { applyTranslations, toggleLang, otherLangLabel, getLang } from './i18n.js';
 import { handleProjectsClick } from './pages/Projects.js';
 import { moveSlider } from './components/ImageSlider.js';
+import { downloadEnglishCV } from './pages/CV.js';
 
 /* ============================================
    GİRİŞ EKRANI
@@ -63,10 +64,11 @@ function initLang() {
 
   sync();
 
-  btn?.addEventListener('click', () => {
-    toggleLang();
-    sync();
-  });
+  // Dil programatik olarak da değişebiliyor (İngilizce CV üretimi gibi),
+  // o yüzden etiket tıklamaya değil dil değişimine bağlı.
+  window.addEventListener('langchange', sync);
+
+  btn?.addEventListener('click', toggleLang);
 }
 
 /* ============================================
@@ -162,10 +164,9 @@ function initDelegation() {
       return;
     }
 
-    // CV yazdırma — İngilizce PDF hazır olmadığı için bu düğme
-    // İngilizce ziyaretçinin CV çıktısı alma yolu.
-    if (e.target.closest('[data-print]')) {
-      window.print();
+    // İngilizce CV indirme — resmî PDF hazır olana kadar sayfadan üretilir
+    if (e.target.closest('[data-download-en]')) {
+      downloadEnglishCV();
       return;
     }
 
