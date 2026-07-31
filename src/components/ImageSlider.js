@@ -51,14 +51,31 @@ export function renderSlider(project) {
     `;
   }
 
-  // --- Tek görsel: kontrol gerekmez ---
+  // İnceleme düğmesi — hover rozetinin aksine her zaman görünür.
+  // data-zoom-open: hangi görselin açılacağını slider'ın kendi
+  // data-index'inden okur, tek görselde 0'a düşer.
+  const zoomButton = `
+    <button class="slider__inspect" data-zoom-open>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+        <circle cx="11" cy="11" r="7"/><path d="M11 8v6M8 11h6M20 20l-4.35-4.35"/>
+      </svg>
+      <span>${t('lightbox.inspect')}</span>
+    </button>
+  `;
+
+  // --- Tek görsel: gezinme kontrolü gerekmez, inceleme düğmesi kalır ---
   if (images.length === 1) {
     return `
       <figure class="slider">
         <div class="slider__frame">
           ${slideImage(images[0], project, 0, true)}
         </div>
-        ${images[0].caption ? `<figcaption class="meta slider__caption">${pick(images[0].caption)}</figcaption>` : ''}
+        <div class="slider__bar">
+          ${zoomButton}
+          <figcaption class="slider__caption meta">
+            ${pick(images[0].caption) ?? ''}
+          </figcaption>
+        </div>
       </figure>
     `;
   }
@@ -84,17 +101,19 @@ export function renderSlider(project) {
 
       <div class="slider__bar">
         <div class="slider__controls">
-          <button class="slider__btn" data-slider-prev aria-label="Önceki görsel">
+          <button class="slider__btn" data-slider-prev aria-label="${t('lightbox.prev')}">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
               <path d="M19 12H5M12 19l-7-7 7-7"/>
             </svg>
           </button>
-          <button class="slider__btn" data-slider-next aria-label="Sonraki görsel">
+          <button class="slider__btn" data-slider-next aria-label="${t('lightbox.next')}">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
               <path d="M5 12h14M12 5l7 7-7 7"/>
             </svg>
           </button>
         </div>
+
+        ${zoomButton}
 
         <figcaption class="slider__caption meta">${captions}</figcaption>
 

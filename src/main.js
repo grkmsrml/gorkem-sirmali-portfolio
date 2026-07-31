@@ -227,13 +227,19 @@ function initDelegation() {
       return;
     }
 
-    // Proje çizimine tıklama — yakınlaştırmalı incelemeyi açar
-    const zoomTrigger = e.target.closest('[data-zoom-index]');
+    // Yakınlaştırmalı inceleme — görsele tıklayarak ya da
+    // çubuktaki "İncele" düğmesiyle açılır.
+    const zoomTrigger = e.target.closest('[data-zoom-index], [data-zoom-open]');
     if (zoomTrigger) {
       const id = window.location.hash.match(/^#\/projeler\/([\w-]+)$/)?.[1];
       const project = id ? projectById(id) : null;
+
       if (project?.images?.length) {
-        openLightbox(project.images, Number(zoomTrigger.dataset.zoomIndex));
+        // Görselden geldiyse kendi sırası, düğmeden geldiyse
+        // slider'ın o an gösterdiği görsel
+        const fromImage = zoomTrigger.dataset.zoomIndex;
+        const current = zoomTrigger.closest('[data-slider]')?.dataset.index;
+        openLightbox(project.images, Number(fromImage ?? current ?? 0));
       }
       return;
     }
