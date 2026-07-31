@@ -8,7 +8,7 @@
    çizildiğinde ayrı bir state deposunu senkronlamak gerekmiyor.
    ============================================ */
 
-import { pick } from '../i18n.js';
+import { pick, t } from '../i18n.js';
 import { drawing } from './Drawing.js';
 
 /**
@@ -21,11 +21,21 @@ function slideImage(img, project, i, eager) {
     ? ` width="${img.width}" height="${img.height}"`
     : '';
 
+  // Düğme sarmalayıcı: tıklanınca lightbox açılır, çizim
+  // yakınlaştırılarak incelenebilir. Klavyeyle de erişilebilir.
   return `
-    <img class="slider__img"
-         src="${img.src}"
-         alt="${pick(img.caption) || `${pick(project.title)} — ${i + 1}`}"
-         loading="${eager ? 'eager' : 'lazy'}"${dims} />
+    <button class="slider__zoom-trigger" data-zoom-index="${i}"
+            aria-label="${t('lightbox.open')}">
+      <img class="slider__img"
+           src="${img.src}"
+           alt="${pick(img.caption) || `${pick(project.title)} — ${i + 1}`}"
+           loading="${eager ? 'eager' : 'lazy'}"${dims} />
+      <span class="slider__zoom-badge" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+          <circle cx="11" cy="11" r="7"/><path d="M11 8v6M8 11h6M20 20l-4.35-4.35"/>
+        </svg>
+      </span>
+    </button>
   `;
 }
 

@@ -4,10 +4,14 @@
    Kullanım:  npm run optimize:images
 
    public/images altındaki tüm .jpg/.png dosyalarını tarar ve
-   her birinden iki webp sürümü üretir:
+   her birinden üç webp sürümü üretir:
 
+     <ad>-full.webp   max 2600px — lightbox'ta yakınlaştırma
      <ad>.webp        max 1600px — detay sayfası / slider
      <ad>-thumb.webp  max  700px — ızgara kartı, galeri
+
+   -full yalnız kullanıcı yakınlaştırdığında indiriliyor; normal
+   gezinmede ağırlığı yok.
 
    Kaynak dosya işlem sonunda silinir; .webp dosyalarına
    dokunulmaz, o yüzden betiği tekrar çalıştırmak güvenlidir.
@@ -47,7 +51,7 @@ async function writeManifest() {
   const entries = {};
 
   for (const file of await walk(ROOT, /\.webp$/i)) {
-    if (file.includes('-thumb')) continue;
+    if (file.includes('-thumb') || file.includes('-full')) continue;
     const meta = await sharp(file).metadata();
     const key = '/' + path.relative('public', file).replace(/\\/g, '/');
     entries[key] = { w: meta.width, h: meta.height };
@@ -88,10 +92,18 @@ for (const file of files) {
 
   const dir = path.dirname(file);
   const base = path.basename(file).replace(RASTER, '');
+  const full = path.join(dir, `${base}-full.webp`);
   const large = path.join(dir, `${base}.webp`);
   const thumb = path.join(dir, `${base}-thumb.webp`);
 
   const meta = await sharp(file).metadata();
+
+  // İnceleme sürümü: çizim detayı okunabilsin diye kalite yüksek
+  await sharp(file)
+    .rotate()
+    .resize({ width: 2600, withoutEnlargement: true })
+    .webp({ quality: 86 })
+    .toFile(full);
 
   await sharp(file)
     .rotate()                                            // EXIF yönünü uygula
@@ -105,15 +117,17 @@ for (const file of files) {
     .webp({ quality: 75 })
     .toFile(thumb);
 
+  const fl = (await fs.stat(full)).size;
   const lg = (await fs.stat(large)).size;
   const sm = (await fs.stat(thumb)).size;
-  after += lg + sm;
+  after += fl + lg + sm;
 
   rows.push({
     dosya: path.relative(ROOT, file).replace(/\\/g, '/'),
     kaynak: `${meta.width}×${meta.height}`,
     önce: `${Math.round(size / 1024)} KB`,
-    sonra: `${Math.round((lg + sm) / 1024)} KB`,
+    full: `${Math.round(fl / 1024)} KB`,
+    web: `${Math.round((lg + sm) / 1024)} KB`,
   });
 
   await fs.unlink(file);

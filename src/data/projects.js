@@ -28,7 +28,11 @@ export const categories = [
 ];
 
 /**
- * Bir projenin görsel dizisini üretir: 01..n arası, thumb eşleriyle.
+ * Bir projenin görsel dizisini üretir: 01..n arası, üç boyutuyla.
+ *   thumb → ızgara kartı        (700px)
+ *   src   → slider              (1600px)
+ *   full  → lightbox yakınlaştırma (2600px, yalnız gerektiğinde iner)
+ *
  * En/boy değerleri manifest'ten okunur — mimari çizimlerin oranları
  * 0.46 ile 6.8 arasında değişiyor, sabit bir orana zorlanamazlar.
  */
@@ -41,6 +45,7 @@ function images(projectId, count) {
     return {
       src,
       thumb: `/images/projects/${projectId}/${n}-thumb.webp`,
+      full: `/images/projects/${projectId}/${n}-full.webp`,
       width: size?.w ?? null,
       height: size?.h ?? null,
       caption: null,   // yukarıdaki nota bak

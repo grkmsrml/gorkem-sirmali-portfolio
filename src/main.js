@@ -13,8 +13,10 @@ import { moveSlider } from './components/ImageSlider.js';
 import { downloadEnglishCV } from './pages/CV.js';
 import {
   openLightbox, closeLightbox, moveLightbox, initLightboxKeys,
+  zoomBy, resetZoom,
 } from './components/Lightbox.js';
 import { photoThemes } from './data/photos.js';
+import { projectById } from './data/projects.js';
 
 /* ============================================
    GİRİŞ EKRANI
@@ -225,6 +227,17 @@ function initDelegation() {
       return;
     }
 
+    // Proje çizimine tıklama — yakınlaştırmalı incelemeyi açar
+    const zoomTrigger = e.target.closest('[data-zoom-index]');
+    if (zoomTrigger) {
+      const id = window.location.hash.match(/^#\/projeler\/([\w-]+)$/)?.[1];
+      const project = id ? projectById(id) : null;
+      if (project?.images?.length) {
+        openLightbox(project.images, Number(zoomTrigger.dataset.zoomIndex));
+      }
+      return;
+    }
+
     if (handleProjectsClick(e) || handleBlogClick(e)) redraw();
   });
 
@@ -251,9 +264,18 @@ function initLightbox() {
     if (e.target.closest('[data-lb-prev]')) return moveLightbox(-1);
     if (e.target.closest('[data-lb-next]')) return moveLightbox(1);
 
-    // Boşluğa tıklayınca kapansın — görselin veya düğmelerin dışı
+    if (e.target.closest('[data-lb-zoom-in]')) return zoomBy(1.35);
+    if (e.target.closest('[data-lb-zoom-out]')) return zoomBy(1 / 1.35);
+    if (e.target.closest('[data-lb-zoom-reset]')) return resetZoom();
+
+    // Boşluğa tıklayınca kapansın — görselin, kontrollerin dışı.
+    // Yakınlaştırma çubuğu da hariç, yoksa düğmeye basınca kapanıyor.
     const box = e.target.closest('#lightbox');
-    if (box && !e.target.closest('.lightbox__figure')) closeLightbox();
+    if (box
+      && !e.target.closest('.lightbox__figure')
+      && !e.target.closest('.lightbox__zoom')) {
+      closeLightbox();
+    }
   });
 
   // Sayfa değişince açık lightbox kapanmalı

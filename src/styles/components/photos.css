@@ -110,15 +110,109 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
-  max-width: min(1200px, 100%);
+  max-width: min(1400px, 100%);
   max-height: 100%;
+  min-width: 0;
+}
+
+/* Sahne: yakınlaştırılan görselin taştığı yeri kırpar.
+   touch-action: none — pinch ve sürükleme tarayıcının kendi
+   kaydırmasıyla çakışmasın diye. */
+.lightbox__stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  max-height: 80vh;
+  touch-action: none;
+  cursor: zoom-in;
+}
+
+.lightbox.is-zoomed .lightbox__stage {
+  cursor: grab;
+}
+
+.lightbox.is-zoomed .lightbox__stage:active {
+  cursor: grabbing;
 }
 
 .lightbox__img {
   max-width: 100%;
-  max-height: 78vh;
+  max-height: 80vh;
+  width: auto;
+  height: auto;
   object-fit: contain;
-  margin-inline: auto;
+  transform-origin: center center;
+  transition: transform var(--duration-fast) var(--ease-out);
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* Sürükleme sırasında geçiş kapalı olmalı, yoksa gecikmeli takip eder */
+.lightbox.is-zoomed .lightbox__img:active {
+  transition: none;
+}
+
+/* === YAKINLAŞTIRMA KONTROLLERİ === */
+.lightbox__zoom {
+  position: absolute;
+  bottom: var(--space-lg);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: var(--grid-line);
+  background: var(--color-overlay);
+  border: var(--grid-line) solid rgba(247, 244, 237, 0.25);
+}
+
+.lightbox__zoom-btn,
+.lightbox__zoom-level {
+  display: grid;
+  place-items: center;
+  height: 38px;
+  color: var(--color-on-overlay);
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  letter-spacing: var(--ls-wide);
+  transition: background var(--duration-fast) var(--ease-out);
+}
+
+.lightbox__zoom-btn { width: 42px; }
+
+.lightbox__zoom-level {
+  min-width: 60px;
+  border-inline: var(--grid-line) solid rgba(247, 244, 237, 0.25);
+  font-variant-numeric: tabular-nums;
+}
+
+.lightbox__zoom-btn:hover,
+.lightbox__zoom-level:hover {
+  background: rgba(247, 244, 237, 0.12);
+}
+
+.lightbox__hint {
+  position: absolute;
+  bottom: calc(var(--space-lg) + 46px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: 90vw;
+  text-align: center;
+  color: var(--color-on-overlay-muted);
+  text-transform: none;
+  letter-spacing: var(--ls-wide);
+  opacity: 0.75;
+}
+
+/* Yakınlaştırınca ipucu çekilir — işini yapmıştır */
+.lightbox.is-zoomed .lightbox__hint {
+  opacity: 0;
+  transition: opacity var(--duration-normal) var(--ease-out);
+}
+
+@media (max-width: 640px) {
+  .lightbox__hint { display: none; }
 }
 
 .lightbox__caption {

@@ -127,12 +127,53 @@
   padding: clamp(0.75rem, 2vw, 1.5rem);
 }
 
+/* Görsel bir düğmenin içinde: tıklanınca yakınlaştırmalı
+   inceleme açılıyor. Düğme görünüm olarak şeffaf kalmalı. */
+.slider__zoom-trigger {
+  position: relative;
+  display: block;
+  width: 100%;
+  cursor: zoom-in;
+}
+
 .slider__img {
   max-width: 100%;
   max-height: 74vh;
   width: auto;
   height: auto;
+  margin-inline: auto;
   object-fit: contain;
+}
+
+.slider__zoom-badge {
+  position: absolute;
+  right: var(--space-sm);
+  bottom: var(--space-sm);
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  background: var(--color-overlay);
+  color: var(--color-on-overlay);
+  opacity: 0;
+  transform: translateY(4px);
+  transition:
+    opacity var(--duration-normal) var(--ease-out),
+    transform var(--duration-normal) var(--ease-out);
+}
+
+.slider__zoom-trigger:hover .slider__zoom-badge,
+.slider__zoom-trigger:focus-visible .slider__zoom-badge {
+  opacity: 1;
+  transform: none;
+}
+
+/* Dokunmatikte hover yok — rozet sürekli görünsün */
+@media (hover: none) {
+  .slider__zoom-badge {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* Alt kontrol şeridi */
