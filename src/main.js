@@ -7,6 +7,7 @@ import './styles/index.css';
 import { initRouter, redraw } from './router.js';
 import { applyTranslations, toggleLang, otherLangLabel, getLang } from './i18n.js';
 import { handleProjectsClick } from './pages/Projects.js';
+import { moveSlider } from './components/ImageSlider.js';
 
 /* ============================================
    GİRİŞ EKRANI
@@ -153,6 +154,14 @@ function initDelegation() {
   if (!app) return;
 
   app.addEventListener('click', (e) => {
+    // Slider yerinde güncellenir — sayfayı yeniden çizmeye gerek yok
+    const sliderBtn = e.target.closest('[data-slider-prev], [data-slider-next]');
+    if (sliderBtn) {
+      const slider = sliderBtn.closest('[data-slider]');
+      if (slider) moveSlider(slider, sliderBtn.hasAttribute('data-slider-prev') ? -1 : 1);
+      return;
+    }
+
     if (handleProjectsClick(e)) redraw();
   });
 }

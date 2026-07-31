@@ -12,13 +12,13 @@ function heroSection() {
   const featured = featuredProjects().slice(0, 3);
 
   const cells = featured.map((p, i) => `
-    <figure class="cell reveal" data-delay="${i + 1}">
+    <a href="#/projeler/${p.id}" class="cell reveal" data-delay="${i + 1}">
       <div class="cell__art">${drawing(p.art)}</div>
-      <figcaption>
+      <div>
         <div class="cell__title">${pick(p.title)}</div>
         <div class="meta">${p.year} · ${pick(p.location)}</div>
-      </figcaption>
-    </figure>
+      </div>
+    </a>
   `).join('');
 
   // İMZA: ızgaradaki tek düz renk panel — Eames House cephesi
@@ -77,7 +77,7 @@ function selectedSection() {
 
       <div class="frame frame--3">
         ${featuredProjects().map((p, i) => `
-          <a href="#/projeler" class="cell reveal" data-delay="${i + 1}">
+          <a href="#/projeler/${p.id}" class="cell reveal" data-delay="${i + 1}">
             <div class="cell__art">${drawing(p.art)}</div>
             <div>
               <div class="cell__title">${pick(p.title)}</div>

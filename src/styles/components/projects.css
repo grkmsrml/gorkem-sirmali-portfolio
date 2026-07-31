@@ -4,6 +4,17 @@
    Katalog (Eldem'in Türk Evi plan tipolojisi).
    ============================================ */
 
+/* === KONTROL ŞERİDİ === */
+.projects__controls {
+  margin-top: var(--space-2xl);
+}
+
+.projects__right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
 /* === GÖRÜNÜM DEĞİŞTİRİCİ === */
 .view-switch {
   display: inline-flex;
@@ -111,7 +122,6 @@
   gap: var(--space-md);
   width: 100%;
   padding-block: var(--space-lg);
-  border-bottom: var(--grid-line) solid var(--color-border);
   text-align: left;
   transition: background var(--duration-fast) var(--ease-out);
 }
@@ -122,8 +132,20 @@
   }
 }
 
+@media (max-width: 767px) {
+  .catalog__cat,
+  .catalog__year {
+    grid-column: 2;
+  }
+}
+
 .catalog__row:hover {
   background: var(--color-accent-subtle);
+}
+
+/* Açık maddenin başlığı aksan rengine döner — sözlükte parmağın durduğu yer */
+.catalog__entry.is-open .catalog__name {
+  color: var(--color-accent);
 }
 
 .catalog__index {

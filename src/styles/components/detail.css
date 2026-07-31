@@ -1,0 +1,223 @@
+/* ============================================
+   PROJE DETAYI + GÖRSEL SLIDER
+   ============================================ */
+
+.project-detail__head {
+  border-bottom: none;
+  padding-bottom: var(--space-xl);
+}
+
+.project-detail__back {
+  display: inline-block;
+  margin-bottom: var(--space-md);
+  color: var(--color-text-muted);
+  transition: color var(--duration-normal) var(--ease-out);
+}
+
+.project-detail__back:hover {
+  color: var(--color-accent);
+}
+
+.project-detail__media {
+  margin-bottom: var(--grid-line);
+}
+
+.project-detail__body {
+  border-top: none;
+}
+
+/* === PAFTA ANTETİ === */
+.spec-sheet {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+
+.spec-sheet__row {
+  display: grid;
+  grid-template-columns: 7rem minmax(0, 1fr);
+  gap: var(--space-md);
+  padding-block: var(--space-sm);
+  border-bottom: var(--grid-line) solid var(--color-border);
+}
+
+.spec-sheet__row:first-child {
+  padding-top: 0;
+}
+
+.spec-sheet dd {
+  margin: 0;
+  font-size: var(--fs-small);
+  color: var(--color-text);
+}
+
+/* === ÖNCEKİ / SONRAKİ === */
+.project-nav {
+  margin-top: var(--space-3xl);
+}
+
+.project-nav__item {
+  gap: var(--space-sm);
+  transition: background var(--duration-normal) var(--ease-out);
+}
+
+.project-nav__item:hover {
+  background: var(--color-bg-alt);
+}
+
+.project-nav__item--next {
+  text-align: right;
+  align-items: flex-end;
+}
+
+.project-nav__item--empty {
+  background: var(--color-bg-alt);
+}
+
+/* ============================================
+   SLIDER
+   ============================================ */
+
+.slider {
+  margin: 0;
+  background: var(--color-bg-alt);
+  border: var(--grid-line) solid var(--color-border);
+}
+
+/* Görsel yokken: büyük çizim yer tutucusu */
+.slider--empty {
+  display: grid;
+  place-items: center;
+  padding: clamp(2rem, 6vw, 5rem);
+}
+
+.slider__art {
+  width: 100%;
+  max-width: 640px;
+  color: var(--color-text);
+  opacity: 0.4;
+}
+
+.slider__art svg {
+  width: 100%;
+  height: auto;
+}
+
+.slider__track {
+  position: relative;
+}
+
+.slider__slide {
+  display: none;
+}
+
+.slider__slide.is-active {
+  display: block;
+  animation: fade-in var(--duration-normal) var(--ease-out);
+}
+
+/* Alt kontrol şeridi */
+.slider__bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  padding: var(--space-sm) var(--space-md);
+  border-top: var(--grid-line) solid var(--color-border);
+  background: var(--color-bg);
+}
+
+.slider__controls {
+  display: flex;
+  gap: var(--grid-line);
+  flex-shrink: 0;
+}
+
+.slider__btn {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: var(--grid-line) solid var(--color-border);
+  color: var(--color-text-secondary);
+  transition:
+    border-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+}
+
+.slider__btn:hover {
+  border-color: var(--color-text);
+  color: var(--color-text);
+}
+
+.slider__caption {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+}
+
+.slider__caption-item {
+  display: none;
+}
+
+.slider__caption-item.is-active {
+  display: block;
+}
+
+.slider__counter {
+  flex-shrink: 0;
+  color: var(--color-text-muted);
+}
+
+/* ============================================
+   KATALOG — YERİNDE AÇILMA (sözlük maddesi)
+   ============================================ */
+
+.catalog__entry {
+  border-bottom: var(--grid-line) solid var(--color-border);
+}
+
+.catalog__entry.is-open {
+  background: var(--color-bg-alt);
+}
+
+/* .catalog__row artık button — projects.css'teki ızgara aynen geçerli */
+.catalog__entry .catalog__row {
+  border-bottom: none;
+}
+
+.catalog__detail {
+  display: grid;
+  gap: var(--space-xl);
+  padding: 0 0 var(--space-2xl) 3.5rem;
+  animation: rise var(--duration-normal) var(--ease-out);
+}
+
+@media (min-width: 768px) {
+  .catalog__detail {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 6fr);
+  }
+}
+
+.catalog__detail-art {
+  color: var(--color-text);
+  opacity: 0.4;
+  background: var(--color-bg);
+  border: var(--grid-line) solid var(--color-border);
+  padding: var(--space-lg);
+}
+
+.catalog__detail-art svg {
+  width: 100%;
+  height: auto;
+}
+
+.catalog__detail-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-md);
+}
+
+.catalog__detail-meta {
+  color: var(--color-text-muted);
+}

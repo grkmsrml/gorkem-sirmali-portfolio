@@ -2,32 +2,62 @@
    ROUTER — hash tabanlı SPA yönlendirme
    Sayfa geçişi: kısa fade-out → çiz → fade-in.
    Eames'çe kesin geçiş; yay/zıplama yok.
+
+   Rotalar sırayla denenir, ilk eşleşen kazanır.
+   Yakalanan gruplar render fonksiyonuna argüman olarak geçer.
    ============================================ */
 
 import { t } from './i18n.js';
 import { renderHome } from './pages/Home.js';
 import { renderProjects } from './pages/Projects.js';
+import { renderProjectDetail, projectTitle } from './pages/ProjectDetail.js';
 import { renderPlaceholder } from './pages/Placeholder.js';
 
-const routes = {
-  '/': { render: renderHome, title: 'Görkem Sırmalı — Mimarlık Portfolyo' },
-  '/projeler': { render: renderProjects, titleKey: 'projects.title' },
-  '/hakkimda': { render: () => renderPlaceholder('about.title'), titleKey: 'about.title' },
-  '/cv': { render: () => renderPlaceholder('cv.title'), titleKey: 'cv.title' },
-  '/blog': { render: () => renderPlaceholder('blog.title'), titleKey: 'blog.title' },
-  '/fotograflar': { render: () => renderPlaceholder('photos.title'), titleKey: 'photos.title' },
-  '/iletisim': { render: () => renderPlaceholder('contact.title'), titleKey: 'contact.title' },
-};
+const routes = [
+  {
+    pattern: /^\/$/,
+    render: () => renderHome(),
+    title: () => 'Görkem Sırmalı — Mimarlık Portfolyo',
+  },
+  {
+    pattern: /^\/projeler$/,
+    render: () => renderProjects(),
+    title: () => t('projects.title'),
+  },
+  {
+    // Proje detayı — paylaşılabilir adres, geri tuşu çalışır
+    pattern: /^\/projeler\/([\w-]+)$/,
+    render: (id) => renderProjectDetail(id),
+    title: (id) => projectTitle(id) ?? t('page.notFound'),
+  },
+  { pattern: /^\/hakkimda$/,    render: () => renderPlaceholder('about.title'),   title: () => t('about.title') },
+  { pattern: /^\/cv$/,          render: () => renderPlaceholder('cv.title'),      title: () => t('cv.title') },
+  { pattern: /^\/blog$/,        render: () => renderPlaceholder('blog.title'),    title: () => t('blog.title') },
+  { pattern: /^\/fotograflar$/, render: () => renderPlaceholder('photos.title'),  title: () => t('photos.title') },
+  { pattern: /^\/iletisim$/,    render: () => renderPlaceholder('contact.title'), title: () => t('contact.title') },
+];
 
 function currentPath() {
   const hash = window.location.hash.replace(/^#/, '');
   return hash || '/';
 }
 
+function matchRoute(path) {
+  for (const route of routes) {
+    const match = path.match(route.pattern);
+    if (match) return { route, params: match.slice(1) };
+  }
+  return null;
+}
+
 function setActiveLink(path) {
   document.querySelectorAll('.navbar__link').forEach((link) => {
     const target = link.getAttribute('href').replace(/^#/, '') || '/';
-    link.classList.toggle('is-active', target === path);
+    // Detay sayfasındayken de "Projeler" işaretli kalsın
+    const active = target === '/'
+      ? path === '/'
+      : path === target || path.startsWith(`${target}/`);
+    link.classList.toggle('is-active', active);
   });
 }
 
@@ -47,14 +77,16 @@ function draw(path) {
   const app = document.getElementById('app');
   if (!app) return;
 
-  const route = routes[path];
-  const html = route ? route.render() : renderNotFound();
+  const matched = matchRoute(path);
 
-  app.innerHTML = html;
-
-  document.title = route
-    ? (route.titleKey ? `${t(route.titleKey)} — Görkem Sırmalı` : route.title)
-    : `${t('page.notFound')} — Görkem Sırmalı`;
+  if (matched) {
+    const { route, params } = matched;
+    app.innerHTML = route.render(...params);
+    document.title = `${route.title(...params)} — Görkem Sırmalı`;
+  } else {
+    app.innerHTML = renderNotFound();
+    document.title = `${t('page.notFound')} — Görkem Sırmalı`;
+  }
 
   setActiveLink(path);
 
@@ -62,32 +94,30 @@ function draw(path) {
   window.dispatchEvent(new CustomEvent('pagerendered', { detail: { path } }));
 }
 
+/** Aktif sayfayı geçiş animasyonu olmadan yeniden çizer. */
+export function redraw() {
+  draw(currentPath());
+}
+
 /** Geçiş animasyonuyla birlikte çizer. */
 function navigate() {
   const app = document.getElementById('app');
-  const path = currentPath();
-
   if (!app) return;
 
   app.classList.add('is-leaving');
 
   window.setTimeout(() => {
-    draw(path);
+    draw(currentPath());
     app.classList.remove('is-leaving');
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, 140); // --duration-fast ile eşleşir
-}
-
-/** Aktif sayfayı geçiş animasyonu olmadan yeniden çizer. */
-export function redraw() {
-  draw(currentPath());
 }
 
 export function initRouter() {
   window.addEventListener('hashchange', navigate);
 
   // Dil değişince aktif sayfa yeniden çizilir
-  window.addEventListener('langchange', () => draw(currentPath()));
+  window.addEventListener('langchange', redraw);
 
   if (!window.location.hash) {
     window.location.hash = '#/';
