@@ -1,0 +1,140 @@
+/* ============================================
+   HAKKIMDA + CV
+   ============================================ */
+
+.about__bio {
+  margin-top: var(--space-2xl);
+}
+
+.about__identity {
+  margin-top: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.about__name {
+  font-size: var(--fs-h2);
+  font-weight: var(--fw-light);
+  margin-bottom: var(--space-sm);
+}
+
+/* ============================================
+   TIMELINE
+   Her kayıt bir satır; aralarında boşluk değil çizgi.
+   Sol kolon pafta anteti gibi sabit genişlikte.
+   ============================================ */
+
+.timeline {
+  border-top: var(--grid-line) solid var(--color-border);
+}
+
+.timeline__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-sm) var(--space-xl);
+  padding-block: var(--space-xl);
+  border-bottom: var(--grid-line) solid var(--color-border);
+}
+
+@media (min-width: 768px) {
+  .timeline__row {
+    grid-template-columns: 14rem minmax(0, 1fr);
+  }
+}
+
+.timeline__period {
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.timeline__content {
+  min-width: 0;
+}
+
+.timeline__title {
+  font-size: var(--fs-h4);
+  font-weight: var(--fw-regular);
+  letter-spacing: var(--ls-normal);
+  color: var(--color-text);
+}
+
+.timeline__subtitle {
+  margin-top: var(--space-xs);
+  color: var(--color-accent);
+}
+
+.timeline__body {
+  margin-top: var(--space-md);
+  max-width: 68ch;
+  font-size: var(--fs-small);
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}
+
+/* ============================================
+   ETİKET LİSTESİ
+   ============================================ */
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  list-style: none;
+  margin: var(--space-lg) 0 0;
+  padding: 0;
+}
+
+.tag {
+  padding: var(--space-xs) var(--space-md);
+  border: var(--grid-line) solid var(--color-border);
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  letter-spacing: var(--ls-wide);
+  color: var(--color-text-secondary);
+}
+
+/* ============================================
+   CV
+   ============================================ */
+
+.cv__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-md) var(--space-lg);
+  margin-block: var(--space-2xl);
+}
+
+.cv__note {
+  color: var(--color-text-muted);
+}
+
+.cv__preview {
+  margin: 0;
+  border: var(--grid-line) solid var(--color-border);
+  background: var(--color-bg-alt);
+}
+
+.cv__object {
+  display: block;
+  width: 100%;
+  height: min(80vh, 1000px);
+  border: none;
+}
+
+.cv__fallback {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-lg);
+  padding: var(--space-3xl) var(--space-xl);
+}
+
+.cv__footnote {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-block: var(--space-2xl) var(--space-4xl);
+  color: var(--color-text-muted);
+}
