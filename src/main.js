@@ -7,8 +7,14 @@ import './styles/index.css';
 import { initRouter, redraw } from './router.js';
 import { applyTranslations, toggleLang, otherLangLabel, getLang } from './i18n.js';
 import { handleProjectsClick } from './pages/Projects.js';
+import { handleBlogClick } from './pages/Blog.js';
+import { submitContactForm } from './pages/Contact.js';
 import { moveSlider } from './components/ImageSlider.js';
 import { downloadEnglishCV } from './pages/CV.js';
+import {
+  openLightbox, closeLightbox, moveLightbox, initLightboxKeys,
+} from './components/Lightbox.js';
+import { photoThemes } from './data/photos.js';
 
 /* ============================================
    GİRİŞ EKRANI
@@ -170,8 +176,47 @@ function initDelegation() {
       return;
     }
 
-    if (handleProjectsClick(e)) redraw();
+    // Fotoğrafa tıklama — lightbox o temanın fotoğrafları içinde gezinir
+    const photoBtn = e.target.closest('[data-photo-theme]');
+    if (photoBtn) {
+      const theme = photoThemes.find((th) => th.id === photoBtn.dataset.photoTheme);
+      if (theme) openLightbox(theme.items, Number(photoBtn.dataset.photoIndex));
+      return;
+    }
+
+    if (handleProjectsClick(e) || handleBlogClick(e)) redraw();
   });
+
+  // Form gönderimi — sayfa yenilenmesini engelleyip doğrulamayı biz yapıyoruz
+  app.addEventListener('submit', (e) => {
+    const form = e.target.closest('[data-contact-form]');
+    if (!form) return;
+
+    e.preventDefault();
+    submitContactForm(form);
+  });
+}
+
+/* ============================================
+   LIGHTBOX
+   Kendi katmanında yaşıyor (body'ye ekleniyor), o yüzden
+   dinleyicileri #app delegasyonundan ayrı.
+   ============================================ */
+function initLightbox() {
+  initLightboxKeys();
+
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('[data-lb-close]')) return closeLightbox();
+    if (e.target.closest('[data-lb-prev]')) return moveLightbox(-1);
+    if (e.target.closest('[data-lb-next]')) return moveLightbox(1);
+
+    // Boşluğa tıklayınca kapansın — görselin veya düğmelerin dışı
+    const box = e.target.closest('#lightbox');
+    if (box && !e.target.closest('.lightbox__figure')) closeLightbox();
+  });
+
+  // Sayfa değişince açık lightbox kapanmalı
+  window.addEventListener('hashchange', closeLightbox);
 }
 
 /* ============================================
@@ -183,6 +228,7 @@ function init() {
   initNav();
   initNavbarScroll();
   initDelegation();
+  initLightbox();
   initRouter();
   initScrollReveal();
   initLoader();

@@ -13,7 +13,9 @@ import { renderProjects } from './pages/Projects.js';
 import { renderProjectDetail, projectTitle } from './pages/ProjectDetail.js';
 import { renderAbout } from './pages/About.js';
 import { renderCV } from './pages/CV.js';
-import { renderPlaceholder } from './pages/Placeholder.js';
+import { renderBlog, renderBlogPost, postTitle } from './pages/Blog.js';
+import { renderPhotos } from './pages/Photos.js';
+import { renderContact } from './pages/Contact.js';
 
 const routes = [
   {
@@ -32,11 +34,17 @@ const routes = [
     render: (id) => renderProjectDetail(id),
     title: (id) => projectTitle(id) ?? t('page.notFound'),
   },
-  { pattern: /^\/hakkimda$/,    render: () => renderAbout(),                      title: () => t('about.title') },
-  { pattern: /^\/cv$/,          render: () => renderCV(),                         title: () => t('cv.title') },
-  { pattern: /^\/blog$/,        render: () => renderPlaceholder('blog.title'),    title: () => t('blog.title') },
-  { pattern: /^\/fotograflar$/, render: () => renderPlaceholder('photos.title'),  title: () => t('photos.title') },
-  { pattern: /^\/iletisim$/,    render: () => renderPlaceholder('contact.title'), title: () => t('contact.title') },
+  { pattern: /^\/hakkimda$/,    render: () => renderAbout(),   title: () => t('about.title') },
+  { pattern: /^\/cv$/,          render: () => renderCV(),      title: () => t('cv.title') },
+  { pattern: /^\/blog$/,        render: () => renderBlog(),    title: () => t('blog.title') },
+  {
+    // Blog yazısı — paylaşılabilir adres
+    pattern: /^\/blog\/([\w-]+)$/,
+    render: (slug) => renderBlogPost(slug),
+    title: (slug) => postTitle(slug) ?? t('page.notFound'),
+  },
+  { pattern: /^\/fotograflar$/, render: () => renderPhotos(),  title: () => t('photos.title') },
+  { pattern: /^\/iletisim$/,    render: () => renderContact(), title: () => t('contact.title') },
 ];
 
 function currentPath() {

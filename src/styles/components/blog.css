@@ -1,0 +1,104 @@
+/* ============================================
+   BLOG
+   Yazı listesi de katalog mantığında: satırlar,
+   aralarında boşluk değil çizgi.
+   ============================================ */
+
+.post-list {
+  border-top: var(--grid-line) solid var(--color-border);
+  margin-top: var(--space-2xl);
+}
+
+.post-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-md) var(--space-2xl);
+  padding-block: var(--space-xl);
+  border-bottom: var(--grid-line) solid var(--color-border);
+  transition: background var(--duration-fast) var(--ease-out);
+}
+
+@media (min-width: 860px) {
+  .post-row {
+    grid-template-columns: minmax(0, 1fr) 16rem;
+    align-items: start;
+  }
+}
+
+.post-row:hover {
+  background: var(--color-accent-subtle);
+}
+
+.post-row__title {
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-light);
+  color: var(--color-text);
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.post-row:hover .post-row__title {
+  color: var(--color-accent);
+}
+
+.post-row__excerpt {
+  margin-top: var(--space-sm);
+  max-width: 62ch;
+  font-size: var(--fs-small);
+}
+
+.post-row__meta {
+  color: var(--color-text-muted);
+}
+
+@media (min-width: 860px) {
+  .post-row__meta {
+    text-align: right;
+  }
+}
+
+/* === YAZI DETAYI === */
+
+.post__head {
+  border-bottom: none;
+  padding-bottom: var(--space-lg);
+}
+
+.post__back {
+  display: inline-block;
+  margin-bottom: var(--space-md);
+  color: var(--color-text-muted);
+  transition: color var(--duration-normal) var(--ease-out);
+}
+
+.post__back:hover {
+  color: var(--color-accent);
+}
+
+.post__meta {
+  color: var(--color-text-muted);
+}
+
+/* Örnek metin uyarısı — gerçek yazılar gelince bu hiç görünmeyecek */
+.post__notice {
+  padding: var(--space-md);
+  border-left: 2px solid var(--color-accent);
+  background: var(--color-accent-subtle);
+  color: var(--color-text-secondary);
+  text-transform: none;
+  letter-spacing: var(--ls-normal);
+  margin-bottom: var(--space-2xl);
+}
+
+.post__body {
+  padding-block: var(--space-xl) var(--space-3xl);
+  border-top: var(--grid-line) solid var(--color-border);
+  font-size: var(--fs-body);
+}
+
+.post__body p {
+  color: var(--color-text-secondary);
+}
+
+.post__body p + p {
+  margin-top: 1.35em;
+}
