@@ -105,8 +105,8 @@ function leadershipSection() {
         <h2 class="section__title">${t('about.leadership')}</h2>
       </div>
       <div class="frame frame--2">
-        ${leadership.map((l, i) => `
-          <div class="cell reveal" data-delay="${(i % 4) + 1}">
+        ${leadership.map((l) => `
+          <div class="cell reveal">
             <h3 class="cell__title">${pick(l.title)}</h3>
             ${pick(l.note) ? `<p class="text-small">${pick(l.note)}</p>` : ''}
           </div>

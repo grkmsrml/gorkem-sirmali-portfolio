@@ -15,7 +15,7 @@ function themeSection(theme) {
     ? `
       <div class="photo-grid">
         ${theme.items.map((item, i) => `
-          <button class="photo-cell reveal"
+          <button class="photo-cell reveal reveal--unveil"
                   data-photo-theme="${theme.id}"
                   data-photo-index="${i}"
                   aria-label="${pick(item.caption) ?? ''}">

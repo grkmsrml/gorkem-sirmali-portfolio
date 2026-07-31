@@ -11,8 +11,8 @@ import { cover } from '../components/Drawing.js';
 function heroSection() {
   const featured = featuredProjects().slice(0, 3);
 
-  const cells = featured.map((p, i) => `
-    <a href="#/projeler/${p.id}" class="cell reveal" data-delay="${i + 1}">
+  const cells = featured.map((p) => `
+    <a href="#/projeler/${p.id}" class="cell reveal reveal--unveil">
       ${cover(p)}
       <div>
         <div class="cell__title">${pick(p.title)}</div>
@@ -23,11 +23,11 @@ function heroSection() {
 
   // İMZA: ızgaradaki tek düz renk panel — Eames House cephesi
   const panel = `
-    <a href="#/projeler" class="cell panel reveal" data-delay="4">
-      <figcaption>
+    <a href="#/projeler" class="cell panel reveal reveal--unveil">
+      <div>
         <div class="cell__title">${t('home.viewAll')}</div>
         <div class="meta">${t('home.gridCatalog')}</div>
-      </figcaption>
+      </div>
     </a>
   `;
 
@@ -76,8 +76,8 @@ function selectedSection() {
       </div>
 
       <div class="frame frame--3">
-        ${featuredProjects().map((p, i) => `
-          <a href="#/projeler/${p.id}" class="cell reveal" data-delay="${i + 1}">
+        ${featuredProjects().map((p) => `
+          <a href="#/projeler/${p.id}" class="cell reveal reveal--unveil">
             ${cover(p)}
             <div>
               <div class="cell__title">${pick(p.title)}</div>

@@ -34,8 +34,8 @@ function categoryName(id) {
 function gridView(list) {
   return `
     <div class="frame frame--3">
-      ${list.map((p, i) => `
-        <a href="#/projeler/${p.id}" class="cell reveal" data-delay="${(i % 5) + 1}">
+      ${list.map((p) => `
+        <a href="#/projeler/${p.id}" class="cell reveal reveal--unveil">
           ${cover(p)}
           <div>
             <h3 class="cell__title">${pick(p.title)}</h3>

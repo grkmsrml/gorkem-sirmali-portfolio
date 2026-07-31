@@ -147,8 +147,49 @@ function initScrollReveal() {
 
 function observeReveals() {
   if (!revealObserver) return;
-  document.querySelectorAll('.reveal:not(.is-visible)').forEach((el) => {
+
+  // Kademe sırasını kardeşler arasında hesapla ve --i olarak yaz.
+  // Elle data-delay yazmaya göre avantajı: ızgaradaki eleman sayısı
+  // değişse de sıra kendiliğinden doğru kalıyor.
+  const groups = new Map();
+
+  // .section__head de gözlemleniyor: alt çizgisi görünürken çiziliyor
+  const targets = document.querySelectorAll(
+    '.reveal:not(.is-visible), .section__head:not(.is-visible)',
+  );
+
+  targets.forEach((el) => {
+    if (el.classList.contains('reveal')) {
+      const parent = el.parentElement;
+      const index = groups.get(parent) ?? 0;
+      groups.set(parent, index + 1);
+      el.style.setProperty('--i', String(index));
+    }
+
     revealObserver.observe(el);
+  });
+}
+
+/* ============================================
+   GÖRSEL YÜKLEME
+   Görsel hazır olunca .is-loaded ile belirir.
+   width/height zaten yer ayırdığı için zıplama olmuyor.
+   ============================================ */
+function markLoadedImages() {
+  const selector = '.cell__media img, .slider__img, .photo-cell img, .catalog__detail-art img';
+
+  document.querySelectorAll(selector).forEach((img) => {
+    if (img.dataset.loadBound) return;
+    img.dataset.loadBound = '1';
+
+    if (img.complete && img.naturalWidth > 0) {
+      img.classList.add('is-loaded');
+      return;
+    }
+
+    img.addEventListener('load', () => img.classList.add('is-loaded'), { once: true });
+    // Yüklenemezse de gizli kalmasın — alt metni görünsün
+    img.addEventListener('error', () => img.classList.add('is-loaded'), { once: true });
   });
 }
 
@@ -234,7 +275,12 @@ function init() {
   initLoader();
 
   // Router her çizimden sonra haber verir
-  window.addEventListener('pagerendered', observeReveals);
+  window.addEventListener('pagerendered', () => {
+    observeReveals();
+    markLoadedImages();
+  });
+
+  markLoadedImages();
 }
 
 if (document.readyState === 'loading') {

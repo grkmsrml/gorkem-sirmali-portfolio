@@ -1,6 +1,11 @@
 /* ============================================
    ANIMATIONS
-   Eames filmleri gibi: kesin, kısa, mekanik. Yay/zıplama yok.
+
+   Eames'in film kurgusu gibi: kesin, kısa, mekanik.
+   Yay yok, zıplama yok, yavaş süzülme yok.
+
+   Hareketin tamamı prefers-reduced-motion ile kapanır —
+   dosyanın sonundaki bloğa bak.
    ============================================ */
 
 @keyframes fade-in {
@@ -13,29 +18,34 @@
   to   { opacity: 1; transform: none; }
 }
 
-/* Perde: element kendi kutusunun içinden açılır (panel takılıyor hissi) */
-@keyframes unveil {
-  from { clip-path: inset(0 0 100% 0); }
-  to   { clip-path: inset(0 0 0 0); }
-}
-
-/* Izgara çizgisinin çizilmesi */
-@keyframes draw-line {
+/* Izgara çizgisinin çizilmesi — pafta çizilir gibi.
+   Perde açılımı (clip-path) keyframe değil geçiş olarak
+   kuruluyor; aşağıdaki .reveal--unveil'e bak. */
+@keyframes draw-x {
   from { transform: scaleX(0); }
   to   { transform: scaleX(1); }
 }
 
+/* Powers of Ten selamı: detay açılırken hafif yakınlaşma */
+@keyframes zoom-in {
+  from { opacity: 0; transform: scale(0.985); }
+  to   { opacity: 1; transform: none; }
+}
+
 /* ============================================
    SCROLL REVEAL
-   ScrollReveal gözlemcisi .is-visible sınıfını ekler.
+   Gözlemci .is-visible ekler ve kademe sırasını --i olarak yazar.
+   Kademe elle değil otomatik: ızgaradaki eleman sayısı değişse de
+   sıra bozulmuyor.
    ============================================ */
 
 .reveal {
   opacity: 0;
-  transform: translateY(18px);
+  transform: translateY(16px);
   transition:
     opacity var(--duration-slow) var(--ease-out),
     transform var(--duration-slow) var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 55ms);
 }
 
 .reveal.is-visible {
@@ -43,12 +53,73 @@
   transform: none;
 }
 
-/* Sıralı gecikme — ızgara hücreleri sırayla yerleşir */
-.reveal[data-delay="1"] { transition-delay: 60ms; }
-.reveal[data-delay="2"] { transition-delay: 120ms; }
-.reveal[data-delay="3"] { transition-delay: 180ms; }
-.reveal[data-delay="4"] { transition-delay: 240ms; }
-.reveal[data-delay="5"] { transition-delay: 300ms; }
+/* Panel gibi açılan varyant — proje/foto ızgaralarında */
+.reveal--unveil {
+  opacity: 1;
+  transform: none;
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path var(--duration-slow) var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 55ms);
+}
+
+.reveal--unveil.is-visible {
+  clip-path: inset(0 0 0 0);
+}
+
+/* Kademelenme uzun listelerde birikmesin: 8. elemandan sonra sabitlenir */
+.reveal:nth-child(n + 9) {
+  transition-delay: 440ms;
+}
+
+/* ============================================
+   BÖLÜM BAŞLIĞI ÇİZGİSİ
+   Bölüm görünür olunca alt çizgi soldan sağa çizilir —
+   pafta çizilir gibi.
+   ============================================ */
+
+.section__head {
+  position: relative;
+  border-bottom-color: transparent;
+}
+
+.section__head::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: calc(-1 * var(--grid-line));
+  width: 100%;
+  height: var(--grid-line);
+  background: var(--color-border);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--duration-slower) var(--ease-out);
+}
+
+.section__head.is-visible::after {
+  transform: scaleX(1);
+}
+
+/* ============================================
+   GÖRSEL YÜKLEME
+   Görsel hazır olunca belirir — yükleme sırasında zıplama olmaz,
+   çünkü width/height zaten yer ayırıyor.
+   ============================================ */
+
+.cell__media img,
+.slider__img,
+.photo-cell img,
+.catalog__detail-art img {
+  opacity: 0;
+  transition: opacity var(--duration-normal) var(--ease-out),
+              transform var(--duration-slow) var(--ease-out);
+}
+
+.cell__media img.is-loaded,
+.slider__img.is-loaded,
+.photo-cell img.is-loaded,
+.catalog__detail-art img.is-loaded {
+  opacity: 1;
+}
 
 /* ============================================
    SAYFA GEÇİŞİ
@@ -63,8 +134,14 @@
   transition: opacity var(--duration-fast) var(--ease-out);
 }
 
+/* Proje detayı açılırken görsel hafifçe yakınlaşır */
+.project-detail__media {
+  animation: zoom-in var(--duration-slow) var(--ease-out) both;
+}
+
 /* ============================================
    GİRİŞ EKRANI (LOADER)
+   Pafta çizilir gibi: önce çizgiler, sonra isim, sonra perde kalkar.
    ============================================ */
 
 .loader {
@@ -75,12 +152,12 @@
   place-items: center;
   background: var(--color-bg);
   transition:
-    opacity var(--duration-slow) var(--ease-out),
-    visibility var(--duration-slow) var(--ease-out);
+    clip-path var(--duration-slower) var(--ease-out),
+    visibility 0s linear var(--duration-slower);
 }
 
 .loader.is-done {
-  opacity: 0;
+  clip-path: inset(0 0 100% 0);
   visibility: hidden;
 }
 
@@ -96,7 +173,7 @@
   height: 1px;
   background: var(--color-text);
   transform-origin: left center;
-  animation: draw-line var(--duration-slower) var(--ease-out) forwards;
+  animation: draw-x var(--duration-slow) var(--ease-out) both;
 }
 
 .loader__inner .loader__rule:last-child {
@@ -109,12 +186,63 @@
   font-weight: var(--fw-medium);
   letter-spacing: var(--ls-widest);
   white-space: nowrap;
-  animation: fade-in var(--duration-slower) var(--ease-out) forwards;
+  animation: fade-in var(--duration-normal) var(--ease-out) both;
+  animation-delay: var(--duration-slow);
 }
 
+/* ============================================
+   LIGHTBOX
+   ============================================ */
+
+.lightbox {
+  animation: fade-in var(--duration-fast) var(--ease-out);
+}
+
+.lightbox__figure {
+  animation: zoom-in var(--duration-normal) var(--ease-out) both;
+}
+
+/* ============================================
+   HAREKET AZALTMA
+   Sistemde "hareketi azalt" açıksa animasyonların tamamı kapanır.
+   Erişilebilirlik zorunluluğu — vestibüler rahatsızlığı olan
+   kullanıcılar için hareket tetikleyici olabiliyor.
+   ============================================ */
+
 @media (prefers-reduced-motion: reduce) {
-  .reveal {
+  .reveal,
+  .reveal--unveil {
     opacity: 1;
     transform: none;
+    clip-path: none;
+    transition: none;
+  }
+
+  .page,
+  .project-detail__media,
+  .loader__rule,
+  .loader__text,
+  .lightbox,
+  .lightbox__figure {
+    animation: none;
+  }
+
+  /* Çizgi çizilmesin ama görünsün — yoksa bölüm ayracı kayboluyor */
+  .section__head::after {
+    transform: none;
+    transition: none;
+  }
+
+  .loader.is-done {
+    clip-path: none;
+    opacity: 0;
+  }
+
+  .cell__media img,
+  .slider__img,
+  .photo-cell img,
+  .catalog__detail-art img {
+    opacity: 1;
+    transition: none;
   }
 }
