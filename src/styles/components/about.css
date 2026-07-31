@@ -138,3 +138,189 @@
   margin-block: var(--space-2xl) var(--space-4xl);
   color: var(--color-text-muted);
 }
+
+.cv__hint {
+  margin-bottom: var(--space-xl);
+  padding: var(--space-md);
+  border-left: 2px solid var(--color-accent);
+  background: var(--color-accent-subtle);
+  color: var(--color-text-secondary);
+  text-transform: none;
+  letter-spacing: var(--ls-normal);
+}
+
+.cv__pdf {
+  margin-top: var(--space-4xl);
+}
+
+/* ============================================
+   SAYFA İÇİ ÖZGEÇMİŞ
+   Aktif dile göre çizilir. Yazdırma stili bunu tek başına
+   bırakır — İngilizce PDF hazır olana kadarki çözüm.
+   ============================================ */
+
+.cv-sheet {
+  border: var(--grid-line) solid var(--color-border);
+  background: var(--color-bg-elevated);
+  padding: clamp(1.5rem, 4vw, 3rem);
+}
+
+.cv-sheet__head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-md) var(--space-xl);
+  padding-bottom: var(--space-lg);
+  border-bottom: 2px solid var(--color-text);
+}
+
+.cv-sheet__name {
+  font-size: var(--fs-h2);
+  font-weight: var(--fw-light);
+}
+
+.cv-sheet__contact {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  text-align: right;
+  text-transform: none;
+  letter-spacing: var(--ls-wide);
+}
+
+.cv-block {
+  padding-block: var(--space-xl);
+  border-bottom: var(--grid-line) solid var(--color-border);
+}
+
+.cv-block:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.cv-block__title {
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--ls-widest);
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: var(--space-lg);
+}
+
+.cv-summary p {
+  font-size: var(--fs-small);
+}
+
+.cv-entry {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-xs) var(--space-lg);
+}
+
+.cv-entry + .cv-entry {
+  margin-top: var(--space-lg);
+  padding-top: var(--space-lg);
+  border-top: var(--grid-line) solid var(--color-border);
+}
+
+@media (min-width: 700px) {
+  .cv-entry {
+    grid-template-columns: 12rem minmax(0, 1fr);
+  }
+}
+
+.cv-entry__period {
+  color: var(--color-text-muted);
+}
+
+.cv-entry__title {
+  font-family: var(--font-serif);
+  font-optical-sizing: auto;
+  font-size: var(--fs-h4);
+  font-weight: var(--fw-regular);
+  letter-spacing: var(--ls-normal);
+  color: var(--color-text);
+}
+
+.cv-entry__subtitle {
+  margin-top: var(--space-xs);
+  color: var(--color-accent);
+}
+
+.cv-entry__body {
+  margin-top: var(--space-sm);
+  font-size: var(--fs-small);
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}
+
+.cv-skills {
+  display: grid;
+  gap: var(--space-lg);
+}
+
+@media (min-width: 700px) {
+  .cv-skills { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+.cv-inline {
+  margin-top: var(--space-sm);
+  font-size: var(--fs-small);
+  color: var(--color-text-secondary);
+}
+
+/* ============================================
+   YAZDIRMA
+   Sayfadan temiz bir özgeçmiş çıktısı alınabilsin.
+   İngilizce dildeyken bu, İngilizce CV'nin ta kendisi.
+   ============================================ */
+
+@media print {
+  .navbar,
+  .footer,
+  .loader,
+  .skip-link,
+  .page-head,
+  .cv__actions,
+  .cv__hint,
+  .cv__pdf,
+  .cv__footnote {
+    display: none !important;
+  }
+
+  html, body {
+    background: #fff;
+    color: #000;
+  }
+
+  .container {
+    max-width: none;
+    padding: 0;
+  }
+
+  .cv-sheet {
+    border: none;
+    padding: 0;
+    background: #fff;
+  }
+
+  .cv-block {
+    /* Bölümler sayfa ortasından bölünmesin */
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .cv-entry {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .cv-block__title,
+  .cv-entry__subtitle {
+    color: #000;
+  }
+
+  a { text-decoration: none; color: #000; }
+}

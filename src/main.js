@@ -162,6 +162,13 @@ function initDelegation() {
       return;
     }
 
+    // CV yazdırma — İngilizce PDF hazır olmadığı için bu düğme
+    // İngilizce ziyaretçinin CV çıktısı alma yolu.
+    if (e.target.closest('[data-print]')) {
+      window.print();
+      return;
+    }
+
     if (handleProjectsClick(e)) redraw();
   });
 }
