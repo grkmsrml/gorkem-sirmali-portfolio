@@ -23,7 +23,7 @@ import path from 'node:path';
 const ROOT = 'public/images';
 const RASTER = /\.(jpe?g|png)$/i;
 
-async function walk(dir) {
+async function walk(dir, match = RASTER) {
   let entries;
   try {
     entries = await fs.readdir(dir, { withFileTypes: true });
@@ -34,16 +34,47 @@ async function walk(dir) {
   const files = [];
   for (const entry of entries) {
     const full = path.join(dir, entry.name);
-    if (entry.isDirectory()) files.push(...await walk(full));
-    else if (RASTER.test(entry.name)) files.push(full);
+    if (entry.isDirectory()) files.push(...await walk(full, match));
+    else if (match.test(entry.name)) files.push(full);
   }
   return files;
+}
+
+/* Üretilen webp'lerin gerçek en/boy değerlerini manifest'e yazar.
+   Mimari çizimlerin oranları çok değişken (0.46'dan 6.8'e); sayfa
+   bu değerleri bilmezse görseller yüklenirken düzen kayıyor. */
+async function writeManifest() {
+  const entries = {};
+
+  for (const file of await walk(ROOT, /\.webp$/i)) {
+    if (file.includes('-thumb')) continue;
+    const meta = await sharp(file).metadata();
+    const key = '/' + path.relative('public', file).replace(/\\/g, '/');
+    entries[key] = { w: meta.width, h: meta.height };
+  }
+
+  const sorted = Object.fromEntries(Object.entries(entries).sort());
+
+  // JSON değil JS modülü: import attribute gerektirmez, hem Node
+  // hem Vite hem tarayıcı aynı şekilde okur.
+  const body = `/* OTOMATİK ÜRETİLDİ — elle düzenleme.
+   Kaynak: npm run optimize:images
+   Görsellerin gerçek en/boy değerleri. Sayfa bunları bilmezse
+   çizimler yüklenirken düzen kayıyor. */
+
+export default ${JSON.stringify(sorted, null, 2)};
+`;
+
+  await fs.writeFile('src/data/image-sizes.js', body, 'utf8');
+
+  console.log(`\nManifest yazıldı: src/data/image-sizes.js (${Object.keys(sorted).length} görsel)`);
 }
 
 const files = await walk(ROOT);
 
 if (files.length === 0) {
   console.log('Optimize edilecek yeni görsel yok.');
+  await writeManifest();
   process.exit(0);
 }
 
@@ -92,3 +123,5 @@ console.table(rows);
 console.log(`\nÖnce  : ${(before / 1024 / 1024).toFixed(1)} MB`);
 console.log(`Sonra : ${(after / 1024 / 1024).toFixed(1)} MB`);
 console.log(`Kazanç: %${Math.round((1 - after / before) * 100)}`);
+
+await writeManifest();

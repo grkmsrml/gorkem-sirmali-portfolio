@@ -44,10 +44,16 @@ export function cover(project, { thumb = true } = {}) {
   }
 
   const src = thumb ? (first.thumb ?? first.src) : first.src;
+  const dims = first.width && first.height
+    ? ` width="${first.width}" height="${first.height}"`
+    : '';
 
+  // Kırpma YOK: çizim kutunun içine tamamen sığar (object-fit: contain).
+  // Kapak kartlarında sabit bir kutu var ki ızgara ritmi bozulmasın,
+  // ama görselin kendisi eksiksiz görünür.
   return `
-    <div class="cell__media ratio ratio--landscape">
-      <img src="${src}" alt="${pickTitle(project)}" loading="lazy" />
+    <div class="cell__media">
+      <img src="${src}" alt="${pickTitle(project)}" loading="lazy"${dims} />
     </div>
   `;
 }

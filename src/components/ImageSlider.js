@@ -11,6 +11,24 @@
 import { pick } from '../i18n.js';
 import { drawing } from './Drawing.js';
 
+/**
+ * Tek bir slayt görseli.
+ * Çizimler kırpılmaz: doğal oranında, çerçeveye sığacak şekilde
+ * gösterilir. width/height verilir ki yüklenirken düzen kaymasın.
+ */
+function slideImage(img, project, i, eager) {
+  const dims = img.width && img.height
+    ? ` width="${img.width}" height="${img.height}"`
+    : '';
+
+  return `
+    <img class="slider__img"
+         src="${img.src}"
+         alt="${pick(img.caption) || `${pick(project.title)} — ${i + 1}`}"
+         loading="${eager ? 'eager' : 'lazy'}"${dims} />
+  `;
+}
+
 export function renderSlider(project) {
   const images = project.images ?? [];
 
@@ -27,8 +45,8 @@ export function renderSlider(project) {
   if (images.length === 1) {
     return `
       <figure class="slider">
-        <div class="ratio ratio--landscape">
-          <img src="${images[0].src}" alt="${pick(images[0].caption) || pick(project.title)}" loading="lazy" />
+        <div class="slider__frame">
+          ${slideImage(images[0], project, 0, true)}
         </div>
         ${images[0].caption ? `<figcaption class="meta slider__caption">${pick(images[0].caption)}</figcaption>` : ''}
       </figure>
@@ -38,10 +56,8 @@ export function renderSlider(project) {
   // --- Çoklu görsel: slider ---
   const slides = images.map((img, i) => `
     <div class="slider__slide ${i === 0 ? 'is-active' : ''}" data-slide="${i}">
-      <div class="ratio ratio--landscape">
-        <img src="${img.src}"
-             alt="${pick(img.caption) || `${pick(project.title)} — ${i + 1}`}"
-             loading="${i === 0 ? 'eager' : 'lazy'}" />
+      <div class="slider__frame">
+        ${slideImage(img, project, i, i === 0)}
       </div>
     </div>
   `).join('');

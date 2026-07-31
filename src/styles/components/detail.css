@@ -116,6 +116,25 @@
   animation: fade-in var(--duration-normal) var(--ease-out);
 }
 
+/* Çerçeve: görsel doğal oranında ve EKSİKSİZ görünür.
+   Dik kesitler için yükseklik sınırı, uzun cephe şeritleri için
+   genişlik sınırı devrede; hiçbir durumda kırpma yok. */
+.slider__frame {
+  display: grid;
+  place-items: center;
+  min-height: 280px;
+  max-height: 78vh;
+  padding: clamp(0.75rem, 2vw, 1.5rem);
+}
+
+.slider__img {
+  max-width: 100%;
+  max-height: 74vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
 /* Alt kontrol şeridi */
 .slider__bar {
   display: flex;
@@ -206,17 +225,25 @@
   padding: var(--space-lg);
 }
 
-.catalog__detail-art svg,
-.catalog__detail-art img {
+.catalog__detail-art svg {
   width: 100%;
   height: auto;
 }
 
-/* Gerçek görsel varsa opaklık düşürülmez */
+/* Gerçek görsel varsa opaklık düşürülmez, çizim yine kırpılmaz */
 .catalog__detail-art:has(img) {
   opacity: 1;
-  padding: 0;
-  border: none;
+  display: grid;
+  place-items: center;
+  background: var(--color-bg-alt);
+}
+
+.catalog__detail-art img {
+  max-width: 100%;
+  max-height: 320px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
 }
 
 .catalog__detail-text {

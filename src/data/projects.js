@@ -16,6 +16,8 @@
    doldurdukça slider altında görünecekler.
    ============================================ */
 
+import imageSizes from './image-sizes.js';
+
 export const categories = [
   { id: 'all',      name: { tr: 'Tümü',              en: 'All' } },
   { id: 'mimari',   name: { tr: 'Mimari Tasarım',    en: 'Architectural Design' } },
@@ -25,13 +27,22 @@ export const categories = [
   { id: 'arastirma', name: { tr: 'Araştırma',        en: 'Research' } },
 ];
 
-/** Bir projenin görsel dizisini üretir: 01..n arası, thumb eşleriyle. */
+/**
+ * Bir projenin görsel dizisini üretir: 01..n arası, thumb eşleriyle.
+ * En/boy değerleri manifest'ten okunur — mimari çizimlerin oranları
+ * 0.46 ile 6.8 arasında değişiyor, sabit bir orana zorlanamazlar.
+ */
 function images(projectId, count) {
   return Array.from({ length: count }, (_, i) => {
     const n = String(i + 1).padStart(2, '0');
+    const src = `/images/projects/${projectId}/${n}.webp`;
+    const size = imageSizes[src];
+
     return {
-      src: `/images/projects/${projectId}/${n}.webp`,
+      src,
       thumb: `/images/projects/${projectId}/${n}-thumb.webp`,
+      width: size?.w ?? null,
+      height: size?.h ?? null,
       caption: null,   // yukarıdaki nota bak
     };
   });

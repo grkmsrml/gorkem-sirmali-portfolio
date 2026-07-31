@@ -84,12 +84,16 @@
    ============================================ */
 
 .cell {
+  /* Kapak görselinin negatif kenar boşluğu bu değere bağlı —
+     ikisi ayrı yazılırsa görsel hücreden kayıyor. */
+  --cell-pad: clamp(1.25rem, 2.5vw, 2rem);
+
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   gap: var(--space-lg);
-  padding: clamp(1.25rem, 2.5vw, 2rem);
+  padding: var(--cell-pad);
   background: var(--color-bg);
   overflow: hidden;
 }
