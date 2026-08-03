@@ -6,7 +6,7 @@
 
 import { t, pick } from '../i18n.js';
 import {
-  profile, education, experience, involvement,
+  profile, education, coursework, experience, involvement,
   leadership, software, languages, competencies,
 } from '../data/personal.js';
 
@@ -57,6 +57,24 @@ function educationSection() {
         <h2 class="section__title">${t('about.education')}</h2>
       </div>
       <div class="timeline">${rows}</div>
+    </section>
+  `;
+}
+
+function courseworkSection() {
+  return `
+    <section class="section--tight">
+      <div class="section__head">
+        <h2 class="section__title">${t('about.coursework')}</h2>
+      </div>
+      <div class="frame frame--split">
+        <div class="cell">
+          <p>${pick(coursework.summary)}</p>
+        </div>
+        <div class="cell">
+          <p class="text-small">${pick(coursework.note)}</p>
+        </div>
+      </div>
     </section>
   `;
 }
@@ -163,6 +181,7 @@ export function renderAbout() {
 
       ${bioSection()}
       ${educationSection()}
+      ${courseworkSection()}
       ${experienceSection()}
       ${involvementSection()}
       ${leadershipSection()}

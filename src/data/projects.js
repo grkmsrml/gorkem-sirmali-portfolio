@@ -24,7 +24,6 @@ export const categories = [
   { id: 'koruma',   name: { tr: 'Koruma / Rölöve',   en: 'Conservation / Survey' } },
   { id: 'icmekan',  name: { tr: 'İç Mekan',          en: 'Interior' } },
   { id: 'kent',     name: { tr: 'Kent / Peyzaj',     en: 'Urban / Landscape' } },
-  { id: 'arastirma', name: { tr: 'Araştırma',        en: 'Research' } },
 ];
 
 /**
@@ -224,32 +223,6 @@ export const projects = [
         'This old Greek house in Gedikpaşa — on the line joining two important points of Istanbul — was run for a time as a hotel and has since become a building producing shoes on every floor.',
         'This latest function has not treated the building well and has caused a great many alterations.',
         'With the permission of the manufacturers occupying the production areas, the plans of the ground and second floors were recorded.',
-      ],
-    },
-  },
-
-  {
-    id: 'ders-calismalari',
-    title: { tr: 'Ders Çalışmaları', en: 'Coursework' },
-    category: 'arastirma',
-    year: 2024,
-    location: { tr: 'MSGSÜ', en: 'MSGSÜ' },
-    course: { tr: 'Çeşitli dersler', en: 'Various courses' },
-    art: 'facade',
-    featured: false,
-    images: images('ders-calismalari', 6),
-    summary: {
-      tr: 'Temel sanat eğitimi, mimarlık tarihi, bina bilgisi, yapı bilgisi ve malzeme derslerinden seçme çalışmalar.',
-      en: 'Selected work from basic design, architectural history, building studies and materials courses.',
-    },
-    description: {
-      tr: [
-        'Temel sanat eğitimi, mimarlık tarihi, bina bilgisi, yapı bilgisi, malzeme ve yapı yönetimi ile ilgili tüm zorunlu derslerimi ilgili dönemde verdim.',
-        'Ayrıca rüzgar kapanlarının nasıl modernize edildiğini ve modern sistemlerinin nasıl kullanıldığını inceleyen 3500 kelimelik bir araştırma yürüttüm.',
-      ],
-      en: [
-        'I completed all compulsory courses in basic design, architectural history, building studies, construction, materials and construction management in their respective terms.',
-        'I also carried out a 3,500-word study examining how windcatchers have been modernised and how their contemporary systems are used.',
       ],
     },
   },

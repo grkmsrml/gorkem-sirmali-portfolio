@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Yalnızca kök URL listeleniyor. Site hash tabanlı SPA routing
+  kullanıyor (#/projeler, #/blog/... gibi); Google bu tür fragment
+  adreslerini güvenilir biçimde ayrı sayfa olarak indekslemiyor.
+  Bu, deploy'u basitleştiren (redirect kuralı gerektirmeyen) bilinçli
+  bir mimari seçimin yan etkisi. Path-based routing'e geçiş ayrı bir
+  iş — şimdilik kapsam dışı.
+
+  TODO: Netlify domaini belli olunca <loc> adresini güncelle.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://TODO-domain/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>

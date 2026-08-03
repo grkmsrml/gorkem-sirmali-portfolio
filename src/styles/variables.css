@@ -22,7 +22,7 @@
 
   --color-text: #1A1A18;          /* çelik profil */
   --color-text-secondary: #57534A;
-  --color-text-muted: #8A8478;
+  --color-text-muted: #6E695D;    /* WCAG AA: kâğıt zemine karşı 4.98:1 */
 
   /* Aksan — Eames paneli */
   --color-accent: #C8352A;        /* kırmızı — birincil */
@@ -151,7 +151,7 @@
 
   --color-text: #EDE8DE;
   --color-text-secondary: #A39B8D;
-  --color-text-muted: #7A7264;
+  --color-text-muted: #948C7D;    /* WCAG AA: zemine karşı 5.26:1 */
 
   --color-accent: #C86B4E;        /* kiremit+ */
   --color-accent-hover: #DA8163;

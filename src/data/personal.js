@@ -214,6 +214,21 @@ export const leadership = [
   },
 ];
 
+/* === DERSLER ===
+   Projeler listesinde bir "proje" olarak durması yanıltıcıydı —
+   karma bir ders derlemesi, tek bir iş değil. Hakkımda'da kendi
+   bölümü olarak duruyor. */
+export const coursework = {
+  summary: {
+    tr: 'Temel sanat eğitimi, mimarlık tarihi, bina bilgisi, yapı bilgisi, malzeme ve yapı yönetimi ile ilgili tüm zorunlu dersler.',
+    en: 'All compulsory coursework in basic design, architectural history, building studies, construction, materials and construction management.',
+  },
+  note: {
+    tr: 'Ayrıca rüzgar kapanlarının nasıl modernize edildiğini ve modern sistemlerinin nasıl kullanıldığını inceleyen 3500 kelimelik bir araştırma yürüttüm.',
+    en: 'I also carried out a 3,500-word study examining how windcatchers have been modernised and how their contemporary systems are used.',
+  },
+};
+
 /* === BECERİLER === */
 export const software = ['AutoCAD', 'ArchiCAD', 'SketchUp', 'Photoshop', 'Grasshopper', 'HTML'];
 
