@@ -106,7 +106,6 @@ export const translations = {
     'photos.title': 'Fotoğraflar',
     'photos.lead': 'Kentsel fotoğraf atölyesinde çalıştığım dört tema üzerinden bir görsel envanter.',
     'photos.empty': 'Fotoğraflar henüz yüklenmedi. Temalar ve yapı hazır; görseller eklendiğinde galeri kendiliğinden dolacak.',
-    'photos.themeEmpty': 'Bu temada henüz fotoğraf yok.',
 
     'contact.title': 'İletişim',
     'contact.lead': 'Staj, proje veya işbirliği için yazabilirsin. Genellikle birkaç gün içinde dönüyorum.',
@@ -232,7 +231,6 @@ export const translations = {
     'photos.title': 'Photographs',
     'photos.lead': 'A visual inventory across the four themes I worked on in the urban photography workshop.',
     'photos.empty': 'Photographs are not uploaded yet. The themes and structure are ready; the gallery will fill itself once images are added.',
-    'photos.themeEmpty': 'No photographs in this theme yet.',
 
     'contact.title': 'Contact',
     'contact.lead': 'Get in touch for internships, projects or collaboration. I usually reply within a few days.',

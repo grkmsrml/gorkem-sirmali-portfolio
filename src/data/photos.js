@@ -6,14 +6,37 @@
    çalıştığın konular.
 
    FOTOĞRAF EKLEME
-   1) Dosyaları public/images/photos/<tema-id>/ altına koy
-   2) İlgili temanın items dizisine ekle:
-      { src: '/images/photos/tangle/01.jpg',
+   1) Dosyaları public/images/photos/<tema-id>/ altına .jpg/.png olarak koy
+   2) npm run optimize:images çalıştır (üç webp boyutu + manifest üretir)
+   3) İlgili temanın items dizisine ekle — width/height manifest'ten
+      otomatik okunur, elle yazmana gerek yok:
+      { ...photoImage('tangle', '01'),
         caption: { tr: 'Karaköy, 2026', en: 'Karaköy, 2026' },
-        ratio: 'portrait' }   // 'square' | 'landscape' | 'portrait'
+        ratio: 'landscape' }   // 'square' | 'landscape' | 'portrait'
 
    items boşken tema kartı "yakında" durumunda görünür.
    ============================================ */
+
+import imageSizes from './image-sizes.js';
+
+/**
+ * Bir fotoğrafın üç boyutunu ve manifest'ten okunan en/boy değerini üretir.
+ *   thumb → ızgara kartı (700px)
+ *   src   → normal görüntüleme (1600px)
+ *   full  → lightbox'ta yakınlaştırma (2600px, yalnız gerektiğinde iner)
+ */
+function photoImage(themeId, n) {
+  const src = `/images/photos/${themeId}/${n}.webp`;
+  const size = imageSizes[src];
+
+  return {
+    src,
+    thumb: `/images/photos/${themeId}/${n}-thumb.webp`,
+    full: `/images/photos/${themeId}/${n}-full.webp`,
+    width: size?.w ?? null,
+    height: size?.h ?? null,
+  };
+}
 
 export const photoThemes = [
   {
@@ -23,7 +46,23 @@ export const photoThemes = [
       tr: 'Kablolar, tabelalar, tenteler — kentin üst üste binmiş katmanlarının okunamaz hale geldiği eşik.',
       en: 'Cables, signs, awnings — the threshold where the city\'s overlapping layers become illegible.',
     },
-    items: [],
+    items: [
+      {
+        ...photoImage('tangle', '01'),
+        caption: null,
+        ratio: 'landscape',
+      },
+      {
+        ...photoImage('tangle', '02'),
+        caption: null,
+        ratio: 'portrait',
+      },
+      {
+        ...photoImage('tangle', '03'),
+        caption: null,
+        ratio: 'landscape',
+      },
+    ],
   },
   {
     id: 'stratification',
@@ -32,7 +71,18 @@ export const photoThemes = [
       tr: 'Farklı dönemlerin aynı yüzeyde üst üste durması; bir duvarın kesitinde okunan zaman.',
       en: 'Different periods standing one atop another on the same surface; time read in the section of a wall.',
     },
-    items: [],
+    items: [
+      {
+        ...photoImage('stratification', '01'),
+        caption: null,
+        ratio: 'landscape',
+      },
+      {
+        ...photoImage('stratification', '02'),
+        caption: null,
+        ratio: 'portrait',
+      },
+    ],
   },
   {
     id: 'informal',

@@ -15,7 +15,7 @@ import {
   openLightbox, closeLightbox, moveLightbox, initLightboxKeys,
   zoomBy, resetZoom,
 } from './components/Lightbox.js';
-import { photoThemes } from './data/photos.js';
+import { allPhotos } from './data/photos.js';
 import { projectById } from './data/projects.js';
 
 /* ============================================
@@ -219,11 +219,10 @@ function initDelegation() {
       return;
     }
 
-    // Fotoğrafa tıklama — lightbox o temanın fotoğrafları içinde gezinir
-    const photoBtn = e.target.closest('[data-photo-theme]');
+    // Fotoğrafa tıklama — lightbox tek düz ızgarada gezinir
+    const photoBtn = e.target.closest('[data-photo-index]');
     if (photoBtn) {
-      const theme = photoThemes.find((th) => th.id === photoBtn.dataset.photoTheme);
-      if (theme) openLightbox(theme.items, Number(photoBtn.dataset.photoIndex));
+      openLightbox(allPhotos(), Number(photoBtn.dataset.photoIndex));
       return;
     }
 
