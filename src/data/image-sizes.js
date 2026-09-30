@@ -8,37 +8,53 @@ export default {
     "w": 640,
     "h": 640
   },
+  "/images/photos/stratification/01.webp": {
+    "w": 1600,
+    "h": 903
+  },
+  "/images/photos/stratification/02.webp": {
+    "w": 1600,
+    "h": 2390
+  },
+  "/images/photos/tangle/01.webp": {
+    "w": 1600,
+    "h": 903
+  },
+  "/images/photos/tangle/02.webp": {
+    "w": 1600,
+    "h": 2834
+  },
+  "/images/photos/tangle/03.webp": {
+    "w": 1600,
+    "h": 903
+  },
   "/images/projects/acik-teras-kuzguncuk/01.webp": {
-    "w": 1404,
-    "h": 1985
+    "w": 1600,
+    "h": 2265
   },
   "/images/projects/acik-teras-kuzguncuk/02.webp": {
     "w": 1600,
-    "h": 900
+    "h": 2265
   },
   "/images/projects/acik-teras-kuzguncuk/03.webp": {
-    "w": 1344,
-    "h": 756
+    "w": 1600,
+    "h": 1130
   },
   "/images/projects/acik-teras-kuzguncuk/04.webp": {
-    "w": 1344,
-    "h": 756
+    "w": 1600,
+    "h": 2265
   },
   "/images/projects/acik-teras-kuzguncuk/05.webp": {
     "w": 1600,
-    "h": 1131
+    "h": 2265
   },
   "/images/projects/acik-teras-kuzguncuk/06.webp": {
-    "w": 908,
-    "h": 1210
+    "w": 1600,
+    "h": 2262
   },
   "/images/projects/acik-teras-kuzguncuk/07.webp": {
     "w": 1600,
-    "h": 1131
-  },
-  "/images/projects/acik-teras-kuzguncuk/08.webp": {
-    "w": 1085,
-    "h": 508
+    "h": 2265
   },
   "/images/projects/cevizlibag-kutuphane/01.webp": {
     "w": 1600,
@@ -53,6 +69,54 @@ export default {
     "h": 2263
   },
   "/images/projects/cevizlibag-kutuphane/04.webp": {
+    "w": 1600,
+    "h": 1130
+  },
+  "/images/projects/cumalikizik-yurutme-merkezi/01.webp": {
+    "w": 1600,
+    "h": 1132
+  },
+  "/images/projects/cumalikizik-yurutme-merkezi/02.webp": {
+    "w": 1600,
+    "h": 1132
+  },
+  "/images/projects/cumalikizik-yurutme-merkezi/03.webp": {
+    "w": 1600,
+    "h": 1132
+  },
+  "/images/projects/cumalikizik-yurutme-merkezi/04.webp": {
+    "w": 1600,
+    "h": 1132
+  },
+  "/images/projects/cumalikizik-yurutme-merkezi/05.webp": {
+    "w": 1600,
+    "h": 1132
+  },
+  "/images/projects/cumalikizik-yurutme-merkezi/06.webp": {
+    "w": 1600,
+    "h": 1132
+  },
+  "/images/projects/cumalikizik-yurutme-merkezi/07.webp": {
+    "w": 1600,
+    "h": 1132
+  },
+  "/images/projects/cumalikizik-yurutme-merkezi/08.webp": {
+    "w": 1600,
+    "h": 1132
+  },
+  "/images/projects/cumalikizik-yurutme-merkezi/09.webp": {
+    "w": 1600,
+    "h": 1132
+  },
+  "/images/projects/cumalikizik-yurutme-merkezi/10.webp": {
+    "w": 1600,
+    "h": 1132
+  },
+  "/images/projects/cumalikizik-yurutme-merkezi/11.webp": {
+    "w": 1600,
+    "h": 1132
+  },
+  "/images/projects/cumalikizik-yurutme-merkezi/12.webp": {
     "w": 1600,
     "h": 1130
   },
@@ -142,43 +206,39 @@ export default {
   },
   "/images/projects/han-adasi/01.webp": {
     "w": 1600,
-    "h": 1131
+    "h": 2265
   },
   "/images/projects/han-adasi/02.webp": {
-    "w": 1383,
-    "h": 922
+    "w": 1600,
+    "h": 2265
   },
   "/images/projects/han-adasi/03.webp": {
     "w": 1600,
-    "h": 1200
+    "h": 1130
   },
   "/images/projects/han-adasi/04.webp": {
-    "w": 1240,
-    "h": 1754
-  },
-  "/images/projects/han-adasi/05.webp": {
     "w": 1600,
-    "h": 1132
+    "h": 1130
   },
-  "/images/projects/han-adasi/06.webp": {
+  "/images/projects/kutahya-kutuphane-konser/01.webp": {
     "w": 1600,
-    "h": 758
+    "h": 2265
   },
-  "/images/projects/han-adasi/07.webp": {
+  "/images/projects/kutahya-kutuphane-konser/02.webp": {
     "w": 1600,
-    "h": 234
+    "h": 2265
   },
-  "/images/projects/han-adasi/08.webp": {
-    "w": 1240,
-    "h": 1754
-  },
-  "/images/projects/han-adasi/09.webp": {
+  "/images/projects/kutahya-kutuphane-konser/03.webp": {
     "w": 1600,
-    "h": 758
+    "h": 1130
   },
-  "/images/projects/han-adasi/10.webp": {
+  "/images/projects/kutahya-kutuphane-konser/04.webp": {
     "w": 1600,
-    "h": 1200
+    "h": 1130
+  },
+  "/images/projects/kutahya-kutuphane-konser/05.webp": {
+    "w": 1600,
+    "h": 1130
   },
   "/images/projects/ogrenci-merkezi/01.webp": {
     "w": 1600,
