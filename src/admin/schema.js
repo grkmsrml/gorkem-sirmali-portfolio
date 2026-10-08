@@ -9,6 +9,7 @@
    Alan türleri (type):
      string | text | markdown | number | boolean | select | date
      image  | file | list | object | group (yalnız görsel gruplama)
+     multiselect → birden çok seçenek işaretlenir (dizi olarak saklanır)
      id     → görünmez; satır eklenince kendiliğinden üretilen kimlik
    select'te options bir işlev de olabilir: (belge) => [{ value, label }]
    Seçenekler:
@@ -94,8 +95,8 @@ export const collections = {
         ],
       },
       {
-        name: 'cover', label: 'Kapak görseli', type: 'image', required: false,
-        hint: 'Kartlarda görünür. Aşağıdaki görsellerden birinde "Kapak yap"a basabilir ya da ayrı bir görsel yükleyebilirsin. Boşsa ilk görsel kullanılır.',
+        name: 'cover', label: 'Kapak görseli', type: 'image', required: false, cropFrom: 'images',
+        hint: 'Kartlarda görünür. Aşağıdaki görsellerden birinde "Kapak yap"a basabilir, "Görselden kırp" ile bir paftanın render kısmını kesebilir ya da ayrı bir görsel yükleyebilirsin. Boşsa ilk görsel kullanılır.',
       },
       {
         name: 'images', label: 'Görseller', type: 'list', addLabel: 'Boş satır ekle',
@@ -158,7 +159,10 @@ export const singles = {
     normalize: (doc) => {
       const ids = new Set((doc.categories ?? []).map((c) => c.id));
       for (const photo of doc.photos ?? []) {
-        if (photo.category && !ids.has(photo.category)) photo.category = '';
+        // Eski tek kategorili kayıtları diziye çevir
+        const list = photo.categories ?? (photo.category ? [photo.category] : []);
+        photo.categories = list.filter((id) => ids.has(id));
+        delete photo.category;
       }
     },
     fields: [
@@ -180,7 +184,8 @@ export const singles = {
             { name: 'image', label: 'Fotoğraf', type: 'image' },
             caption('Başlık (yer, yıl)'),
             {
-              name: 'category', label: 'Kategori', type: 'select', required: false,
+              name: 'categories', label: 'Kategoriler', type: 'multiselect',
+              emptyHint: 'Önce yukarıdan kategori ekle.',
               options: (doc) => (doc.categories ?? []).map((c) => ({ value: c.id, label: c.name?.tr || '(adsız)' })),
             },
           ],
@@ -291,8 +296,20 @@ export const singles = {
       },
       {
         name: 'software', label: 'Yazılımlar', type: 'list', addLabel: 'Yazılım ekle',
-        hint: 'Seviye eklemek istersen yanına yaz: Revit (ileri)',
-        item: { type: 'string' },
+        hint: 'Seviye isteğe bağlı; yazılırsa Hakkımda ve CV sayfasında adın yanında görünür.',
+        item: {
+          fields: [
+            { name: 'name', label: 'Yazılım', type: 'string' },
+            {
+              name: 'level', label: 'Seviye', type: 'select', required: false,
+              options: [
+                { value: 'temel', label: 'Temel' },
+                { value: 'orta', label: 'Orta' },
+                { value: 'ileri', label: 'İleri' },
+              ],
+            },
+          ],
+        },
       },
       {
         name: 'languages', label: 'Diller', type: 'list', addLabel: 'Dil ekle',

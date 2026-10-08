@@ -143,6 +143,9 @@ export const translations = {
     'detail.area': 'Alan',
     'detail.tools': 'Araçlar',
     'about.graduation': 'Mezuniyet',
+    'level.temel': 'temel',
+    'level.orta': 'orta',
+    'level.ileri': 'ileri',
     'footer.location': 'İstanbul / Türkiye',
   },
 
@@ -278,6 +281,9 @@ export const translations = {
     'detail.area': 'Area',
     'detail.tools': 'Tools',
     'about.graduation': 'Graduation',
+    'level.temel': 'basic',
+    'level.orta': 'intermediate',
+    'level.ileri': 'advanced',
     'footer.location': 'Istanbul / Türkiye',
   },
 };

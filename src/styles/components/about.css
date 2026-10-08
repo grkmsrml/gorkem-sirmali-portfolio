@@ -103,6 +103,11 @@
   padding: 0;
 }
 
+.tag__level {
+  margin-left: var(--space-xs);
+  color: var(--color-text-muted);
+}
+
 .tag {
   padding: var(--space-xs) var(--space-md);
   border: var(--grid-line) solid var(--color-border);

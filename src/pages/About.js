@@ -157,7 +157,9 @@ function skillsSection() {
       <div class="frame frame--3">
         <div class="cell">
           <span class="overline">${t('about.software')}</span>
-          ${tagList(software)}
+          ${tagList(software.map((s) => (s.level
+            ? `${s.name} <span class="tag__level">${t(`level.${s.level}`)}</span>`
+            : s.name)))}
         </div>
 
         <div class="cell">

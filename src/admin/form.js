@@ -34,7 +34,7 @@ export function thumbOf(src) {
 export function blank(field) {
   // Kimlik: sitede görünmez, yalnız kayıtları birbirine bağlar
   if (field.type === 'id') return `k${Math.random().toString(36).slice(2, 8)}`;
-  if (field.type === 'list') return [];
+  if (field.type === 'list' || field.type === 'multiselect') return [];
   if (field.type === 'object') return blankDoc(field.fields);
   if (field.i18n) return { tr: '', en: '' };
   if (field.type === 'boolean') return false;
@@ -122,6 +122,24 @@ function input(field, value, path, ctx) {
   }
 }
 
+/** Birden çok seçenek: her biri bir onay kutusu, değer bir dizi. */
+function chips(field, value, path, ctx) {
+  const options = typeof field.options === 'function' ? field.options(ctx.doc, ctx.content) : field.options;
+  if (!options.length) return `<p class="afield__hint">${esc(field.emptyHint ?? 'Seçenek yok.')}</p>`;
+
+  return `
+    <div class="achips">
+      ${options.map((o) => `
+        <label class="achip">
+          <input type="checkbox" data-path="${path}" data-kind="multi" value="${esc(o.value)}"
+                 ${(value ?? []).includes(o.value) ? 'checked' : ''} />
+          <span>${esc(o.label)}</span>
+        </label>
+      `).join('')}
+    </div>
+  `;
+}
+
 function media(field, value, path) {
   const isImage = field.type === 'image';
   const preview = !value
@@ -140,6 +158,10 @@ function media(field, value, path) {
           <input type="file" hidden data-upload="${path}"
                  accept="${isImage ? 'image/jpeg,image/png,image/webp' : 'application/pdf'}" />
         </label>
+        ${isImage ? `<button type="button" class="abtn" data-pick="${path}"
+                             title="Daha önce yüklenmiş bir görseli seç">Medyadan seç</button>` : ''}
+        ${field.cropFrom ? `<button type="button" class="abtn" data-crop="${path}" data-crop-from="${field.cropFrom}"
+                                    title="Kaydın görsellerinden birinin bir bölümünü kes">Görselden kırp</button>` : ''}
         ${value ? `<button type="button" class="abtn abtn--quiet" data-clear="${path}">Kaldır</button>` : ''}
       </div>
       ${value && isImage ? `<code class="amedia__path">${esc(value)}</code>` : ''}
@@ -149,6 +171,7 @@ function media(field, value, path) {
 
 function control(field, value, path, ctx) {
   if (field.type === 'image' || field.type === 'file') return media(field, value, path);
+  if (field.type === 'multiselect') return chips(field, value, path, ctx);
 
   if (field.type === 'boolean') {
     return `
@@ -239,7 +262,7 @@ export function renderField(field, value, path, ctx) {
          <summary class="agroup__title">${title}</summary>${body}
        </details>`
     : `<fieldset class="agroup"><legend class="agroup__title">${title}</legend>${body}</fieldset>`);
-  const optional = field.required === false || field.type === 'boolean' || field.type === 'list';
+  const optional = field.required === false || ['boolean', 'list', 'multiselect'].includes(field.type);
 
   if (field.type === 'group' || field.type === 'object') {
     const base = field.type === 'object' ? `${path}.` : path.replace(/[^.]*$/, '');
@@ -336,7 +359,7 @@ export function validate(fields, doc, base = '') {
           errors.push({ path: field.item.i18n ? `${path}.${i}.tr` : `${path}.${i}`, message: 'Boş satır: doldur ya da sil.' });
         }
       });
-    } else if (field.type !== 'boolean' && field.type !== 'id') {
+    } else if (!['boolean', 'id', 'multiselect'].includes(field.type)) {
       const main = field.i18n ? value?.tr : value;
       const mainPath = field.i18n ? `${path}.tr` : path;
 

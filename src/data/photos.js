@@ -27,8 +27,10 @@ const photos = (content.photos ?? [])
       ...image,
       caption: captionOrNull(item.caption),
       ratio: ratioOf(image),
-      // Silinmiş bir kategoriyi gösteren fotoğraf kategorisiz sayılır
-      category: known.has(item.category) ? item.category : null,
+      // Bir fotoğraf birden çok kategoride olabilir. Silinmiş kategoriler
+      // ayıklanır; eski tek kategorili kayıtlar da okunur.
+      categories: (item.categories ?? (item.category ? [item.category] : []))
+        .filter((id) => known.has(id)),
     };
   });
 
@@ -39,5 +41,5 @@ export function allPhotos() {
 
 /** Yalnız en az bir fotoğrafı olan kategoriler, içerikteki sırayla. */
 export function usedPhotoCategories() {
-  return (content.categories ?? []).filter((c) => photos.some((p) => p.category === c.id));
+  return (content.categories ?? []).filter((c) => photos.some((p) => p.categories.includes(c.id)));
 }

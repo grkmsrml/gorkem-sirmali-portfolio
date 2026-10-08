@@ -529,6 +529,7 @@ function openEntry(key, def, slug) {
 
 function openSingle(key, def) {
   const doc = { ...blankDoc(def.fields), ...clone(state.content[key]) };
+  def.normalize?.(doc);
 
   state.editor = {
     def, key, kind: 'single', isNew: false, doc,
@@ -790,6 +791,182 @@ async function uploadBulk(path, files) {
   refreshPublish();
 }
 
+/* ============================================
+   PENCERELER — medyadan seçme, görselden kırpma
+   ============================================ */
+const modal = () => document.getElementById('modal');
+
+function closeModal() {
+  modal().close();
+  modal().innerHTML = '';
+}
+
+/** Daha önce yüklenmiş görseller arasından seçim. */
+async function openPicker(path) {
+  const items = await backend.media();
+  const box = modal();
+
+  const draw = (query = '') => {
+    const shown = items.filter((item) => item.path.toLocaleLowerCase('tr').includes(query));
+    box.querySelector('[data-picker-grid]').innerHTML = shown.map((item) => `
+      <button type="button" class="apick" data-pick-item="${esc(item.path)}" title="${esc(item.path)}">
+        <img src="${esc(thumbOf(item.path))}" alt="" loading="lazy"
+             onerror="this.onerror=null;this.src='${esc(item.path)}'" />
+        <span class="amedia__path">${esc(item.path.replace(/^\/images\//, ''))}</span>
+      </button>
+    `).join('') || '<p class="alist__empty meta">Eşleşen görsel yok.</p>';
+  };
+
+  box.innerHTML = `
+    <div class="amodal__head">
+      <h2 class="amodal__title">Medyadan seç</h2>
+      <input type="search" class="field__control asearch" data-picker-search placeholder="Ara…" aria-label="Görsellerde ara" />
+      <button type="button" class="abtn" data-modal-close>Kapat</button>
+    </div>
+    <div class="amodal__body"><div class="apick-grid" data-picker-grid></div></div>
+  `;
+  draw();
+
+  box.oninput = (e) => {
+    if (e.target.matches('[data-picker-search]')) draw(e.target.value.trim().toLocaleLowerCase('tr'));
+  };
+  box.onclick = (e) => {
+    if (e.target.closest('[data-modal-close]')) return closeModal();
+    const item = e.target.closest('[data-pick-item]');
+    if (!item) return undefined;
+    setPath(state.editor.doc, path, item.dataset.pickItem);
+    closeModal();
+    renderFormBody();
+    return undefined;
+  };
+  box.showModal();
+}
+
+/**
+ * Kaydın görsellerinden birinin bir bölümünü kesip ayrı görsel olarak yükler.
+ * Paftadan render'ı ayırıp kapak yapmak için.
+ */
+function openCropper(path, from) {
+  const { doc } = state.editor;
+  const sources = (getPath(doc, from) ?? []).map((item) => item.image).filter(Boolean);
+  if (!sources.length) {
+    toast('Önce kayda görsel ekle; kırpma o görsellerden yapılır.', { error: true });
+    return;
+  }
+  if (!uploadDir({ name: 'kapak.jpg' })) return;
+
+  const box = modal();
+  let selection = null;   // görselin ekrandaki boyutuna göre { x, y, w, h }
+
+  box.innerHTML = `
+    <div class="amodal__head">
+      <h2 class="amodal__title">Görselden kırp</h2>
+      <span class="meta">Kesilecek bölgeyi fareyle çiz</span>
+      <button type="button" class="abtn" data-modal-close>Vazgeç</button>
+      <button type="button" class="abtn abtn--solid" data-crop-apply disabled>Kırp ve kullan</button>
+    </div>
+    <div class="amodal__body acrop">
+      <div class="acrop__sources">
+        ${sources.map((src, i) => `
+          <button type="button" class="acrop__source${i === 0 ? ' is-active' : ''}" data-crop-source="${esc(src)}">
+            <img src="${esc(thumbOf(src))}" alt="" onerror="this.onerror=null;this.src='${esc(src)}'" />
+          </button>`).join('')}
+      </div>
+      <div class="acrop__stage" data-crop-stage>
+        <img class="acrop__img" data-crop-img alt="" draggable="false" />
+        <div class="acrop__selection" data-crop-selection hidden></div>
+      </div>
+    </div>
+  `;
+
+  const img = box.querySelector('[data-crop-img]');
+  const stage = box.querySelector('[data-crop-stage]');
+  const frame = box.querySelector('[data-crop-selection]');
+  const apply = box.querySelector('[data-crop-apply]');
+
+  const load = (src) => {
+    selection = null;
+    frame.hidden = true;
+    apply.disabled = true;
+    // En büyük sürümden kırp ki kapak net olsun; yoksa ana dosyaya düş
+    img.onerror = () => { img.onerror = null; img.src = src; };
+    img.src = src.replace(/\.webp$/i, '-full.webp');
+  };
+  load(sources[0]);
+
+  const point = (e) => {
+    const rect = img.getBoundingClientRect();
+    return {
+      x: Math.min(Math.max(e.clientX - rect.left, 0), rect.width),
+      y: Math.min(Math.max(e.clientY - rect.top, 0), rect.height),
+    };
+  };
+
+  let start = null;
+  stage.onpointerdown = (e) => {
+    if (e.target !== img && e.target !== frame) return;
+    start = point(e);
+    stage.setPointerCapture(e.pointerId);
+    e.preventDefault();
+  };
+  stage.onpointermove = (e) => {
+    if (!start) return;
+    const now = point(e);
+    selection = {
+      x: Math.min(start.x, now.x), y: Math.min(start.y, now.y),
+      w: Math.abs(now.x - start.x), h: Math.abs(now.y - start.y),
+    };
+    Object.assign(frame.style, {
+      left: `${img.offsetLeft + selection.x}px`, top: `${img.offsetTop + selection.y}px`,
+      width: `${selection.w}px`, height: `${selection.h}px`,
+    });
+    frame.hidden = false;
+  };
+  stage.onpointerup = () => {
+    start = null;
+    apply.disabled = !selection || selection.w < 20 || selection.h < 20;
+  };
+
+  box.onclick = (e) => {
+    if (e.target.closest('[data-modal-close]')) return closeModal();
+
+    const source = e.target.closest('[data-crop-source]');
+    if (source) {
+      box.querySelectorAll('.acrop__source').forEach((el) => el.classList.toggle('is-active', el === source));
+      load(source.dataset.cropSource);
+      return undefined;
+    }
+
+    if (e.target.closest('[data-crop-apply]') && selection) {
+      return guarded(async () => {
+        // Ekrandaki seçimi görselin gerçek piksellerine çevir
+        const scale = img.naturalWidth / img.clientWidth;
+        const canvas = document.createElement('canvas');
+        canvas.width = Math.round(selection.w * scale);
+        canvas.height = Math.round(selection.h * scale);
+        canvas.getContext('2d').drawImage(
+          img,
+          selection.x * scale, selection.y * scale, canvas.width, canvas.height,
+          0, 0, canvas.width, canvas.height,
+        );
+
+        const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/jpeg', 0.92));
+        const file = new File([blob], 'kapak.jpg', { type: 'image/jpeg' });
+
+        closeModal();
+        toast('Kırpılan görsel yükleniyor…', { sticky: true });
+        setPath(state.editor.doc, path, await backend.upload(uploadDir(file), file));
+        toast('Kırpıldı. Kaydetmeyi unutma.');
+        renderFormBody();
+        refreshPublish();
+      });
+    }
+    return undefined;
+  };
+
+  box.showModal();
+}
+
 /* --- Çeviri --- */
 
 /** Tek alan: Türkçe kutudaki metni çevirip İngilizce kutuya yazar. */
@@ -898,7 +1075,13 @@ function onInput(e) {
   const path = el.dataset.path;
   let value = el.value;
 
-  if (el.dataset.kind === 'boolean') value = el.checked;
+  if (el.dataset.kind === 'multi') {
+    // Onay kutuları aynı diziyi paylaşır: işaretlenen eklenir, kaldırılan çıkar
+    const current = new Set(getPath(doc, path) ?? []);
+    if (el.checked) current.add(el.value);
+    else current.delete(el.value);
+    value = [...current];
+  } else if (el.dataset.kind === 'boolean') value = el.checked;
   else if (el.dataset.kind === 'number') value = el.value === '' ? null : Number(el.value);
 
   setPath(doc, path, value);
@@ -958,6 +1141,12 @@ function onClick(e) {
   }
 
   if ((el = hit('[data-preview]'))) return togglePreview(el.dataset.preview);
+
+  if ((el = hit('[data-pick]'))) {
+    const path = el.dataset.pick;
+    return guarded(() => openPicker(path));
+  }
+  if ((el = hit('[data-crop]'))) return openCropper(el.dataset.crop, el.dataset.cropFrom);
   if ((el = hit('[data-md]'))) return applyMarkdown(el.dataset.md, el.dataset.for);
 
   if (hit('[data-draft-restore]')) return resolveDraft(true);

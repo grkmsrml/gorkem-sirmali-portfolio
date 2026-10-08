@@ -132,7 +132,7 @@ function renderSheet() {
     <div class="cv-skills">
       <div>
         <span class="overline">${t('about.software')}</span>
-        ${inlineList(software)}
+        ${inlineList(software.map((s) => (s.level ? `${s.name} (${t(`level.${s.level}`)})` : s.name)))}
       </div>
       <div>
         <span class="overline">${t('about.languages')}</span>

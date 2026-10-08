@@ -330,12 +330,30 @@
     }
   },
   "software": [
-    "AutoCAD",
-    "ArchiCAD",
-    "SketchUp",
-    "Photoshop",
-    "Grasshopper",
-    "HTML"
+    {
+      "name": "AutoCAD",
+      "level": ""
+    },
+    {
+      "name": "ArchiCAD",
+      "level": ""
+    },
+    {
+      "name": "SketchUp",
+      "level": ""
+    },
+    {
+      "name": "Photoshop",
+      "level": ""
+    },
+    {
+      "name": "Grasshopper",
+      "level": ""
+    },
+    {
+      "name": "HTML",
+      "level": ""
+    }
   ],
   "languages": [
     {

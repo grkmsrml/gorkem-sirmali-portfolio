@@ -15,7 +15,9 @@
         "tr": "",
         "en": ""
       },
-      "category": "baku"
+      "categories": [
+        "baku"
+      ]
     },
     {
       "image": "/images/photos/tangle/02.webp",
@@ -23,7 +25,9 @@
         "tr": "",
         "en": ""
       },
-      "category": "baku"
+      "categories": [
+        "baku"
+      ]
     },
     {
       "image": "/images/photos/tangle/03.webp",
@@ -31,7 +35,9 @@
         "tr": "",
         "en": ""
       },
-      "category": "baku"
+      "categories": [
+        "baku"
+      ]
     },
     {
       "image": "/images/photos/stratification/01.webp",
@@ -39,7 +45,9 @@
         "tr": "",
         "en": ""
       },
-      "category": "baku"
+      "categories": [
+        "baku"
+      ]
     },
     {
       "image": "/images/photos/stratification/02.webp",
@@ -47,7 +55,9 @@
         "tr": "",
         "en": ""
       },
-      "category": "baku"
+      "categories": [
+        "baku"
+      ]
     }
   ]
 }

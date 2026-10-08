@@ -26,5 +26,10 @@ export const education = content.education.map((e) => ({ ...e, end: e.end || nul
 
 export const {
   experience, involvement, leadership, coursework,
-  software, languages, competencies,
+  languages, competencies,
 } = content;
+
+/** Yazılımlar: { name, level } — level boş olabilir (temel | orta | ileri). */
+export const software = (content.software ?? [])
+  .map((item) => (typeof item === 'string' ? { name: item, level: '' } : item))
+  .filter((item) => item.name);

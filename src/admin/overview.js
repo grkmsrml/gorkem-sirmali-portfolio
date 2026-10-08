@@ -64,7 +64,7 @@ function photoGaps(doc) {
   const items = [];
   const photos = doc.photos ?? [];
   const uncaptioned = photos.filter((p) => !p.caption?.tr).length;
-  const uncategorised = photos.filter((p) => !p.category).length;
+  const uncategorised = photos.filter((p) => !(p.categories ?? []).length).length;
 
   if (uncaptioned) items.push({ level: 'öneri', text: `${uncaptioned} fotoğrafın başlığı yok (yer, yıl).` });
   if (uncategorised && (doc.categories ?? []).length) {
@@ -85,6 +85,11 @@ function personalGaps(doc) {
   }
   if (!doc.profile?.graduation?.tr) {
     items.push({ level: 'öneri', text: 'Mezuniyet tarihi yazılmamış; işe alan kişinin ilk baktığı bilgi.' });
+  }
+
+  const software = doc.software ?? [];
+  if (software.length && software.every((s) => !s.level)) {
+    items.push({ level: 'öneri', text: 'Yazılımların hiçbirinde seviye yok; işe alan kişi listeden ne kadar bildiğini anlayamıyor.' });
   }
 
   const hidden = (doc.contact?.social ?? []).filter((s) => !s.url).map((s) => s.label);

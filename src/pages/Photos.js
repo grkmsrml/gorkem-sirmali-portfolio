@@ -13,13 +13,13 @@ const state = { filter: 'all' };
 /** Süzgece göre görünen fotoğraflar; lightbox da bu listede gezinir. */
 export function visiblePhotos() {
   const photos = allPhotos();
-  return state.filter === 'all' ? photos : photos.filter((p) => p.category === state.filter);
+  return state.filter === 'all' ? photos : photos.filter((p) => p.categories.includes(state.filter));
 }
 
 function filterBar(count) {
   const categories = usedPhotoCategories();
   // Kategorisiz fotoğraf varsa "Tümü" tek başına da ayrı bir seçenektir
-  const uncategorised = allPhotos().some((p) => !p.category);
+  const uncategorised = allPhotos().some((p) => !p.categories.length);
   if (categories.length < 2 && !(categories.length === 1 && uncategorised)) return '';
 
   const button = (id, label) => `
