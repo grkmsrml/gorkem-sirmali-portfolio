@@ -1,18 +1,53 @@
 /* ============================================
    FOTOĞRAFLAR
-   Tüm temalardaki görseller tek düz ızgarada — alt başlık yok,
-   yalnız sayfa başlığı. Tema bilgisi veride duruyor (allPhotos
-   themeId taşıyor), yalnızca ayrı bölüm/başlık olarak gösterilmiyor.
+   Tek düz ızgara; üstte kategori süzgeci. Süzgeç yalnız birden çok
+   seçenek varsa görünür (tek kategoride anlamı yok).
    ============================================ */
 
 import { t, pick } from '../i18n.js';
-import { allPhotos } from '../data/photos.js';
+import { allPhotos, usedPhotoCategories } from '../data/photos.js';
+
+// Sayfa durumu — dil değişse de korunur
+const state = { filter: 'all' };
+
+/** Süzgece göre görünen fotoğraflar; lightbox da bu listede gezinir. */
+export function visiblePhotos() {
+  const photos = allPhotos();
+  return state.filter === 'all' ? photos : photos.filter((p) => p.category === state.filter);
+}
+
+function filterBar(count) {
+  const categories = usedPhotoCategories();
+  // Kategorisiz fotoğraf varsa "Tümü" tek başına da ayrı bir seçenektir
+  const uncategorised = allPhotos().some((p) => !p.category);
+  if (categories.length < 2 && !(categories.length === 1 && uncategorised)) return '';
+
+  const button = (id, label) => `
+    <button class="filter-btn ${state.filter === id ? 'is-active' : ''}"
+            data-photo-filter="${id}">${label}</button>`;
+
+  return `
+    <div class="section__head projects__controls">
+      <div class="filters">
+        ${button('all', t('photos.all'))}
+        ${categories.map((c) => button(c.id, pick(c.name))).join('')}
+      </div>
+      <span class="meta">${count} ${t('photos.count')}</span>
+    </div>
+  `;
+}
 
 export function renderPhotos() {
-  const photos = allPhotos();
+  // Seçili kategori içerikten kalktıysa "Tümü"ne dön
+  if (state.filter !== 'all' && !usedPhotoCategories().some((c) => c.id === state.filter)) {
+    state.filter = 'all';
+  }
 
-  const body = photos.length
+  const photos = visiblePhotos();
+
+  const body = allPhotos().length
     ? `
+      ${filterBar(photos.length)}
       <div class="photo-grid">
         ${photos.map((item, i) => {
           const dims = item.width && item.height
@@ -45,4 +80,14 @@ export function renderPhotos() {
       ${body}
     </div>
   `;
+}
+
+/** Kategori süzgeci — main.js delegasyonundan çağrılır. */
+export function handlePhotosClick(e) {
+  const btn = e.target.closest('[data-photo-filter]');
+  if (btn && state.filter !== btn.dataset.photoFilter) {
+    state.filter = btn.dataset.photoFilter;
+    return true;
+  }
+  return false;
 }

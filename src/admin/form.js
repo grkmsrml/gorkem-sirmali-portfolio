@@ -32,12 +32,16 @@ export function thumbOf(src) {
 /* --- Boş değerler --- */
 
 export function blank(field) {
+  // Kimlik: sitede görünmez, yalnız kayıtları birbirine bağlar
+  if (field.type === 'id') return `k${Math.random().toString(36).slice(2, 8)}`;
   if (field.type === 'list') return [];
   if (field.type === 'object') return blankDoc(field.fields);
   if (field.i18n) return { tr: '', en: '' };
   if (field.type === 'boolean') return false;
   if (field.type === 'number') return null;
-  if (field.type === 'select') return field.options[0].value;
+  if (field.type === 'select') {
+    return field.required === false || typeof field.options === 'function' ? '' : field.options[0].value;
+  }
   return '';
 }
 
@@ -91,13 +95,16 @@ function input(field, value, path, ctx) {
       return `<input ${attrs} type="number" data-kind="number" value="${esc(value)}" />`;
     case 'date':
       return `<input ${attrs} type="date" value="${esc(String(value ?? '').slice(0, 10))}" />`;
-    case 'select':
+    case 'select': {
+      const options = typeof field.options === 'function' ? field.options(ctx.doc) : field.options;
       return `
         <select ${attrs}>
-          ${field.options.map((o) => `
+          ${field.required === false ? `<option value=""${value ? '' : ' selected'}>—</option>` : ''}
+          ${options.map((o) => `
             <option value="${esc(o.value)}"${o.value === value ? ' selected' : ''}>${esc(o.label)}</option>
           `).join('')}
         </select>`;
+    }
     default:
       return `<input ${attrs} type="text" value="${esc(value)}" />`;
   }
@@ -208,6 +215,8 @@ function listField(field, value, path, ctx) {
 
 /** Tek bir alanı etiketi ve açıklamasıyla çizer. */
 export function renderField(field, value, path, ctx) {
+  if (field.type === 'id') return '';
+
   const hint = field.hint ? `<p class="afield__hint">${esc(field.hint)}</p>` : '';
 
   // Uzun formlarda (Kişisel) en üst düzey bölümler açılır-kapanır
@@ -315,7 +324,7 @@ export function validate(fields, doc, base = '') {
           errors.push({ path: field.item.i18n ? `${path}.${i}.tr` : `${path}.${i}`, message: 'Boş satır: doldur ya da sil.' });
         }
       });
-    } else if (field.type !== 'boolean') {
+    } else if (field.type !== 'boolean' && field.type !== 'id') {
       const main = field.i18n ? value?.tr : value;
       const mainPath = field.i18n ? `${path}.tr` : path;
 

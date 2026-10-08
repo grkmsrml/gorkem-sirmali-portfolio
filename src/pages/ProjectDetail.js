@@ -26,8 +26,11 @@ function specSheet(project) {
     [t('detail.category'), categoryName(project.category)],
     [t('detail.location'), pick(project.location)],
     [t('detail.course'), pick(project.course)],
+    [t('detail.role'), pick(project.role)],
     project.team ? [t('detail.team'), `${t('detail.teamWith')} ${project.team}`] : null,
     [t('detail.scale'), project.scale],
+    [t('detail.area'), project.area],
+    [t('detail.tools'), project.tools],
     project.video
       ? [t('detail.video'), `<a href="${project.video}" target="_blank" rel="noopener" class="link">${t('detail.watch')} →</a>`]
       : null,

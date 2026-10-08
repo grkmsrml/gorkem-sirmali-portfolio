@@ -24,6 +24,13 @@
   color: var(--color-text);
 }
 
+.about__portrait {
+  width: min(100%, 260px);
+  height: auto;
+  margin-top: var(--space-lg);
+  border: var(--grid-line) solid var(--color-border);
+}
+
 .about__name {
   font-size: var(--fs-h2);
   font-weight: var(--fw-light);

@@ -67,6 +67,7 @@ function sheetHeader() {
       <div class="cv-sheet__contact meta">
         <span>${contact.email}</span>
         <span>${pick(profile.location)}</span>
+        ${pick(profile.graduation) ? `<span>${t('about.graduation')}: ${pick(profile.graduation)}</span>` : ''}
       </div>
     </header>
   `;

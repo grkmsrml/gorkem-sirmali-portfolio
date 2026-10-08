@@ -8,7 +8,9 @@
 
    Alan türleri (type):
      string | text | markdown | number | boolean | select | date
-     image  | file | list | object
+     image  | file | list | object | group (yalnız görsel gruplama)
+     id     → görünmez; satır eklenince kendiliğinden üretilen kimlik
+   select'te options bir işlev de olabilir: (belge) => [{ value, label }]
    Seçenekler:
      i18n: true        → Türkçe ve İngilizce iki kutu ({ tr, en })
      required: false   → boş bırakılabilir (i18n'de İngilizce hep serbest)
@@ -68,7 +70,10 @@ export const collections = {
           { name: 'year', label: 'Yıl', type: 'number' },
           { name: 'location', label: 'Konum', type: 'string', i18n: true },
           { name: 'course', label: 'Ders', type: 'string', i18n: true },
+          { name: 'role', label: 'Rolüm', type: 'string', i18n: true, required: false, hint: 'Grup işinde senin payın. Örn: Rölöve ölçümü ve çizim.' },
           { name: 'team', label: 'Ekip', type: 'string', required: false, hint: 'Grup çalışmasıysa diğer isimler, virgülle. Tek başına yaptıysan boş bırak.' },
+          { name: 'area', label: 'Alan', type: 'string', required: false, hint: 'Örn: 2.400 m²' },
+          { name: 'tools', label: 'Araçlar', type: 'string', required: false, hint: 'Örn: ArchiCAD, SketchUp, Photoshop' },
           { name: 'video', label: 'Video adresi', type: 'string', required: false },
           { name: 'featured', label: 'Ana sayfada göster', type: 'boolean' },
           { name: 'draft', label: 'Taslak — yayındaki sitede gösterme', type: 'boolean' },
@@ -135,11 +140,37 @@ export const singles = {
     path: 'content/photos.json',
     siteUrl: () => '/#/fotograflar',
     uploadDir: () => 'images/photos',
+    // Silinmiş kategoriyi gösteren fotoğrafları kategorisiz yap
+    normalize: (doc) => {
+      const ids = new Set((doc.categories ?? []).map((c) => c.id));
+      for (const photo of doc.photos ?? []) {
+        if (photo.category && !ids.has(photo.category)) photo.category = '';
+      }
+    },
     fields: [
+      {
+        name: 'categories', label: 'Kategoriler', type: 'list', addLabel: 'Kategori ekle',
+        hint: 'Sitede fotoğrafların üstünde süzgeç olarak görünür. Sıra buradaki sıradır; fotoğrafı olmayan kategori gizlenir.',
+        item: {
+          fields: [
+            { name: 'id', type: 'id' },
+            { name: 'name', label: 'Kategori adı', type: 'string', i18n: true, refresh: true },
+          ],
+        },
+      },
       {
         name: 'photos', label: 'Fotoğraflar', type: 'list', addLabel: 'Boş satır ekle', bulk: 'image',
         hint: 'Sıra sitedeki sıradır. Yatay / dikey oranı kendiliğinden bulunur.',
-        item: { fields: [{ name: 'image', label: 'Fotoğraf', type: 'image' }, caption('Başlık (yer, yıl)')] },
+        item: {
+          fields: [
+            { name: 'image', label: 'Fotoğraf', type: 'image' },
+            caption('Başlık (yer, yıl)'),
+            {
+              name: 'category', label: 'Kategori', type: 'select', required: false,
+              options: (doc) => (doc.categories ?? []).map((c) => ({ value: c.id, label: c.name?.tr || '(adsız)' })),
+            },
+          ],
+        },
       },
     ],
   },
@@ -158,6 +189,8 @@ export const singles = {
           { name: 'name', label: 'Ad Soyad', type: 'string' },
           { name: 'title', label: 'Unvan', type: 'string', i18n: true },
           { name: 'location', label: 'Konum', type: 'string', i18n: true },
+          { name: 'graduation', label: 'Mezuniyet', type: 'string', i18n: true, required: false, hint: 'Örn: Haziran 2027 (beklenen). Hakkımda ve CV sayfasında görünür.' },
+          { name: 'photo', label: 'Portre fotoğrafı', type: 'image', required: false, hint: 'Hakkımda sayfasının sol hücresinde görünür.' },
           { name: 'intro', label: 'Kısa tanıtım', type: 'text', i18n: true, hint: 'Hakkımda sayfasının solundaki iki-üç cümle.' },
           { name: 'bio', label: 'Biyografi', type: 'markdown', i18n: true },
         ],

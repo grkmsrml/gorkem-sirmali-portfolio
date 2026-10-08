@@ -51,6 +51,9 @@ function projectGaps(doc) {
   if (images.length && !doc.cover) {
     items.push({ level: 'öneri', text: 'Kapak seçilmemiş; kartlarda ilk görsel kullanılıyor.' });
   }
+  if (doc.team && !doc.role?.tr) {
+    items.push({ level: 'öneri', text: 'Grup çalışması ama "Rolüm" boş; senin payın belli değil.' });
+  }
   if (length && length < 400) {
     items.push({ level: 'öneri', text: `Açıklama kısa (${length} karakter). Süreç ve kararlar eklenebilir.` });
   }
@@ -58,10 +61,16 @@ function projectGaps(doc) {
 }
 
 function photoGaps(doc) {
-  const uncaptioned = (doc.photos ?? []).filter((p) => !p.caption?.tr).length;
-  return uncaptioned
-    ? [{ level: 'öneri', text: `${uncaptioned} fotoğrafın başlığı yok (yer, yıl).` }]
-    : [];
+  const items = [];
+  const photos = doc.photos ?? [];
+  const uncaptioned = photos.filter((p) => !p.caption?.tr).length;
+  const uncategorised = photos.filter((p) => !p.category).length;
+
+  if (uncaptioned) items.push({ level: 'öneri', text: `${uncaptioned} fotoğrafın başlığı yok (yer, yıl).` });
+  if (uncategorised && (doc.categories ?? []).length) {
+    items.push({ level: 'öneri', text: `${uncategorised} fotoğrafın kategorisi yok; yalnız "Tümü"nde görünüyor.` });
+  }
+  return items;
 }
 
 function personalGaps(doc) {
@@ -70,6 +79,13 @@ function personalGaps(doc) {
     items.push({ level: 'uyarı', text: 'İngilizce CV PDF\'i yok; sitede "hazırlanıyor" notu görünüyor.' });
   }
   if (!doc.cvFiles?.tr) items.push({ level: 'uyarı', text: 'Türkçe CV PDF\'i yok.' });
+
+  if (!doc.profile?.photo) {
+    items.push({ level: 'öneri', text: 'Portre fotoğrafı yok; Hakkımda sayfasının sol hücresi boş kalıyor.' });
+  }
+  if (!doc.profile?.graduation?.tr) {
+    items.push({ level: 'öneri', text: 'Mezuniyet tarihi yazılmamış; işe alan kişinin ilk baktığı bilgi.' });
+  }
 
   const hidden = (doc.contact?.social ?? []).filter((s) => !s.url).map((s) => s.label);
   if (hidden.length) {

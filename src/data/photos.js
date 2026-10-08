@@ -1,9 +1,9 @@
 /* ============================================
    FOTOĞRAF GALERİSİ
-   İçerik: content/photos.json — tek düz liste.
-   Yönetim paneli (/admin) fotoğraf ekler, sıralar, başlık yazar.
-   Karenin oranı (yatay / dikey / kare) görselin kendi ölçüsünden
-   hesaplanır, elle seçilmez.
+   İçerik: content/photos.json — kategoriler ve tek düz fotoğraf listesi.
+   Yönetim paneli (/admin) fotoğraf ekler, sıralar, başlık yazar,
+   kategori atar. Karenin oranı (yatay / dikey / kare) görselin kendi
+   ölçüsünden hesaplanır, elle seçilmez.
    ============================================ */
 
 import content from '../../content/photos.json';
@@ -17,14 +17,27 @@ function ratioOf({ width, height }) {
   return 'square';
 }
 
+const known = new Set((content.categories ?? []).map((c) => c.id));
+
 const photos = (content.photos ?? [])
   .filter((item) => item.image)
   .map((item) => {
     const image = imageFrom(item.image);
-    return { ...image, caption: captionOrNull(item.caption), ratio: ratioOf(image) };
+    return {
+      ...image,
+      caption: captionOrNull(item.caption),
+      ratio: ratioOf(image),
+      // Silinmiş bir kategoriyi gösteren fotoğraf kategorisiz sayılır
+      category: known.has(item.category) ? item.category : null,
+    };
   });
 
 /** Tüm fotoğraflar, içerik dosyasındaki sırayla. */
 export function allPhotos() {
   return photos;
+}
+
+/** Yalnız en az bir fotoğrafı olan kategoriler, içerikteki sırayla. */
+export function usedPhotoCategories() {
+  return (content.categories ?? []).filter((c) => photos.some((p) => p.category === c.id));
 }

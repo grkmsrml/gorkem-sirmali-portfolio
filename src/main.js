@@ -16,7 +16,7 @@ import {
   openLightbox, closeLightbox, moveLightbox, initLightboxKeys,
   zoomBy, resetZoom,
 } from './components/Lightbox.js';
-import { allPhotos } from './data/photos.js';
+import { visiblePhotos, handlePhotosClick } from './pages/Photos.js';
 import { projectById } from './data/projects.js';
 
 /* ============================================
@@ -236,10 +236,10 @@ function initDelegation() {
       return;
     }
 
-    // Fotoğrafa tıklama — lightbox tek düz ızgarada gezinir
+    // Fotoğrafa tıklama — lightbox o an görünen (süzülmüş) listede gezinir
     const photoBtn = e.target.closest('[data-photo-index]');
     if (photoBtn) {
-      openLightbox(allPhotos(), Number(photoBtn.dataset.photoIndex));
+      openLightbox(visiblePhotos(), Number(photoBtn.dataset.photoIndex));
       return;
     }
 
@@ -260,7 +260,7 @@ function initDelegation() {
       return;
     }
 
-    if (handleProjectsClick(e) || handleBlogClick(e)) redraw();
+    if (handleProjectsClick(e) || handleBlogClick(e) || handlePhotosClick(e)) redraw();
   });
 
   // Form gönderimi — sayfa yenilenmesini engelleyip doğrulamayı biz yapıyoruz

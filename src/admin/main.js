@@ -32,14 +32,20 @@ const view = () => document.getElementById('view');
    ============================================ */
 let toastTimer;
 
-function toast(message, { error = false, sticky = false } = {}) {
+let toastAction = null;
+
+function toast(message, { error = false, sticky = false, action = null } = {}) {
   const box = document.getElementById('toast');
-  box.textContent = message;
+  box.innerHTML = `<span>${esc(message)}</span>${action
+    ? `<button type="button" class="atoast__action" data-toast-action>${esc(action.label)}</button>` : ''}`;
   box.classList.toggle('is-error', error);
   box.hidden = false;
+  toastAction = action;
 
   clearTimeout(toastTimer);
-  if (!sticky) toastTimer = setTimeout(() => { box.hidden = true; }, error ? 6000 : 2600);
+  if (!sticky) {
+    toastTimer = setTimeout(() => { box.hidden = true; }, action ? 8000 : (error ? 6000 : 2600));
+  }
 }
 
 /* ============================================
@@ -228,10 +234,14 @@ async function publishNow() {
    ============================================ */
 function renderList(key, def) {
   const entries = [...entriesOf(key)].sort((a, b) => def.sort(a.data, b.data));
+  const gaps = new Map(findGaps(state.content).map((record) => [
+    record.href, record.items.filter((item) => item.level !== 'bilgi').length,
+  ]));
 
   const rows = entries.map((entry, i) => {
     const doc = entry.data;
     const thumb = def.thumb?.(doc);
+    const missing = gaps.get(`#/${def.route}/${doc.slug}`) ?? 0;
 
     return `
       <div class="arow">
@@ -243,7 +253,7 @@ function renderList(key, def) {
             </span>` : ''}
           <span class="arow__text">
             <span class="arow__title">${esc(def.title(doc) || doc.slug)}</span>
-            <span class="meta">${esc(def.meta(doc))}${doc.draft ? ' · <b class="arow__draft">Taslak</b>' : ''}</span>
+            <span class="meta">${esc(def.meta(doc))}${doc.draft ? ' · <b class="arow__draft">Taslak</b>' : ''}${missing ? ` · ${missing} eksik` : ''}</span>
           </span>
         </a>
         <div class="arow__tools">
@@ -396,6 +406,7 @@ function updateStatus() {
   const dirty = isDirty();
   status.textContent = dirty ? 'Kaydedilmemiş değişiklik' : (state.editor.isNew ? '' : 'Kayıtlı');
   status.classList.toggle('is-dirty', dirty);
+  document.title = `${dirty ? '● ' : ''}Yönetim — Görkem Sırmalı`;
 }
 
 function showErrors(errors) {
@@ -433,6 +444,8 @@ function showErrors(errors) {
 async function save() {
   const editor = state.editor;
   const { def, doc, kind, key } = editor;
+
+  def.normalize?.(doc);
 
   const errors = validate(def.fields, doc);
   if (kind === 'collection' && editor.isNew && doc.slug
@@ -618,6 +631,12 @@ function onInput(e) {
 }
 
 function onChange(e) {
+  const input = e.target.closest('[data-path]');
+  if (input && state.editor) {
+    const field = fieldAt(state.editor.def.fields, input.dataset.path.replace(/\.(tr|en)$/, ''));
+    if (field?.refresh) renderFormBody();
+  }
+
   const single = e.target.closest('[data-upload]');
   if (single) {
     const file = single.files[0];
@@ -664,9 +683,31 @@ function onClick(e) {
   const { def, doc } = state.editor;
 
   if ((el = hit('[data-add]'))) {
-    getPath(doc, el.dataset.add).push(blankItem(fieldAt(def.fields, el.dataset.add)));
+    const path = el.dataset.add;
+    getPath(doc, path).push(blankItem(fieldAt(def.fields, path)));
+    renderFormBody();
+    // Yeni satırın ilk kutusuna geç
+    const rows = document.querySelectorAll(`[data-add="${path}"]`)[0]
+      ?.closest('.alist')?.querySelectorAll(':scope > .alist__row');
+    rows?.[rows.length - 1]?.querySelector('input:not([type=file]), textarea, select')?.focus();
+    return undefined;
   } else if ((el = hit('[data-remove]'))) {
-    getPath(doc, el.dataset.remove).splice(Number(el.dataset.index), 1);
+    const path = el.dataset.remove;
+    const index = Number(el.dataset.index);
+    const [removed] = getPath(doc, path).splice(index, 1);
+    const editor = state.editor;
+    renderFormBody();
+    toast('Satır silindi.', {
+      action: {
+        label: 'Geri al',
+        run: () => {
+          if (state.editor !== editor) return;
+          getPath(doc, path).splice(index, 0, removed);
+          renderFormBody();
+        },
+      },
+    });
+    return undefined;
   } else if ((el = hit('[data-move]'))) {
     const list = getPath(doc, el.dataset.move);
     const i = Number(el.dataset.index);
@@ -736,6 +777,13 @@ async function init() {
   app.addEventListener('change', onChange);
   app.addEventListener('click', onClick);
   app.addEventListener('submit', (e) => e.preventDefault());
+
+  document.getElementById('toast').addEventListener('click', (e) => {
+    if (!e.target.closest('[data-toast-action]')) return;
+    const action = toastAction;
+    document.getElementById('toast').hidden = true;
+    action?.run();
+  });
 
   // Bölüm aç/kapa durumu, form yeniden çizilince kaybolmasın
   // (toggle olayı yukarı çıkmaz; yakalama aşamasında dinlenir)

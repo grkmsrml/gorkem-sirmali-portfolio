@@ -6,6 +6,7 @@
 
 import { t, pick } from '../i18n.js';
 import { md } from '../markdown.js';
+import { imageFrom } from '../data/images.js';
 import {
   profile, education, coursework, experience, involvement,
   leadership, software, languages, competencies,
@@ -13,6 +14,8 @@ import {
 
 function bioSection() {
   const paragraphs = md(pick(profile.bio));
+  const portrait = imageFrom(profile.photo);
+  const graduation = pick(profile.graduation);
 
   return `
     <section class="frame frame--split about__bio">
@@ -21,10 +24,14 @@ function bioSection() {
           <span class="overline">${t('about.title')}</span>
           <p class="about__intro">${pick(profile.intro)}</p>
         </div>
+        ${portrait ? `
+          <img class="about__portrait" src="${portrait.src}" alt="${profile.name}"
+               width="${portrait.width ?? ''}" height="${portrait.height ?? ''}" loading="lazy" />` : ''}
         <div class="about__identity">
           <h2 class="about__name">${profile.name}</h2>
           <p class="meta">${pick(profile.title)}</p>
           <p class="meta">${pick(profile.location)}</p>
+          ${graduation ? `<p class="meta">${t('about.graduation')}: ${graduation}</p>` : ''}
         </div>
       </div>
       <div class="cell">

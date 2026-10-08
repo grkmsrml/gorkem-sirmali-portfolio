@@ -846,3 +846,33 @@ select.field__control {
     display: none;
   }
 }
+
+/* Görselli satırda görsel solda kalır, diğer alanlar sağda alt alta dizilir */
+.alist__row--media .alist__body > .afield:first-child {
+  grid-row: span 4;
+}
+
+/* Bildirimdeki eylem (geri al) */
+.atoast {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+.atoast[hidden] {
+  display: none;
+}
+
+.atoast__action {
+  flex-shrink: 0;
+  padding: 2px 0;
+  border: 0;
+  border-bottom: var(--grid-line) solid currentColor;
+  background: none;
+  color: inherit;
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  cursor: pointer;
+}
