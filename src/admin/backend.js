@@ -2,13 +2,13 @@
    YÖNETİM PANELİ — KAYIT KATMANI
 
    Panelin geri kalanı içeriğin nereye yazıldığını bilmez; yalnız
-   buradaki beş işlevi çağırır. Şu an tek uygulama var:
+   buradaki işlevleri çağırır. Şu an tek uygulama var:
 
      yerel → `npm run dev` çalışırken scripts/admin-api.mjs üzerinden
              doğrudan depodaki dosyalara yazar.
 
    Yayındaki siteden düzenleme (GitHub'a commit) eklenirken yalnız
-   bu dosyaya aynı beş işlevin ikinci bir uygulaması yazılacak.
+   bu dosyaya aynı işlevlerin ikinci bir uygulaması yazılacak.
    ============================================ */
 
 async function request(path, options) {
@@ -53,5 +53,29 @@ export const backend = {
     const query = `dir=${encodeURIComponent(dir)}&name=${encodeURIComponent(file.name)}`;
     const result = await request(`upload?${query}`, { method: 'POST', body: file });
     return result.path;
+  },
+
+  /** Türkçe metinleri İngilizceye çevirir; sıra korunur. */
+  async translate(texts) {
+    const result = await request('translate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ texts }),
+    });
+    return result.texts;
+  },
+
+  /** Yayınlanmamışlar: { changes: [{status, path}], ahead } */
+  status() {
+    return request('status');
+  },
+
+  /** İçerik değişikliklerini commit edip gönderir. */
+  publish(message) {
+    return request('publish', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message }),
+    });
   },
 };

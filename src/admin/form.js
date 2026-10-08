@@ -83,7 +83,10 @@ function input(field, value, path, ctx) {
     case 'text':
       return `<textarea ${attrs} rows="3">${esc(value)}</textarea>`;
     case 'markdown':
-      return `<textarea class="field__control afield__md" data-path="${path}" rows="12">${esc(value)}</textarea>`;
+      return `
+        <textarea class="field__control afield__md" data-path="${path}" rows="12">${esc(value)}</textarea>
+        <button type="button" class="alink" data-preview="${path}">Önizle</button>
+        <div class="apreview prose" data-preview-for="${path}" hidden></div>`;
     case 'number':
       return `<input ${attrs} type="number" data-kind="number" value="${esc(value)}" />`;
     case 'date':
@@ -143,6 +146,9 @@ function control(field, value, path, ctx) {
           <div class="afield__lang">
             <span class="afield__tag meta">${lang.toUpperCase()}</span>
             ${input(field, value?.[lang], `${path}.${lang}`, ctx)}
+            ${lang === 'en' ? `
+              <button type="button" class="alink alink--translate" data-translate="${path}"
+                      title="Türkçe metni İngilizceye çevirip bu kutuya yazar">Türkçeden çevir</button>` : ''}
           </div>
         `).join('')}
       </div>`;
@@ -157,7 +163,8 @@ function listField(field, value, path, ctx) {
     const isMedia = field.item.fields?.some((f) => f.type === 'image');
     const body = field.item.fields
       ? field.item.fields.map((f) => renderField(f, item?.[f.name], `${itemPath}.${f.name}`, ctx)).join('')
-      : control(field.item, item, itemPath, ctx);
+      : `${control(field.item, item, itemPath, ctx)}
+         <p class="field__error" data-error="${itemPath}" hidden></p>`;
 
     const isCover = field.coverAction && item?.image && ctx.doc.cover === item.image;
     const coverButton = field.coverAction && item?.image
@@ -167,7 +174,7 @@ function listField(field, value, path, ctx) {
       : '';
 
     return `
-      <div class="alist__row${isMedia ? ' alist__row--media' : ''}">
+      <div class="alist__row${isMedia ? ' alist__row--media' : ''}${field.item.fields ? '' : ' alist__row--simple'}">
         <div class="alist__tools">
           <span class="alist__index meta">${String(i + 1).padStart(2, '0')}</span>
           <button type="button" class="aicon" data-move="${path}" data-index="${i}" data-dir="-1"
@@ -184,14 +191,15 @@ function listField(field, value, path, ctx) {
   }).join('');
 
   return `
-    <div class="alist">
+    <div class="alist"${field.bulk ? ` data-drop="${path}"` : ''}>
       ${rows || '<p class="alist__empty meta">Henüz kayıt yok.</p>'}
       <div class="alist__foot">
         ${field.bulk ? `
           <label class="abtn abtn--solid">
             Görselleri yükle
             <input type="file" hidden multiple data-bulk="${path}" accept="image/jpeg,image/png,image/webp" />
-          </label>` : ''}
+          </label>
+          <span class="alist__drop meta">ya da dosyaları buraya sürükle</span>` : ''}
         <button type="button" class="abtn" data-add="${path}">${esc(field.addLabel ?? 'Ekle')}</button>
       </div>
     </div>
@@ -201,33 +209,34 @@ function listField(field, value, path, ctx) {
 /** Tek bir alanı etiketi ve açıklamasıyla çizer. */
 export function renderField(field, value, path, ctx) {
   const hint = field.hint ? `<p class="afield__hint">${esc(field.hint)}</p>` : '';
+
+  // Uzun formlarda (Kişisel) en üst düzey bölümler açılır-kapanır
+  const collapsible = ctx.collapsible && !path.includes('.')
+    && ['group', 'object', 'list'].includes(field.type);
+  const section = (title, body) => (collapsible
+    ? `<details class="agroup agroup--fold" data-section="${path}"${ctx.open?.has(path) ? ' open' : ''}>
+         <summary class="agroup__title">${title}</summary>${body}
+       </details>`
+    : `<fieldset class="agroup"><legend class="agroup__title">${title}</legend>${body}</fieldset>`);
   const optional = field.required === false || field.type === 'boolean' || field.type === 'list';
 
   if (field.type === 'group' || field.type === 'object') {
     const base = field.type === 'object' ? `${path}.` : path.replace(/[^.]*$/, '');
     const source = field.type === 'object' ? value : getPath(ctx.doc, base.slice(0, -1)) ?? ctx.doc;
 
-    return `
-      <fieldset class="agroup">
-        <legend class="agroup__title">${esc(field.label)}</legend>
-        ${hint}
-        <div class="agroup__grid">
-          ${field.fields.map((f) => renderField(f, source?.[f.name], `${base}${f.name}`, ctx)).join('')}
-        </div>
-      </fieldset>
-    `;
+    return section(esc(field.label), `
+      ${hint}
+      <div class="agroup__grid">
+        ${field.fields.map((f) => renderField(f, source?.[f.name], `${base}${f.name}`, ctx)).join('')}
+      </div>
+    `);
   }
 
   if (field.type === 'list') {
-    return `
-      <fieldset class="agroup">
-        <legend class="agroup__title">${esc(field.label)}
-          <span class="agroup__count meta">${(value ?? []).length}</span>
-        </legend>
-        ${hint}
-        ${listField(field, value, path, ctx)}
-      </fieldset>
-    `;
+    return section(
+      `${esc(field.label)} <span class="agroup__count meta">${(value ?? []).length}</span>`,
+      `${hint}${listField(field, value, path, ctx)}`,
+    );
   }
 
   const wide = field.i18n || ['text', 'markdown', 'image', 'file'].includes(field.type);
@@ -245,6 +254,40 @@ export function renderField(field, value, path, ctx) {
 
 export function renderForm(fields, doc, ctx) {
   return fields.map((f) => renderField(f, doc[f.name], f.name, { ...ctx, doc })).join('');
+}
+
+/**
+ * Belgedeki tüm iki dilli alanları yollarıyla listeler.
+ * Toplu çeviri ve "İngilizcesi eksik" sayımı bunu kullanır.
+ * @returns {{path: string, tr: string, en: string, label: string}[]}
+ */
+export function i18nPaths(fields, doc, base = '') {
+  const out = [];
+  const add = (path, value, label) => out.push({
+    path, label, tr: String(value?.tr ?? '').trim(), en: String(value?.en ?? '').trim(),
+  });
+
+  for (const field of fields) {
+    if (field.type === 'group') {
+      out.push(...i18nPaths(field.fields, doc, base));
+      continue;
+    }
+
+    const path = `${base}${field.name}`;
+    const value = doc?.[field.name];
+
+    if (field.type === 'object') {
+      out.push(...i18nPaths(field.fields, value ?? {}, `${path}.`));
+    } else if (field.type === 'list') {
+      (value ?? []).forEach((item, i) => {
+        if (field.item.fields) out.push(...i18nPaths(field.item.fields, item, `${path}.${i}.`));
+        else if (field.item.i18n) add(`${path}.${i}`, item, field.label);
+      });
+    } else if (field.i18n) {
+      add(path, value, field.label);
+    }
+  }
+  return out;
 }
 
 /* --- Doğrulama --- */

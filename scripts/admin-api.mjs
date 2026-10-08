@@ -10,6 +10,9 @@
      PUT    /__admin/entry     { path, data } → content/**.json yazar
      DELETE /__admin/entry     ?path=         → content/**.json siler
      POST   /__admin/upload    ?dir=&name=    → görseli dönüştürüp kaydeder
+     POST   /__admin/translate { texts }      → Türkçeden İngilizceye çevirir
+     GET    /__admin/status    yayınlanmamış içerik değişiklikleri
+     POST   /__admin/publish   { message }    → commit + push
 
    Güvenlik: yalnız bu bilgisayardan gelen istekler kabul edilir
    (dev:host ile ağa açılsa bile) ve yazılabilecek yerler
@@ -20,6 +23,8 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { convertImage, writeManifest, RASTER } from './lib/images.mjs';
+import { translateAll } from './lib/translate.mjs';
+import { publish, publishStatus } from './lib/publish.mjs';
 
 const MAX_UPLOAD = 80 * 1024 * 1024;
 const posix = (p) => p.replace(/\\/g, '/');
@@ -148,6 +153,19 @@ export function adminApi() {
 
       return { ok: true, path: `/${dir}/${name}${finalExt}` };
     },
+  };
+
+  handlers['POST /translate'] = async (req) => {
+    const { texts } = JSON.parse((await readBody(req)).toString('utf8'));
+    if (!Array.isArray(texts)) throw new HttpError(400, 'Eksik istek.');
+    return { texts: await translateAll(texts, 'tr', 'en') };
+  };
+
+  handlers['GET /status'] = () => publishStatus(root);
+
+  handlers['POST /publish'] = async (req) => {
+    const { message } = JSON.parse((await readBody(req)).toString('utf8') || '{}');
+    return { ok: true, ...await publish(root, message) };
   };
 
   return {

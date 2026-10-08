@@ -71,6 +71,7 @@ export const collections = {
           { name: 'team', label: 'Ekip', type: 'string', required: false, hint: 'Grup çalışmasıysa diğer isimler, virgülle. Tek başına yaptıysan boş bırak.' },
           { name: 'video', label: 'Video adresi', type: 'string', required: false },
           { name: 'featured', label: 'Ana sayfada göster', type: 'boolean' },
+          { name: 'draft', label: 'Taslak — yayındaki sitede gösterme', type: 'boolean' },
         ],
       },
       {
@@ -115,6 +116,7 @@ export const collections = {
         fields: [
           { name: 'category', label: 'Kategori', type: 'select', options: options(blogCategories) },
           { name: 'date', label: 'Tarih', type: 'date' },
+          { name: 'draft', label: 'Taslak — yayındaki sitede gösterme', type: 'boolean' },
         ],
       },
       { name: 'excerpt', label: 'Özet', type: 'text', i18n: true, hint: 'Yazı listesinde görünen bir-iki cümle.' },
@@ -148,6 +150,7 @@ export const singles = {
     path: 'content/personal.json',
     siteUrl: () => '/#/hakkimda',
     uploadDir: () => 'cv',
+    collapsible: true,
     fields: [
       {
         name: 'profile', label: 'Profil', type: 'object',

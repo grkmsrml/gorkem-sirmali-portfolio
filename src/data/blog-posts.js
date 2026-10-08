@@ -12,12 +12,15 @@ export { blogCategories };
 
 const files = import.meta.glob('/content/blog/*.json', { eager: true, import: 'default' });
 
-export const posts = Object.values(files).map((raw) => ({
-  ...raw,
-  // Panel tarihi saatle birlikte yazabilir; yalnız gün kısmı gerekli
-  date: String(raw.date).slice(0, 10),
-  readingTime: readingTime(raw.body?.tr),
-}));
+// Taslaklar yalnız geliştirme sunucusunda görünür (önizleme için)
+export const posts = Object.values(files)
+  .filter((raw) => import.meta.env.DEV || !raw.draft)
+  .map((raw) => ({
+    ...raw,
+    // Panel tarihi saatle birlikte yazabilir; yalnız gün kısmı gerekli
+    date: String(raw.date).slice(0, 10),
+    readingTime: readingTime(raw.body?.tr),
+  }));
 
 /** Yalnız en az bir yazısı olan kategoriler (+ "Tümü"). */
 export function usedBlogCategories() {

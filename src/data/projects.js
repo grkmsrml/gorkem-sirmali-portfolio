@@ -34,7 +34,10 @@ function toProject(raw) {
 }
 
 /** Sıra: içerik dosyasındaki `order` alanı (küçük olan önce). */
+// Taslaklar yalnız geliştirme sunucusunda görünür (önizleme için);
+// yayındaki siteye girmez.
 export const projects = Object.values(files)
+  .filter((raw) => import.meta.env.DEV || !raw.draft)
   .map(toProject)
   .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 
