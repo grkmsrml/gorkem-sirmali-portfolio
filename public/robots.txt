@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://roaring-zabaione-191619.netlify.app/sitemap.xml
+Sitemap: https://gorkemsirmali.netlify.app/sitemap.xml
