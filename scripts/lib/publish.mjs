@@ -45,6 +45,18 @@ export async function publishStatus(root) {
   return { changes, ahead };
 }
 
+/** İçeriğe dokunan son commit'ler (panelin "son yayınlar" listesi). */
+export async function history(root, count = 10) {
+  const raw = await git(root, [
+    'log', `-${count}`, '--date=format:%d.%m.%Y %H:%M', '--format=%h%x09%ad%x09%s', '--', ...contentPaths(root),
+  ]).catch(() => '');
+
+  return raw.split('\n').filter(Boolean).map((line) => {
+    const [hash, date, ...subject] = line.split('\t');
+    return { hash, date, subject: subject.join('\t') };
+  });
+}
+
 export async function publish(root, message) {
   const { changes } = await publishStatus(root);
   let committed = false;

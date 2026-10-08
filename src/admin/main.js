@@ -13,7 +13,7 @@ import {
   esc, getPath, setPath, thumbOf, blankDoc, blankItem, fieldAt,
   renderForm, validate, slugify,
 } from './form.js';
-import { findGaps, countGaps, missingEnglish } from './overview.js';
+import { findGaps, countGaps, missingEnglish, translationStatus } from './overview.js';
 import { md } from '../markdown.js';
 
 const clone = (value) => JSON.parse(JSON.stringify(value));
@@ -88,7 +88,15 @@ function renderNav() {
       <span>${esc(item.label)}</span>
       ${item.count != null ? `<span class="meta">${item.count}</span>` : ''}
     </a>
-  `).join('');
+  `).join('') + `
+    <a href="#/medya" class="anav__link anav__link--tool${path === '/medya' ? ' is-active' : ''}">
+      <span>Medya</span>
+    </a>
+    <a href="#/cop" class="anav__link anav__link--tool${path === '/cop' ? ' is-active' : ''}">
+      <span>Çöp kutusu</span>
+      ${state.content.trash.length ? `<span class="meta">${state.content.trash.length}</span>` : ''}
+    </a>
+  `;
 }
 
 function route() {
@@ -99,6 +107,8 @@ function route() {
   renderNav();
 
   if (!section) return renderOverview();
+  if (section === 'medya') return guarded(renderMedia);
+  if (section === 'cop') return renderTrash();
 
   const collection = Object.entries(collections).find(([, def]) => def.route === section);
   if (collection) {
@@ -170,7 +180,173 @@ function renderOverview() {
         ${list || '<p class="alist__empty meta">Tamamlanacak bir şey görünmüyor.</p>'}
       </div>
     </section>
+
+    <div class="asplit">
+      <section class="asection">
+        <div class="asection__head"><h2 class="asection__title">Çeviri durumu</h2></div>
+        <div class="abars">
+          ${translationStatus(state.content).map((row) => {
+            const percent = row.total ? Math.round((row.done / row.total) * 100) : 100;
+            return `
+              <div class="abar-row">
+                <span>${esc(row.label)}</span>
+                <span class="abar-row__track"><span class="abar-row__fill" style="width:${percent}%"></span></span>
+                <span class="meta">${row.done} / ${row.total}</span>
+              </div>`;
+          }).join('')}
+        </div>
+        <p class="afield__hint">Türkçesi yazılmış alanlardan kaçının İngilizcesi var.</p>
+      </section>
+
+      <section class="asection">
+        <div class="asection__head"><h2 class="asection__title">Son yayınlar</h2></div>
+        <ul class="ahistory" id="history" role="list"><li class="meta">Yükleniyor…</li></ul>
+      </section>
+    </div>
   `;
+
+  backend.history().then((items) => {
+    const box = document.getElementById('history');
+    if (!box) return;
+    box.innerHTML = items.length
+      ? items.map((item) => `
+          <li class="ahistory__item">
+            <span class="meta">${esc(item.date)}</span>
+            <span>${esc(item.subject)}</span>
+          </li>`).join('')
+      : '<li class="meta">Henüz yayın yok.</li>';
+  }).catch(() => {
+    const box = document.getElementById('history');
+    if (box) box.innerHTML = '<li class="meta">Geçmiş okunamadı.</li>';
+  });
+}
+
+/* ============================================
+   MEDYA — yüklü görseller, kullanılmayanları temizleme
+   ============================================ */
+const media = { items: [], unusedOnly: false };
+
+const megabytes = (bytes) => `${(bytes / 1024 / 1024).toFixed(1)} MB`;
+
+async function renderMedia() {
+  media.items = await backend.media();
+  drawMedia();
+}
+
+function drawMedia() {
+  const unused = media.items.filter((item) => !item.used);
+  const shown = media.unusedOnly ? unused : media.items;
+  const total = media.items.reduce((sum, item) => sum + item.size, 0);
+  const wasted = unused.reduce((sum, item) => sum + item.size, 0);
+
+  view().innerHTML = `
+    <header class="ahead">
+      <div>
+        <span class="overline">Yönetim</span>
+        <h1 class="ahead__title">Medya</h1>
+      </div>
+      <div class="ahead__tools">
+        <button type="button" class="abtn${media.unusedOnly ? ' abtn--solid' : ''}" data-media-filter>
+          Yalnız kullanılmayanlar (${unused.length})
+        </button>
+        ${unused.length ? `<button type="button" class="abtn abtn--danger" data-media-purge>Kullanılmayanları sil</button>` : ''}
+      </div>
+    </header>
+    <p class="afield__hint">
+      ${media.items.length} görsel, ${megabytes(total)}.
+      ${unused.length ? `${unused.length} tanesi hiçbir kayıtta kullanılmıyor (${megabytes(wasted)}).` : 'Hepsi kullanılıyor.'}
+      Her görselin üç boyutu birlikte sayılır ve birlikte silinir.
+    </p>
+    <div class="amedia-grid">
+      ${shown.map((item) => `
+        <figure class="amedia-card${item.used ? '' : ' is-unused'}">
+          <img src="${esc(thumbOf(item.path))}" alt="" loading="lazy"
+               onerror="this.onerror=null;this.src='${esc(item.path)}'" />
+          <figcaption>
+            <code class="amedia__path">${esc(item.path.replace(/^\/images\//, ''))}</code>
+            <span class="meta">${megabytes(item.size)}${item.used ? '' : ' · kullanılmıyor'}</span>
+            ${item.used ? '' : `<button type="button" class="alink" data-media-delete="${esc(item.path)}">Sil</button>`}
+          </figcaption>
+        </figure>
+      `).join('') || '<p class="alist__empty meta">Gösterilecek görsel yok.</p>'}
+    </div>
+  `;
+}
+
+async function deleteMedia(paths) {
+  const label = paths.length === 1 ? `"${paths[0]}"` : `${paths.length} kullanılmayan görsel`;
+  if (!window.confirm(`${label} diskten silinsin mi?\n\nBu işlem geri alınamaz.`)) return;
+
+  for (const [i, path] of paths.entries()) {
+    if (paths.length > 1) toast(`Siliniyor ${i + 1} / ${paths.length}`, { sticky: true });
+    await backend.removeMedia(path);
+  }
+  toast(paths.length === 1 ? 'Görsel silindi.' : `${paths.length} görsel silindi.`);
+  refreshPublish();
+  await renderMedia();
+}
+
+/* ============================================
+   ÇÖP KUTUSU
+   ============================================ */
+function trashKind(path) {
+  return Object.entries(collections).find(([, def]) => path.includes(`/${def.dir.split('/').pop()}/`));
+}
+
+function renderTrash() {
+  const rows = state.content.trash.map((entry) => {
+    const [, def] = trashKind(entry.path) ?? [null, null];
+    return `
+      <div class="arow">
+        <div class="arow__main">
+          <span class="arow__text">
+            <span class="arow__title">${esc(def?.title(entry.data) || entry.data.slug)}</span>
+            <span class="meta">${esc(def?.singular ?? 'Kayıt')} · ${esc(entry.data.slug)}</span>
+          </span>
+        </div>
+        <div class="arow__tools">
+          <button type="button" class="abtn" data-trash-restore="${esc(entry.path)}">Geri yükle</button>
+          <button type="button" class="abtn abtn--danger" data-trash-delete="${esc(entry.path)}">Kalıcı sil</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  view().innerHTML = `
+    <header class="ahead">
+      <div>
+        <span class="overline">Yönetim</span>
+        <h1 class="ahead__title">Çöp kutusu</h1>
+      </div>
+    </header>
+    <div class="arows">
+      ${rows || '<p class="alist__empty meta">Çöp kutusu boş.</p>'}
+    </div>
+    <p class="afield__hint">Silinen proje ve yazılar burada bekler; görselleri yerinde durur. Kalıcı silinen kayıt geri getirilemez.</p>
+  `;
+}
+
+async function restoreTrash(path) {
+  const entry = state.content.trash.find((e) => e.path === path);
+  const [key, def] = trashKind(path);
+  const restored = await backend.restore(path);
+
+  state.content.trash = state.content.trash.filter((e) => e.path !== path);
+  entriesOf(key).push({ path: restored, data: entry.data });
+  toast('Geri yüklendi.');
+  refreshPublish();
+  go(`/${def.route}/${entry.data.slug}`);
+}
+
+async function purgeTrash(path) {
+  const entry = state.content.trash.find((e) => e.path === path);
+  if (!window.confirm(`"${entry.data.title?.tr || entry.data.slug}" kalıcı olarak silinsin mi?\n\nBu işlem geri alınamaz.`)) return;
+
+  await backend.remove(path);
+  state.content.trash = state.content.trash.filter((e) => e.path !== path);
+  toast('Kalıcı olarak silindi.');
+  refreshPublish();
+  route();
 }
 
 /* ============================================
@@ -253,7 +429,7 @@ function renderList(key, def) {
             </span>` : ''}
           <span class="arow__text">
             <span class="arow__title">${esc(def.title(doc) || doc.slug)}</span>
-            <span class="meta">${esc(def.meta(doc))}${doc.draft ? ' · <b class="arow__draft">Taslak</b>' : ''}${missing ? ` · ${missing} eksik` : ''}</span>
+            <span class="meta">${esc(def.meta(doc, state.content))}${doc.draft ? ' · <b class="arow__draft">Taslak</b>' : ''}${missing ? ` · ${missing} eksik` : ''}</span>
           </span>
         </a>
         <div class="arow__tools">
@@ -277,7 +453,11 @@ function renderList(key, def) {
         <span class="overline">Yönetim</span>
         <h1 class="ahead__title">${esc(def.label)}</h1>
       </div>
-      <a href="#/${def.route}/yeni" class="abtn abtn--solid">+ Yeni ${esc(def.singular.toLowerCase())}</a>
+      <div class="ahead__tools">
+        <input type="search" class="field__control asearch" data-list-search
+               placeholder="Ara…" aria-label="${esc(def.label)} içinde ara" />
+        <a href="#/${def.route}/yeni" class="abtn abtn--solid">+ Yeni ${esc(def.singular.toLowerCase())}</a>
+      </div>
     </header>
     <div class="arows">
       ${rows || '<p class="alist__empty meta">Henüz kayıt yok.</p>'}
@@ -333,7 +513,7 @@ function openEntry(key, def, slug) {
   }
 
   const doc = isNew
-    ? { ...blankDoc(def.fields), ...def.defaults(entriesOf(key).map((e) => e.data)) }
+    ? { ...blankDoc(def.fields), ...def.defaults(entriesOf(key).map((e) => e.data), state.content) }
     : { ...blankDoc(def.fields), ...clone(entry.data) };
 
   state.editor = {
@@ -381,10 +561,76 @@ function renderEditor() {
         <button type="button" class="abtn abtn--solid" data-save>Kaydet</button>
       </div>
     </div>
+    <div id="draft-notice"></div>
     <form class="aform" id="form" novalidate autocomplete="off"></form>
   `;
 
   renderFormBody();
+  offerDraft();
+}
+
+/* --- Otomatik taslak ---
+   Kaydedilmemiş form her değişiklikte tarayıcıya yazılır; sekme
+   kapanır ya da elektrik giderse kayıt yeniden açıldığında önerilir. */
+let draftTimer;
+
+function draftKey(editor = state.editor) {
+  return `panel-taslak:${editor.path ?? `${editor.key}:yeni`}`;
+}
+
+function scheduleDraft() {
+  clearTimeout(draftTimer);
+  const editor = state.editor;
+  draftTimer = setTimeout(() => {
+    if (state.editor !== editor) return;
+    try {
+      if (isDirty()) localStorage.setItem(draftKey(editor), JSON.stringify({ doc: editor.doc, at: Date.now() }));
+      else localStorage.removeItem(draftKey(editor));
+    } catch { /* depolama dolu ya da kapalı: taslak tutulmaz */ }
+  }, 600);
+}
+
+function clearDraft(key = draftKey()) {
+  clearTimeout(draftTimer);
+  localStorage.removeItem(key);
+}
+
+function offerDraft() {
+  const box = document.getElementById('draft-notice');
+  let draft = null;
+  try {
+    draft = JSON.parse(localStorage.getItem(draftKey()));
+  } catch { /* bozuk kayıt: yok say */ }
+
+  if (!draft?.doc || JSON.stringify(draft.doc) === state.editor.saved) {
+    box.innerHTML = '';
+    return;
+  }
+
+  const when = new Date(draft.at).toLocaleString('tr-TR', { dateStyle: 'medium', timeStyle: 'short' });
+  box.innerHTML = `
+    <div class="anotice">
+      <span>Kaydedilmemiş bir taslak bulundu (${esc(when)}).</span>
+      <span class="anotice__tools">
+        <button type="button" class="abtn abtn--solid" data-draft-restore>Geri yükle</button>
+        <button type="button" class="abtn" data-draft-discard>Sil</button>
+      </span>
+    </div>
+  `;
+  state.editor.draft = draft.doc;
+}
+
+function resolveDraft(restore) {
+  const editor = state.editor;
+  if (restore && editor.draft) {
+    editor.doc = editor.draft;
+    renderFormBody();
+    toast('Taslak geri yüklendi. Kaydetmeyi unutma.');
+  } else {
+    clearDraft();
+  }
+  editor.draft = null;
+  document.getElementById('draft-notice').innerHTML = '';
 }
 
 /** Formu belgeden yeniden çizer (liste ekleme/silme, görsel yükleme sonrası). */
@@ -393,7 +639,7 @@ function renderFormBody() {
   const scroll = window.scrollY;
 
   document.getElementById('form').innerHTML = renderForm(def.fields, doc, {
-    isNew, open, collapsible: def.collapsible,
+    isNew, open, collapsible: def.collapsible, content: state.content,
   });
   window.scrollTo(0, scroll);
   updateStatus();
@@ -407,6 +653,7 @@ function updateStatus() {
   status.textContent = dirty ? 'Kaydedilmemiş değişiklik' : (state.editor.isNew ? '' : 'Kayıtlı');
   status.classList.toggle('is-dirty', dirty);
   document.title = `${dirty ? '● ' : ''}Yönetim — Görkem Sırmalı`;
+  scheduleDraft();
 }
 
 function showErrors(errors) {
@@ -461,8 +708,10 @@ async function save() {
 
   const path = kind === 'single' ? def.path : (editor.path ?? `${def.dir}/${doc.slug}.json`);
   const data = clone(doc);
+  const staleDraft = draftKey(editor);
 
   await backend.save(path, data);
+  clearDraft(staleDraft);
 
   if (kind === 'single') {
     state.content[key] = data;
@@ -487,12 +736,15 @@ async function save() {
 async function removeEntry() {
   const { def, key, path, doc } = state.editor;
   const name = def.title(doc) || doc.slug;
-  if (!window.confirm(`"${name}" silinsin mi?\n\nKayıt silinir; yüklenmiş görseller diskte kalır.`)) return;
+  if (!window.confirm(`"${name}" çöp kutusuna taşınsın mı?\n\nSiteden kalkar; çöp kutusundan geri yüklenebilir.`)) return;
 
-  await backend.remove(path);
+  const { trashed } = await backend.remove(path);
+  const entry = entriesOf(key).find((e) => e.path === path);
   state.content[key] = entriesOf(key).filter((e) => e.path !== path);
+  if (trashed) state.content.trash.push({ path: trashed, data: entry.data });
   state.editor.saved = JSON.stringify(state.editor.doc);
-  toast('Silindi.');
+  clearDraft();
+  toast('Çöp kutusuna taşındı.');
   refreshPublish();
   go(`/${def.route}`);
 }
@@ -500,17 +752,17 @@ async function removeEntry() {
 /* --- Yükleme --- */
 
 /** Yükleme klasörü kaydın adresine bağlı; adres yoksa yüklemeyi durdurur. */
-function uploadDir() {
+function uploadDir(file) {
   const { def, doc, kind } = state.editor;
   if (kind === 'collection' && !/^[a-z0-9]+(-[a-z0-9]+)*$/.test(doc.slug ?? '')) {
     toast('Önce başlığı yaz: görseller kaydın adresiyle adlandırılan klasöre gider.', { error: true });
     return null;
   }
-  return def.uploadDir(doc);
+  return def.uploadDir(doc, file);
 }
 
 async function uploadSingle(path, file) {
-  const dir = uploadDir();
+  const dir = uploadDir(file);
   if (!dir || !file) return;
 
   toast(`Yükleniyor: ${file.name}`, { sticky: true });
@@ -520,7 +772,7 @@ async function uploadSingle(path, file) {
 }
 
 async function uploadBulk(path, files) {
-  const dir = uploadDir();
+  const dir = uploadDir(files[0]);
   if (!dir || !files.length) return;
 
   const { def, doc } = state.editor;
@@ -579,6 +831,37 @@ async function translateMissing() {
   toast(`${missing.length} alan çevrildi. Kaydetmeden önce gözden geçir.`);
 }
 
+/** Markdown araç çubuğu: seçili metni sarar ya da satır başına işaret koyar. */
+function applyMarkdown(kind, path) {
+  const area = document.querySelector(`textarea[data-path="${path}"]`);
+  if (!area) return;
+
+  const { selectionStart: start, selectionEnd: end, value } = area;
+  const selected = value.slice(start, end);
+  let from = start;
+  let to = end;
+  let insert;
+
+  if (kind === 'bold' || kind === 'italic') {
+    const mark = kind === 'bold' ? '**' : '*';
+    insert = `${mark}${selected || 'metin'}${mark}`;
+  } else if (kind === 'link') {
+    insert = `[${selected || 'bağlantı metni'}](https://)`;
+  } else {
+    // Satır işaretleri: seçimi satır başlarına genişlet
+    const prefix = { heading: '## ', quote: '> ', list: '- ' }[kind];
+    from = value.lastIndexOf('\n', start - 1) + 1;
+    const lineEnd = value.indexOf('\n', end);
+    to = lineEnd === -1 ? value.length : lineEnd;
+    insert = (value.slice(from, to) || 'metin').split('\n').map((line) => `${prefix}${line}`).join('\n');
+  }
+
+  area.value = value.slice(0, from) + insert + value.slice(to);
+  area.focus();
+  area.setSelectionRange(from, from + insert.length);
+  area.dispatchEvent(new Event('input', { bubbles: true }));
+}
+
 function togglePreview(path) {
   const box = document.querySelector(`[data-preview-for="${path}"]`);
   if (!box) return;
@@ -599,6 +882,15 @@ function guarded(task) {
 }
 
 function onInput(e) {
+  // Liste ekranındaki arama: satırları yeniden çizmeden gizler
+  if (e.target.matches('[data-list-search]')) {
+    const query = e.target.value.trim().toLocaleLowerCase('tr');
+    document.querySelectorAll('.arow').forEach((row) => {
+      row.hidden = Boolean(query) && !row.textContent.toLocaleLowerCase('tr').includes(query);
+    });
+    return;
+  }
+
   const el = e.target.closest('[data-path]');
   if (!el || !state.editor) return;
 
@@ -666,6 +958,31 @@ function onClick(e) {
   }
 
   if ((el = hit('[data-preview]'))) return togglePreview(el.dataset.preview);
+  if ((el = hit('[data-md]'))) return applyMarkdown(el.dataset.md, el.dataset.for);
+
+  if (hit('[data-draft-restore]')) return resolveDraft(true);
+  if (hit('[data-draft-discard]')) return resolveDraft(false);
+
+  if (hit('[data-media-filter]')) {
+    media.unusedOnly = !media.unusedOnly;
+    return drawMedia();
+  }
+  if (hit('[data-media-purge]')) {
+    return guarded(() => deleteMedia(media.items.filter((item) => !item.used).map((item) => item.path)));
+  }
+  if ((el = hit('[data-media-delete]'))) {
+    const path = el.dataset.mediaDelete;
+    return guarded(() => deleteMedia([path]));
+  }
+
+  if ((el = hit('[data-trash-restore]'))) {
+    const path = el.dataset.trashRestore;
+    return guarded(() => restoreTrash(path));
+  }
+  if ((el = hit('[data-trash-delete]'))) {
+    const path = el.dataset.trashDelete;
+    return guarded(() => purgeTrash(path));
+  }
 
   if ((el = hit('[data-feature]'))) {
     const path = el.dataset.feature;

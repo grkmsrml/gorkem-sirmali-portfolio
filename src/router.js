@@ -21,7 +21,7 @@ const routes = [
   {
     pattern: /^\/$/,
     render: () => renderHome(),
-    title: () => 'Görkem Sırmalı — Mimarlık Portfolyo',
+    title: () => t('site.title'),
   },
   {
     pattern: /^\/projeler$/,

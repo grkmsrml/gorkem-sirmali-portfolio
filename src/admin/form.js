@@ -88,6 +88,18 @@ function input(field, value, path, ctx) {
       return `<textarea ${attrs} rows="3">${esc(value)}</textarea>`;
     case 'markdown':
       return `
+        <div class="amd" role="toolbar" aria-label="Biçim">
+          ${[
+            ['bold', '<b>K</b>', 'Kalın'],
+            ['italic', '<i>İ</i>', 'İtalik'],
+            ['heading', 'Başlık', 'Ara başlık'],
+            ['quote', 'Alıntı', 'Alıntı'],
+            ['list', 'Liste', 'Madde listesi'],
+            ['link', 'Bağlantı', 'Bağlantı'],
+          ].map(([kind, label, title]) => `
+            <button type="button" class="amd__btn" data-md="${kind}" data-for="${path}" title="${title}">${label}</button>
+          `).join('')}
+        </div>
         <textarea class="field__control afield__md" data-path="${path}" rows="12">${esc(value)}</textarea>
         <button type="button" class="alink" data-preview="${path}">Önizle</button>
         <div class="apreview prose" data-preview-for="${path}" hidden></div>`;
@@ -96,7 +108,7 @@ function input(field, value, path, ctx) {
     case 'date':
       return `<input ${attrs} type="date" value="${esc(String(value ?? '').slice(0, 10))}" />`;
     case 'select': {
-      const options = typeof field.options === 'function' ? field.options(ctx.doc) : field.options;
+      const options = typeof field.options === 'function' ? field.options(ctx.doc, ctx.content) : field.options;
       return `
         <select ${attrs}>
           ${field.required === false ? `<option value=""${value ? '' : ' selected'}>—</option>` : ''}

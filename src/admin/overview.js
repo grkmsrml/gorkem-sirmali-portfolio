@@ -107,17 +107,24 @@ export function findGaps(content) {
     records.push({ title, kind, href, items });
   };
 
+  // Site ayarları'ndan silinmiş bir kategoriyi gösteren kayıt sitede süzgeçlerde çıkmaz
+  const orphan = (key, id) => (id && !(content.site?.[key] ?? []).some((c) => c.id === id)
+    ? [{ level: 'hata', text: 'Kategorisi silinmiş; yeniden kategori seç.' }]
+    : []);
+
   for (const entry of content.projects) {
     const def = collections.projects;
     push(def.title(entry.data) || entry.data.slug, def.singular, `#/${def.route}/${entry.data.slug}`,
-      [...common(def, entry.data), ...projectGaps(entry.data)]);
+      [...orphan('projectCategories', entry.data.category), ...common(def, entry.data), ...projectGaps(entry.data)]);
   }
 
   for (const entry of content.blog) {
     const def = collections.blog;
     push(def.title(entry.data) || entry.data.slug, def.singular, `#/${def.route}/${entry.data.slug}`,
-      common(def, entry.data));
+      [...orphan('blogCategories', entry.data.category), ...common(def, entry.data)]);
   }
+
+  push(singles.site.label, 'Sayfa', `#/${singles.site.route}`, common(singles.site, content.site));
 
   push(singles.photos.label, 'Sayfa', `#/${singles.photos.route}`,
     [...common(singles.photos, content.photos), ...photoGaps(content.photos)]);
@@ -135,4 +142,32 @@ export function countGaps(records) {
     for (const item of record.items) totals[item.level] = (totals[item.level] ?? 0) + 1;
   }
   return totals;
+}
+
+/**
+ * Bölüm bölüm çeviri durumu: Türkçesi yazılmış alanların kaçının
+ * İngilizcesi de var.
+ * @returns {{label: string, done: number, total: number}[]}
+ */
+export function translationStatus(content) {
+  const tally = (def, docs) => {
+    let done = 0;
+    let total = 0;
+    for (const doc of docs) {
+      for (const field of i18nPaths(def.fields, doc)) {
+        if (!field.tr) continue;
+        total += 1;
+        if (field.en) done += 1;
+      }
+    }
+    return { label: def.label, done, total };
+  };
+
+  return [
+    tally(collections.projects, content.projects.map((e) => e.data)),
+    tally(collections.blog, content.blog.map((e) => e.data)),
+    tally(singles.photos, [content.photos]),
+    tally(singles.personal, [content.personal]),
+    tally(singles.site, [content.site]),
+  ];
 }

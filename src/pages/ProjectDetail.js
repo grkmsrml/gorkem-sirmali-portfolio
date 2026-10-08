@@ -26,6 +26,7 @@ function specSheet(project) {
     [t('detail.category'), categoryName(project.category)],
     [t('detail.location'), pick(project.location)],
     [t('detail.course'), pick(project.course)],
+    [t('detail.instructor'), project.instructor],
     [t('detail.role'), pick(project.role)],
     project.team ? [t('detail.team'), `${t('detail.teamWith')} ${project.team}`] : null,
     [t('detail.scale'), project.scale],

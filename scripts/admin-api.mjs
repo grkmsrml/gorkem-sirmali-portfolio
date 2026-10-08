@@ -11,6 +11,10 @@
      DELETE /__admin/entry     ?path=         → content/**.json siler
      POST   /__admin/upload    ?dir=&name=    → görseli dönüştürüp kaydeder
      POST   /__admin/translate { texts }      → Türkçeden İngilizceye çevirir
+     POST   /__admin/restore   { path }       → çöp kutusundan geri yükler
+     GET    /__admin/media     yüklü görseller ve kullanılıp kullanılmadıkları
+     DELETE /__admin/media     ?path=         → kullanılmayan görseli siler
+     GET    /__admin/history   içeriğe dokunan son commit'ler
      GET    /__admin/status    yayınlanmamış içerik değişiklikleri
      POST   /__admin/publish   { message }    → commit + push
 
@@ -18,15 +22,19 @@
    (dev:host ile ağa açılsa bile) ve yazılabilecek yerler
    content/, public/images/ ve public/cv/ ile sınırlıdır.
    Yayındaki sitede bu uçlar yoktur.
+
+   Silinen kayıt yok edilmez, content/_trash/ altına taşınır; panelin
+   çöp kutusundan geri yüklenebilir ya da kalıcı silinebilir.
    ============================================ */
 
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { convertImage, writeManifest, RASTER } from './lib/images.mjs';
+import { convertImage, writeManifest, walk, RASTER } from './lib/images.mjs';
 import { translateAll } from './lib/translate.mjs';
-import { publish, publishStatus } from './lib/publish.mjs';
+import { publish, publishStatus, history } from './lib/publish.mjs';
 
 const MAX_UPLOAD = 80 * 1024 * 1024;
+const TRASH = 'content/_trash';
 const posix = (p) => p.replace(/\\/g, '/');
 
 class HttpError extends Error {
@@ -103,6 +111,11 @@ export function adminApi() {
       blog: await readCollection(root, 'content/blog'),
       photos: await readJson(path.join(root, 'content/photos.json')),
       personal: await readJson(path.join(root, 'content/personal.json')),
+      site: await readJson(path.join(root, 'content/site.json')),
+      trash: [
+        ...await readCollection(root, `${TRASH}/projects`),
+        ...await readCollection(root, `${TRASH}/blog`),
+      ],
     }),
 
     'PUT /entry': async (req) => {
@@ -119,9 +132,77 @@ export function adminApi() {
       const rel = url.searchParams.get('path') ?? '';
       if (!rel.endsWith('.json')) throw new HttpError(400, 'Eksik istek.');
 
-      await fs.unlink(resolveInside(root, rel, ['content']));
+      const file = resolveInside(root, rel, ['content']);
+
+      // Çöp kutusundaki kayıt kalıcı silinir; diğerleri çöp kutusuna taşınır
+      if (rel.startsWith(`${TRASH}/`)) {
+        await fs.unlink(file);
+        return { ok: true, trashed: null };
+      }
+
+      const trashed = `${TRASH}/${rel.replace(/^content\//, '')}`;
+      const target = resolveInside(root, trashed, ['content']);
+      await fs.mkdir(path.dirname(target), { recursive: true });
+      await fs.rename(file, target);
+      return { ok: true, trashed };
+    },
+
+    'POST /restore': async (req) => {
+      const { path: rel } = JSON.parse((await readBody(req)).toString('utf8'));
+      if (!rel?.startsWith(`${TRASH}/`) || !rel.endsWith('.json')) throw new HttpError(400, 'Eksik istek.');
+
+      const restored = `content/${rel.slice(TRASH.length + 1)}`;
+      const target = resolveInside(root, restored, ['content']);
+      if (await exists(target)) {
+        throw new HttpError(409, 'Aynı adreste başka bir kayıt var; önce onu sil ya da adını değiştir.');
+      }
+
+      await fs.mkdir(path.dirname(target), { recursive: true });
+      await fs.rename(resolveInside(root, rel, ['content']), target);
+      return { ok: true, path: restored };
+    },
+
+    'GET /media': async () => {
+      // Bir görsel, adresi herhangi bir içerik dosyasında geçiyorsa kullanılıyordur
+      // (çöp kutusundaki kayıtlar dahil: geri yüklenince görseli yerinde olsun)
+      let haystack = '';
+      for (const file of await walk(path.join(root, 'content'), /\.json$/i)) {
+        haystack += await fs.readFile(file, 'utf8');
+      }
+
+      const items = [];
+      for (const file of await walk(path.join(root, 'public/images'), /\.webp$/i)) {
+        if (/-(thumb|full)\.webp$/i.test(file)) continue;
+
+        const url = `/${posix(path.relative(path.join(root, 'public'), file))}`;
+        let size = 0;
+        for (const variant of ['.webp', '-thumb.webp', '-full.webp']) {
+          size += await fs.stat(file.replace(/\.webp$/i, variant)).then((s) => s.size, () => 0);
+        }
+        items.push({ path: url, size, used: haystack.includes(url) });
+      }
+      return { items: items.sort((a, b) => a.path.localeCompare(b.path)) };
+    },
+
+    'DELETE /media': async (req, url) => {
+      const rel = (url.searchParams.get('path') ?? '').replace(/^\/+/, '');
+      if (!/\.webp$/i.test(rel) || /-(thumb|full)\.webp$/i.test(rel)) throw new HttpError(400, 'Eksik istek.');
+
+      const file = resolveInside(root, `public/${rel}`, ['public/images']);
+      for (const content of await walk(path.join(root, 'content'), /\.json$/i)) {
+        if ((await fs.readFile(content, 'utf8')).includes(`/${rel}`)) {
+          throw new HttpError(409, 'Bu görsel bir kayıtta kullanılıyor; önce oradan kaldır.');
+        }
+      }
+
+      for (const variant of ['.webp', '-thumb.webp', '-full.webp']) {
+        await fs.unlink(file.replace(/\.webp$/i, variant)).catch(() => {});
+      }
+      await writeManifest();
       return { ok: true };
     },
+
+    'GET /history': async () => ({ items: await history(root) }),
 
     'POST /upload': async (req, url) => {
       const dir = (url.searchParams.get('dir') ?? '').replace(/^\/+|\/+$/g, '');

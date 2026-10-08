@@ -18,11 +18,24 @@
      lockOnEdit: true  → yalnız ilk oluştururken yazılır
    ============================================ */
 
-import { categories, blogCategories } from '../data/categories.js';
 
-const options = (list) => list
-  .filter((c) => c.id !== 'all')
-  .map((c) => ({ value: c.id, label: c.name.tr }));
+/* Kategoriler Site ayarları'nda tutulur; seçenekler panelin o an
+   yüklediği içerikten okunur ki ayar değişince liste de değişsin. */
+const categoryOptions = (key) => (_doc, content) => (content?.site?.[key] ?? [])
+  .map((c) => ({ value: c.id, label: c.name?.tr || '(adsız)' }));
+
+const categoryLabel = (content, key, id) => (content?.site?.[key] ?? [])
+  .find((c) => c.id === id)?.name?.tr ?? '— kategorisiz —';
+
+const categoryList = (name, label, hint) => ({
+  name, label, type: 'list', addLabel: 'Kategori ekle', hint,
+  item: {
+    fields: [
+      { name: 'id', type: 'id' },
+      { name: 'name', label: 'Kategori adı', type: 'string', i18n: true },
+    ],
+  },
+});
 
 const slugField = {
   name: 'slug',
@@ -49,14 +62,14 @@ export const collections = {
     siteUrl: (doc) => `/#/projeler/${doc.slug}`,
     uploadDir: (doc) => `images/projects/${doc.slug}`,
     title: (doc) => doc.title?.tr,
-    meta: (doc) => `${doc.year ?? '—'} · ${options(categories).find((o) => o.value === doc.category)?.label ?? doc.category}`,
+    meta: (doc, content) => `${doc.year ?? '—'} · ${categoryLabel(content, 'projectCategories', doc.category)}`,
     thumb: (doc) => doc.cover || doc.images?.[0]?.image,
     sort: (a, b) => (a.order ?? 0) - (b.order ?? 0),
     ordered: true,
-    defaults: (all) => ({
+    defaults: (all, content) => ({
       order: Math.max(0, ...all.map((d) => d.order ?? 0)) + 10,
       year: new Date().getFullYear(),
-      category: 'mimari',
+      category: content?.site?.projectCategories?.[0]?.id ?? '',
       art: 'plan',
     }),
     fields: [
@@ -66,10 +79,11 @@ export const collections = {
       {
         name: 'details', label: 'Künye', type: 'group',
         fields: [
-          { name: 'category', label: 'Kategori', type: 'select', options: options(categories) },
+          { name: 'category', label: 'Kategori', type: 'select', options: categoryOptions('projectCategories') },
           { name: 'year', label: 'Yıl', type: 'number' },
           { name: 'location', label: 'Konum', type: 'string', i18n: true },
           { name: 'course', label: 'Ders', type: 'string', i18n: true },
+          { name: 'instructor', label: 'Yürütücü', type: 'string', required: false, hint: 'Stüdyo yürütücüsü. Örn: Prof. Dr. Demet Binan' },
           { name: 'role', label: 'Rolüm', type: 'string', i18n: true, required: false, hint: 'Grup işinde senin payın. Örn: Rölöve ölçümü ve çizim.' },
           { name: 'team', label: 'Ekip', type: 'string', required: false, hint: 'Grup çalışmasıysa diğer isimler, virgülle. Tek başına yaptıysan boş bırak.' },
           { name: 'area', label: 'Alan', type: 'string', required: false, hint: 'Örn: 2.400 m²' },
@@ -110,16 +124,16 @@ export const collections = {
     siteUrl: (doc) => `/#/blog/${doc.slug}`,
     uploadDir: (doc) => `images/blog/${doc.slug}`,
     title: (doc) => doc.title?.tr,
-    meta: (doc) => `${doc.date ?? '—'} · ${options(blogCategories).find((o) => o.value === doc.category)?.label ?? doc.category}`,
+    meta: (doc, content) => `${doc.date ?? '—'} · ${categoryLabel(content, 'blogCategories', doc.category)}`,
     sort: (a, b) => String(b.date).localeCompare(String(a.date)),
-    defaults: () => ({ date: today(), category: 'not' }),
+    defaults: (_all, content) => ({ date: today(), category: content?.site?.blogCategories?.[0]?.id ?? '' }),
     fields: [
       { name: 'title', label: 'Başlık', type: 'string', i18n: true },
       slugField,
       {
         name: 'details', label: 'Künye', type: 'group',
         fields: [
-          { name: 'category', label: 'Kategori', type: 'select', options: options(blogCategories) },
+          { name: 'category', label: 'Kategori', type: 'select', options: categoryOptions('blogCategories') },
           { name: 'date', label: 'Tarih', type: 'date' },
           { name: 'draft', label: 'Taslak — yayındaki sitede gösterme', type: 'boolean' },
         ],
@@ -180,7 +194,8 @@ export const singles = {
     label: 'Kişisel',
     path: 'content/personal.json',
     siteUrl: () => '/#/hakkimda',
-    uploadDir: () => 'cv',
+    // PDF'ler cv/ klasörüne, portre fotoğrafı görsellerin arasına
+    uploadDir: (_doc, file) => (/\.pdf$/i.test(file?.name ?? '') ? 'cv' : 'images/profile'),
     collapsible: true,
     fields: [
       {
@@ -291,6 +306,48 @@ export const singles = {
       {
         name: 'competencies', label: 'Yetkinlikler', type: 'list', addLabel: 'Yetkinlik ekle',
         item: { type: 'string', i18n: true },
+      },
+    ],
+  },
+
+  site: {
+    route: 'ayarlar',
+    label: 'Site ayarları',
+    path: 'content/site.json',
+    siteUrl: () => '/',
+    uploadDir: () => 'images/site',
+    collapsible: true,
+    fields: [
+      {
+        name: 'texts', label: 'Sayfa metinleri', type: 'object',
+        hint: 'Sitenin sabit yazıları. Boş bırakılan alan varsayılan metne döner.',
+        fields: [
+          { name: 'heroOverline', label: 'Ana sayfa — üst etiket', type: 'string', i18n: true, required: false },
+          { name: 'heroLead', label: 'Ana sayfa — tanıtım', type: 'text', i18n: true, required: false, hint: 'Adının altındaki iki cümle; ziyaretçinin ilk okuduğu metin.' },
+          { name: 'selectedLead', label: 'Ana sayfa — seçili işler başlığı', type: 'string', i18n: true, required: false },
+          { name: 'contactCta', label: 'Ana sayfa — iletişim çağrısı', type: 'string', i18n: true, required: false },
+          { name: 'contactLead', label: 'Ana sayfa — iletişim açıklaması', type: 'string', i18n: true, required: false },
+          { name: 'projectsLead', label: 'Projeler sayfası — açıklama', type: 'text', i18n: true, required: false },
+          { name: 'aboutLead', label: 'Hakkımda sayfası — açıklama', type: 'text', i18n: true, required: false },
+          { name: 'blogLead', label: 'Blog sayfası — açıklama', type: 'text', i18n: true, required: false },
+          { name: 'photosLead', label: 'Fotoğraflar sayfası — açıklama', type: 'text', i18n: true, required: false },
+          { name: 'contactPageLead', label: 'İletişim sayfası — açıklama', type: 'text', i18n: true, required: false },
+          { name: 'footerTagline', label: 'Alt bilgi — slogan', type: 'string', i18n: true, required: false },
+        ],
+      },
+      categoryList('projectCategories', 'Proje kategorileri',
+        'Projeler sayfasındaki süzgeç. Sıra buradaki sıradır; projesi olmayan kategori sitede gizlenir. Kullanılan bir kategoriyi silersen o projeler kategorisiz kalır ve Genel bakış uyarır.'),
+      categoryList('blogCategories', 'Blog kategorileri',
+        'Blog sayfasındaki süzgeç. Yazısı olmayan kategori sitede gizlenir.'),
+      {
+        name: 'seo', label: 'Arama ve paylaşım', type: 'object',
+        hint: 'Google sonuçlarında ve bağlantı paylaşıldığında (WhatsApp, LinkedIn) görünen başlık, açıklama ve görsel. Yayınladıktan sonraki kurulumda geçerli olur.',
+        fields: [
+          { name: 'title', label: 'Site başlığı', type: 'string', i18n: true, hint: 'Tarayıcı sekmesinde ve arama sonucunda görünür.' },
+          { name: 'description', label: 'Site açıklaması', type: 'text', i18n: true, hint: 'Bir-iki cümle, 160 karakteri geçmesin.' },
+          { name: 'url', label: 'Site adresi', type: 'string', hint: 'Sonunda eğik çizgi olmadan. Alan adı değişirse burayı güncelle.', pattern: /^https?:\/\/[^\s/]+$/, patternMessage: 'https://ornek.com biçiminde yaz.' },
+          { name: 'ogImage', label: 'Paylaşım görseli', type: 'string', required: false, hint: 'Sitedeki dosyanın yolu. Varsayılan: /og-image.png' },
+        ],
       },
     ],
   },

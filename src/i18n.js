@@ -5,12 +5,15 @@
    yalnız arayüz metinleri içindir.
    ============================================ */
 
+import site from '../content/site.json';
+
 const DEFAULT_LANG = 'tr';
 const STORAGE_KEY = 'lang';
 
 export const translations = {
   tr: {
     'brand': 'GÖRKEM SIRMALI',
+    'site.title': 'Görkem Sırmalı — Mimarlık Portfolyo',
 
     'nav.home': 'Ana Sayfa',
     'nav.projects': 'Projeler',
@@ -136,6 +139,7 @@ export const translations = {
     'photos.all': 'Tümü',
     'photos.count': 'fotoğraf',
     'detail.role': 'Rol',
+    'detail.instructor': 'Yürütücü',
     'detail.area': 'Alan',
     'detail.tools': 'Araçlar',
     'about.graduation': 'Mezuniyet',
@@ -144,6 +148,7 @@ export const translations = {
 
   en: {
     'brand': 'GÖRKEM SIRMALI',
+    'site.title': 'Görkem Sırmalı — Architecture Portfolio',
 
     'nav.home': 'Home',
     'nav.projects': 'Projects',
@@ -269,12 +274,38 @@ export const translations = {
     'photos.all': 'All',
     'photos.count': 'photographs',
     'detail.role': 'Role',
+    'detail.instructor': 'Instructor',
     'detail.area': 'Area',
     'detail.tools': 'Tools',
     'about.graduation': 'Graduation',
     'footer.location': 'Istanbul / Türkiye',
   },
 };
+
+/* Yönetim panelinden düzenlenen metinler (content/site.json) sözlükteki
+   varsayılanların yerine geçer. Panelde boş bırakılan alan varsayılanı korur. */
+const SITE_TEXTS = {
+  heroOverline: 'hero.overline',
+  heroLead: 'hero.lead',
+  selectedLead: 'home.selectedLead',
+  contactCta: 'home.contactCta',
+  contactLead: 'home.contactLead',
+  projectsLead: 'projects.lead',
+  aboutLead: 'about.lead',
+  blogLead: 'blog.lead',
+  photosLead: 'photos.lead',
+  contactPageLead: 'contact.lead',
+  footerTagline: 'footer.tagline',
+};
+
+function override(key, value) {
+  for (const lang of Object.keys(translations)) {
+    if (value?.[lang]) translations[lang][key] = value[lang];
+  }
+}
+
+for (const [name, key] of Object.entries(SITE_TEXTS)) override(key, site.texts?.[name]);
+override('site.title', site.seo?.title);
 
 let currentLang = localStorage.getItem(STORAGE_KEY) || DEFAULT_LANG;
 

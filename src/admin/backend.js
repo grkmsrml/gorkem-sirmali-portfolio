@@ -44,8 +44,33 @@ export const backend = {
     });
   },
 
+  /** Kaydı çöp kutusuna taşır; çöp kutusundaki kaydı kalıcı siler. */
   remove(path) {
     return request(`entry?path=${encodeURIComponent(path)}`, { method: 'DELETE' });
+  },
+
+  /** Çöp kutusundaki kaydı yerine geri koyar; yeni yolunu döndürür. */
+  async restore(path) {
+    const result = await request('restore', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ path }),
+    });
+    return result.path;
+  },
+
+  /** Yüklü görseller: [{ path, size, used }] */
+  async media() {
+    return (await request('media')).items;
+  },
+
+  removeMedia(path) {
+    return request(`media?path=${encodeURIComponent(path)}`, { method: 'DELETE' });
+  },
+
+  /** İçeriğe dokunan son commit'ler: [{ hash, date, subject }] */
+  async history() {
+    return (await request('history')).items;
   },
 
   /** Dosyayı yükler; görselse dönüştürülmüş .webp adresini döndürür. */
