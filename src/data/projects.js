@@ -11,15 +11,9 @@
    ============================================ */
 
 import { imageFrom, captionOrNull } from './images.js';
+import { categories } from './categories.js';
 
-export const categories = [
-  { id: 'all',       name: { tr: 'Tümü',              en: 'All' } },
-  { id: 'mimari',    name: { tr: 'Mimari Tasarım',    en: 'Architectural Design' } },
-  { id: 'koruma',    name: { tr: 'Koruma / Rölöve',   en: 'Conservation / Survey' } },
-  { id: 'icmekan',   name: { tr: 'İç Mekan',          en: 'Interior' } },
-  { id: 'kent',      name: { tr: 'Kent / Peyzaj',     en: 'Urban / Landscape' } },
-  { id: 'uygulama',  name: { tr: 'Uygulama Projesi',  en: 'Construction Project' } },
-];
+export { categories };
 
 const files = import.meta.glob('/content/projects/*.json', { eager: true, import: 'default' });
 

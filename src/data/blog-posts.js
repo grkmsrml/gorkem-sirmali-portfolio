@@ -6,15 +6,9 @@
    ============================================ */
 
 import { readingTime } from '../markdown.js';
+import { blogCategories } from './categories.js';
 
-export const blogCategories = [
-  { id: 'all',     name: { tr: 'Tümü',      en: 'All' } },
-  { id: 'kuram',   name: { tr: 'Kuram',     en: 'Theory' } },
-  { id: 'kurgu',   name: { tr: 'Bilim-Kurgu', en: 'Science Fiction' } },
-  { id: 'atolye',  name: { tr: 'Atölye',    en: 'Workshop' } },
-  { id: 'not',     name: { tr: 'Not',       en: 'Notes' } },
-  { id: 'gezi',    name: { tr: 'Gezi',      en: 'Travel' } },
-];
+export { blogCategories };
 
 const files = import.meta.glob('/content/blog/*.json', { eager: true, import: 'default' });
 

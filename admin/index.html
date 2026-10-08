@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=Archivo:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <title>Yönetim — Görkem Sırmalı</title>
+</head>
+<body>
+  <div class="admin" id="admin">
+    <aside class="aside">
+      <a href="/" class="aside__brand" target="_blank" rel="noopener">
+        <span class="aside__name">GÖRKEM SIRMALI</span>
+        <span class="meta">Yönetim paneli</span>
+      </a>
+
+      <nav class="anav" id="nav" aria-label="Bölümler"></nav>
+
+      <div class="aside__foot">
+        <a href="/" target="_blank" rel="noopener" class="meta link">Siteyi aç ↗</a>
+      </div>
+    </aside>
+
+    <main class="amain" id="view"></main>
+  </div>
+
+  <div class="atoast" id="toast" role="status" aria-live="polite" hidden></div>
+
+  <script type="module" src="/src/admin/main.js"></script>
+</body>
+</html>
