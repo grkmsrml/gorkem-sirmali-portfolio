@@ -6,6 +6,7 @@
 import { t, pick } from '../i18n.js';
 import { projectById, adjacentProjects, categories } from '../data/projects.js';
 import { renderSlider } from '../components/ImageSlider.js';
+import { md } from '../markdown.js';
 
 /** Sekme başlığı için — router çağırır. */
 export function projectTitle(id) {
@@ -25,6 +26,7 @@ function specSheet(project) {
     [t('detail.category'), categoryName(project.category)],
     [t('detail.location'), pick(project.location)],
     [t('detail.course'), pick(project.course)],
+    project.team ? [t('detail.team'), `${t('detail.teamWith')} ${project.team}`] : null,
     [t('detail.scale'), project.scale],
     project.video
       ? [t('detail.video'), `<a href="${project.video}" target="_blank" rel="noopener" class="link">${t('detail.watch')} →</a>`]
@@ -80,9 +82,7 @@ export function renderProjectDetail(id) {
     `;
   }
 
-  const paragraphs = (pick(project.description) ?? [])
-    .map((para) => `<p>${para}</p>`)
-    .join('');
+  const paragraphs = md(pick(project.description));
 
   return `
     <article class="container">

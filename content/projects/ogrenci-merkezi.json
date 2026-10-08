@@ -1,0 +1,117 @@
+{
+  "slug": "ogrenci-merkezi",
+  "order": 70,
+  "title": {
+    "tr": "Öğrenci ve Kulüpler Merkez Binası",
+    "en": "Student and Clubs Centre"
+  },
+  "category": "mimari",
+  "year": 2023,
+  "location": {
+    "tr": "İstanbul / Fındıklı",
+    "en": "Istanbul / Fındıklı"
+  },
+  "course": {
+    "tr": "Mimari Proje II",
+    "en": "Architectural Design II"
+  },
+  "team": "",
+  "featured": false,
+  "video": "",
+  "art": "section",
+  "cover": "/images/projects/ogrenci-merkezi/03.webp",
+  "images": [
+    {
+      "image": "/images/projects/ogrenci-merkezi/01.webp",
+      "caption": {
+        "tr": "",
+        "en": ""
+      }
+    },
+    {
+      "image": "/images/projects/ogrenci-merkezi/02.webp",
+      "caption": {
+        "tr": "",
+        "en": ""
+      }
+    },
+    {
+      "image": "/images/projects/ogrenci-merkezi/03.webp",
+      "caption": {
+        "tr": "",
+        "en": ""
+      }
+    },
+    {
+      "image": "/images/projects/ogrenci-merkezi/04.webp",
+      "caption": {
+        "tr": "",
+        "en": ""
+      }
+    },
+    {
+      "image": "/images/projects/ogrenci-merkezi/05.webp",
+      "caption": {
+        "tr": "",
+        "en": ""
+      }
+    },
+    {
+      "image": "/images/projects/ogrenci-merkezi/06.webp",
+      "caption": {
+        "tr": "",
+        "en": ""
+      }
+    },
+    {
+      "image": "/images/projects/ogrenci-merkezi/07.webp",
+      "caption": {
+        "tr": "",
+        "en": ""
+      }
+    },
+    {
+      "image": "/images/projects/ogrenci-merkezi/08.webp",
+      "caption": {
+        "tr": "",
+        "en": ""
+      }
+    },
+    {
+      "image": "/images/projects/ogrenci-merkezi/09.webp",
+      "caption": {
+        "tr": "",
+        "en": ""
+      }
+    },
+    {
+      "image": "/images/projects/ogrenci-merkezi/10.webp",
+      "caption": {
+        "tr": "",
+        "en": ""
+      }
+    },
+    {
+      "image": "/images/projects/ogrenci-merkezi/11.webp",
+      "caption": {
+        "tr": "",
+        "en": ""
+      }
+    },
+    {
+      "image": "/images/projects/ogrenci-merkezi/12.webp",
+      "caption": {
+        "tr": "",
+        "en": ""
+      }
+    }
+  ],
+  "summary": {
+    "tr": "MSGSÜ ek binası ile Meclis-i Mebusan Caddesi arasında bağ kuran, eğimdeki tarihi ağaçları koruyup etraflarında teraslanan yapı.",
+    "en": "A building linking the MSGSÜ annex to Meclis-i Mebusan Avenue, preserving the mature trees on the slope and terracing around them."
+  },
+  "description": {
+    "tr": "Mimar Sinan Güzel Sanatlar Üniversitesi Öğrenci ve Kulüpler Merkez Binası projesini, üniversitenin Kulüpler Birliği Başkanı olduğum dönemde yapmıştım.\n\nOkulumuzun ek binası ile Meclis-i Mebusan Caddesi arasında bağ kuran yapı, yerleştiği eğimli alandaki tarihi/büyük ağaçları koruyup onlar etrafında katlar/teraslar oluşturarak kurgulanmıştır.",
+    "en": "I developed the project for the Mimar Sinan Fine Arts University Student and Clubs Centre during my term as President of the university's Union of Clubs.\n\nLinking the university annex to Meclis-i Mebusan Avenue, the building preserves the mature and historic trees on its sloping site and is organised as floors and terraces formed around them."
+  }
+}

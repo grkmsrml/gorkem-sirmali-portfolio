@@ -1,0 +1,394 @@
+{
+  "profile": {
+    "name": "Görkem Sırmalı",
+    "title": {
+      "tr": "Mimarlık Öğrencisi / 4. Sınıf",
+      "en": "Architecture Student / 4th Year"
+    },
+    "location": {
+      "tr": "İstanbul / Türkiye",
+      "en": "Istanbul / Türkiye"
+    },
+    "intro": {
+      "tr": "MSGSÜ Mimarlık son sınıf öğrencisiyim; öncesinde İTÜ'de iki yıl inşaat mühendisliği okudum. Şantiye ve ofis stajları, rölöve ve kazı çalışmalarının üzerine, tasarımı uygulama detayına kadar götüren projeler üretiyorum. Staj ve iş birliği fırsatlarına açığım.",
+      "en": "I am a final-year architecture student at MSGSÜ, after two years of civil engineering at ITU. Building on site and office internships, survey and excavation work, I develop projects that carry design through to construction detail. I am open to internships and collaboration."
+    },
+    "bio": {
+      "tr": "Eğitim hayatımın temelini fen lisesi disiplini (Kütahya Fen Lisesi) ve İTÜ bünyesinde aldığım inşaat mühendisliği eğitimiyle attım; ardından Mimar Sinan Güzel Sanatlar Üniversitesi Mimarlık bölümüne yatay geçiş yaptım.\n\nÜniversite bünyesinde Doç. Dr. Emre Kavut danışmanlığıyla sıfırdan kurduğum ve ilk döneminde 400+ aktif üyeye ulaştırdığım Bilim-Kurgu ve Fantazya Kulübü'nün kurucu başkanlığını yürüttüm; büyük ölçekli BaykuşCon Festivali'nin Baş Yürütücüsü olarak bütçelendirme, lojistik, sponsorluk ilişkileri ve operasyonel süreçlerin tamamını koordine ettim.\n\nArdından üstlendiğim MSGSÜ Kulüpler Birliği Başkanlığı görevim süresince tüm üniversite kulüplerinin idari ve yönetim şemalarını yeniden kurguladım, görev dağılımlarını optimize ettim ve MSGSÜ EcoFest festivalinde saha kriz yönetimi rolünü üstlendim.\n\nKültür tarihi, mimarlık kuramları ve bilim-kurgu literatürünün mekânsal yansımaları üzerine araştırmalar yapıyor, disiplinlerarası okumalarımı rehberlik ve analitik yazı üretimiyle pratiğe döküyorum. Teknik rasyonaliteyi, tasarım vizyonunu ve kriz anlarında refleks gösterebilen liderlik becerilerimi bir arada sunmayı hedefleyen çok yönlü bir tasarımcı adayıyım.",
+      "en": "I built the foundation of my education on the discipline of a science high school (Kütahya Science High School) and civil engineering studies at ITU, before transferring to the Department of Architecture at Mimar Sinan Fine Arts University.\n\nI founded and chaired the Science Fiction and Fantasy Club under the supervision of Assoc. Prof. Emre Kavut, growing it to 400+ active members in its first term. As Lead Coordinator of the large-scale BaykuşCon Festival, I ran budgeting, logistics, sponsorship relations and the full operational process.\n\nAs President of the MSGSÜ Union of Student Clubs, I restructured the administrative and governance schemes of all university clubs, optimised the distribution of responsibilities, and took on field crisis management at the MSGSÜ EcoFest festival.\n\nI research cultural history, architectural theory and the spatial reflections of science-fiction literature, translating interdisciplinary reading into practice through mentoring and analytical writing. I aim to bring together technical rationality, design vision and leadership that holds under pressure."
+    }
+  },
+  "contact": {
+    "email": "gorkemsirmali@gmail.com",
+    "phone": "+90 553 677 79 22",
+    "social": [
+      {
+        "id": "linkedin",
+        "label": "LinkedIn",
+        "url": "https://www.linkedin.com/in/gorkemsirmali/"
+      },
+      {
+        "id": "instagram",
+        "label": "Instagram",
+        "url": "https://www.instagram.com/gorkem_sirmali/"
+      },
+      {
+        "id": "github",
+        "label": "GitHub",
+        "url": "https://github.com/grkmsrml"
+      }
+    ]
+  },
+  "cvFiles": {
+    "tr": "/cv/cv-tr.pdf",
+    "en": ""
+  },
+  "education": [
+    {
+      "institution": {
+        "tr": "Mimar Sinan Güzel Sanatlar Üniversitesi",
+        "en": "Mimar Sinan Fine Arts University"
+      },
+      "program": {
+        "tr": "Mimarlık",
+        "en": "Architecture"
+      },
+      "start": 2020,
+      "end": ""
+    },
+    {
+      "institution": {
+        "tr": "İstanbul Üniversitesi",
+        "en": "Istanbul University"
+      },
+      "program": {
+        "tr": "İşletme (Açık Öğretim)",
+        "en": "Business Administration (Open Education)"
+      },
+      "start": 2020,
+      "end": ""
+    },
+    {
+      "institution": {
+        "tr": "İstanbul Teknik Üniversitesi",
+        "en": "Istanbul Technical University"
+      },
+      "program": {
+        "tr": "İnşaat Mühendisliği",
+        "en": "Civil Engineering"
+      },
+      "start": 2018,
+      "end": 2020
+    }
+  ],
+  "experience": [
+    {
+      "id": "polat",
+      "org": {
+        "tr": "Polat İnşaat",
+        "en": "Polat İnşaat"
+      },
+      "role": {
+        "tr": "Şantiye Stajı",
+        "en": "Site Internship"
+      },
+      "project": {
+        "tr": "Polat Fulya Projesi",
+        "en": "Polat Fulya Project"
+      },
+      "period": {
+        "tr": "Ağustos 2025 — Eylül 2025",
+        "en": "August 2025 — September 2025"
+      },
+      "year": 2025,
+      "description": {
+        "tr": "Çok katlı ve karma kullanım projesinde üst katlarda kaba yapı sürerken alt katlarda eş zamanlı yürütülen duvar örümü, kuru duvar sistemleri ve elektromekanik tesisat hatlarının saha koordinasyonunu günlük olarak takip ettim. Örnek daire imalatında şap dökümünden pencere doğramaları, cephe entegrasyonu ve vitrifiye montajına kadar tüm ince yapı aşamalarını mimari detay projelerine uygunluk açısından denetledim. Teknik ofiste malzeme metrajlarının hesaplanması ve satın alma özet dosyalarının hazırlanmasında aktif rol aldım.",
+        "en": "On a multi-storey mixed-use project, I tracked daily site coordination while structural work continued on upper floors and masonry, drywall systems and electromechanical installations ran simultaneously below. In the show-flat production I inspected every finishing stage — from screed pouring to window frames, façade integration and sanitary fixtures — against the architectural detail drawings. In the technical office I took an active role in quantity take-offs and procurement summary files."
+      }
+    },
+    {
+      "id": "folkart",
+      "org": {
+        "tr": "Folkart",
+        "en": "Folkart"
+      },
+      "role": {
+        "tr": "F Takım Yıldızı Staj Programı",
+        "en": "F Team Star Internship Programme"
+      },
+      "project": {
+        "tr": "Folkart Nova / Folkart Country Urla",
+        "en": "Folkart Nova / Folkart Country Urla"
+      },
+      "period": {
+        "tr": "Temmuz 2023 — Ağustos 2023",
+        "en": "July 2023 — August 2023"
+      },
+      "year": 2023,
+      "description": {
+        "tr": "Nova projesinin LEED ve sürdürülebilirlik kriterlerine uygunluğunu analiz ettim; ekolojik performans artırımına yönelik mimari öneriler getirirken bu çözümlerin maliyet/verimlilik dengesini inceleyen kapsamlı bir çalışma hazırladım. Country Urla projesinde çocukların oyun algıları, mekânsal algılayışları ve pedagojik yetenek kazanımları üzerine odaklanan özgün bir çocuk oyun alanı konsepti geliştirerek mimari ekibe alternatif tasarım önerisi olarak sundum.",
+        "en": "I analysed the Nova project against LEED and sustainability criteria, producing a comprehensive study that paired architectural proposals for ecological performance with a cost/efficiency assessment. For Country Urla I developed an original playground concept focused on children's perception of play, spatial cognition and pedagogical skill development, presenting it to the architectural team as an alternative design proposal."
+      }
+    }
+  ],
+  "involvement": [
+    {
+      "id": "hay-edirne",
+      "title": {
+        "tr": "Edirne Bienali — \"HAY\" Enstalasyon Projesi",
+        "en": "Edirne Biennial — \"HAY\" Installation"
+      },
+      "org": {
+        "tr": "Ecem Ergin, Cansu Demiral, Emine Görgül",
+        "en": "Ecem Ergin, Cansu Demiral, Emine Görgül"
+      },
+      "year": 2026,
+      "description": {
+        "tr": "Akademisyen/sanatçı Ecem Ergin'in davetiyle tasarım ve uygulama ekibine dahil oldum. Saman balyaları kullanarak zamanla deforme olan, doğayla etkileşime girerek biçim değiştiren deneysel bir topoğrafya kurguladık. Başlangıç formu ile zaman içindeki nihai dönüşümü arasında mekânsal bir köprü kurmayı hedefleyen projede organik malzeme dinamiklerini, kısa süreli mimarlığı (ephemeral architecture) ve büyük ölçekli enstalasyonların saha uygulama süreçlerini deneyimledim.",
+        "en": "I joined the design and construction team at the invitation of academic and artist Ecem Ergin. Using straw bales, we built an experimental topography that deforms over time and changes shape through its interaction with nature. The project sought a spatial bridge between the initial form and its eventual transformation; through it I worked directly with organic material dynamics, ephemeral architecture and the site processes of large-scale installation."
+      }
+    },
+    {
+      "id": "city-as-interface",
+      "title": {
+        "tr": "\"The City as Interface\" Atölyesi",
+        "en": "\"The City as Interface\" Workshop"
+      },
+      "org": {
+        "tr": "MSGSÜ — Doç. Dr. Ela Kaçel, George Pehlivanides",
+        "en": "MSGSÜ — Assoc. Prof. Ela Kaçel, George Pehlivanides"
+      },
+      "year": 2026,
+      "description": {
+        "tr": "Kentsel hafıza katmanlarını coğrafi teknolojiler ve artırılmış gerçeklik üzerinden somutlaştıran bir mobil uygulama geliştirdik. Kent genelinden toplanan lokasyon bazlı ses verilerinin dijital düzenlemesini ve ses tasarımını üstlendim. ArcGIS ve Unity entegrasyonuyla Android tabanlı bir AR uygulaması kodladık: kullanıcı fiziksel mekândaki \"ses kürelerine\" yaklaştıkça işitsel deneyim kazanıyor, kürenin içine girdiğinde o lokasyona ait tarihî ve mekânsal bilgiye ulaşıyor.",
+        "en": "We developed a mobile application making layers of urban memory tangible through geographic technologies and augmented reality. I took on the digital editing and sound design of location-based audio gathered across the city. Integrating ArcGIS with the Unity engine, we coded an Android AR application in which users gain an auditory experience as they approach \"sound spheres\" placed in physical space, and reach historical and spatial information about that location once inside."
+      }
+    },
+    {
+      "id": "urban-photography",
+      "title": {
+        "tr": "\"Exploring Urban Photography\" Atölyesi",
+        "en": "\"Exploring Urban Photography\" Workshop"
+      },
+      "org": {
+        "tr": "Mathilde Tijen Hansen — MSGSÜ Mimarlık & Fotoğraf",
+        "en": "Mathilde Tijen Hansen — MSGSÜ Architecture & Photography"
+      },
+      "year": 2026,
+      "description": {
+        "tr": "Mimarlık ve Güzel Sanatlar fakültelerinin ortaklığındaki disiplinlerarası atölyede araştırmacı ve fotoğrafçı olarak yer aldım. Kentsel karmaşa, kentsel katmanlaşma, enformel mimari ve kentin lojistik arka yüzü olmak üzere dört tema üzerine yoğunlaştım. Ürettiğim görsel envanteri ve kentsel tipoloji analizlerini, konuk eleştirmenler Volkan Kızıltunç ve Mimiko Gözde Türkkan'ın katıldığı panelde sundum.",
+        "en": "I took part as researcher and photographer in this interdisciplinary workshop run jointly by the faculties of Architecture and Fine Arts, concentrating on four themes: urban tangle, urban stratification, informal architecture and the logistical backside of the city. I presented the visual inventory and urban typology analyses I produced at a panel with guest critics Volkan Kızıltunç and Mimiko Gözde Türkkan."
+      }
+    },
+    {
+      "id": "baykus-yaz-okulu",
+      "title": {
+        "tr": "MSGSÜ SEM — Baykuş Lise Yaz Okulu",
+        "en": "MSGSÜ SEM — Baykuş High School Summer School"
+      },
+      "org": {
+        "tr": "Gönüllü Mentor Öğrenci",
+        "en": "Volunteer Student Mentor"
+      },
+      "year": 2026,
+      "description": {
+        "tr": "Sürekli Eğitim Merkezi bünyesindeki programda, tasarım disiplinlerine adım atmaya hazırlanan lise öğrencilerine gönüllü mentorluk yaptım. Öğrencilerin atölye çalışmalarına adaptasyonunu sağlamak, tasarım odaklı düşünme pratiklerinde rehberlik etmek ve üniversitenin akademik kültürünü aktarmak üzere köprü görevi üstlendim.",
+        "en": "I mentored high-school students preparing to enter design disciplines in this Continuing Education Centre programme, acting as a bridge — helping students adapt to studio work, guiding design-led thinking practices and conveying the academic culture of the university."
+      }
+    },
+    {
+      "id": "parametrik-cephe",
+      "title": {
+        "tr": "Parametrik Enerji Etkin Cephe Tasarımı Atölyesi",
+        "en": "Parametric Energy-Efficient Façade Design Workshop"
+      },
+      "org": {
+        "tr": "Mimar Sinan Güzel Sanatlar Üniversitesi",
+        "en": "Mimar Sinan Fine Arts University"
+      },
+      "year": 2025,
+      "description": {
+        "tr": "Enerji Verimliliği Haftası kapsamındaki uluslararası atölyede veri odaklı tasarım süreçlerini deneyimledim. Algoritmik/parametrik modelleme ile bina kabuğu alternatifleri ürettik; güneş radyasyonu, gün ışığı alımı ve enerji etkinliği performanslarını simüle ederek değerlendirdik. Analiz verileri doğrultusunda estetik kriterler ile çevresel performansı optimize eden dinamik bir cephe sistemi tasarladık.",
+        "en": "In this international workshop during Energy Efficiency Week I worked with data-driven design processes. Using algorithmic and parametric modelling we produced building envelope alternatives and evaluated them by simulating solar radiation, daylight intake and energy performance, then designed a dynamic façade system optimising aesthetic criteria against environmental performance."
+      }
+    },
+    {
+      "id": "balatlar-kazi",
+      "title": {
+        "tr": "Sinop Balatlar Kilisesi Arkeolojik Kazısı ve Restorasyonu",
+        "en": "Sinop Balatlar Church Excavation and Restoration"
+      },
+      "org": {
+        "tr": "Stajyer Mimar / Konservasyon Asistanı",
+        "en": "Intern Architect / Conservation Assistant"
+      },
+      "year": 2022,
+      "description": {
+        "tr": "Farklı tarihî ve kültürel katmanlara sahip Balatlar Kilisesi kompleksindeki kazı ve koruma çalışmalarında görev aldım. Alanın mimari rölöve süreçlerine, plan çıkarılmasına ve taş/mozaik konservasyon çalışmalarına dahil oldum. Sorumlu olduğum ekskavasyon alanında Helenistik döneme ait nadir bir podima mozaiğinin gün yüzüne çıkarılması, hassas yüzey temizliği ve yerinde koruma süreçlerini teknik standartlara uygun olarak yürüttüm.",
+        "en": "I worked on excavation and conservation at the Balatlar Church complex, a site of many historical and cultural layers, contributing to architectural survey (rölöve), plan drawing, and stone and mosaic conservation. In the excavation area under my responsibility I carried out the uncovering of a rare Hellenistic podima mosaic, its delicate surface cleaning and in-situ preservation to technical standards."
+      }
+    },
+    {
+      "id": "kardes-okul",
+      "title": {
+        "tr": "Mimar Sinan İlkokulu Kardeş Okul Projesi",
+        "en": "Mimar Sinan Primary School Sister School Project"
+      },
+      "org": {
+        "tr": "MSGSÜ — Miras Gönüllüleri",
+        "en": "MSGSÜ — Heritage Volunteers"
+      },
+      "year": 2023,
+      "description": {
+        "tr": "MSGSÜ ve İstanbul Tarihi Alanlar Alan Başkanlığı Miras Gönüllüleri iş birliğiyle yürütülen sosyal sorumluluk projesinde görev aldım. Çocuklara yönelik kültürel miras bilincinin geliştirilmesi ve eğitim mekânlarının iyileştirilmesine yönelik saha çalışmalarını, etkinlik planlamalarını ve kurumlar arası koordinasyonu yürüttüm.",
+        "en": "I took part in this social responsibility project run jointly by MSGSÜ and the Heritage Volunteers of the Istanbul Historic Areas Directorate, carrying out fieldwork, event planning and inter-institutional coordination aimed at developing cultural heritage awareness among children and improving educational spaces."
+      }
+    },
+    {
+      "id": "guzellesir-dunya",
+      "title": {
+        "tr": "Güzelleşir Dünya Farkındalıklarımızla",
+        "en": "A World Made Better by Our Awareness"
+      },
+      "org": {
+        "tr": "Tohum Otizm Vakfı — Kalamış Yelken Kulübü — Permolit",
+        "en": "Tohum Autism Foundation — Kalamış Sailing Club — Permolit"
+      },
+      "year": 2022,
+      "description": {
+        "tr": "Kamusal mekân tasarımı ile dijital sanat pratiklerini sosyal fayda odağında birleştiren multidisipliner projede yer aldım. Otizmli çocukların hayal güçlerinden ilham alan tasarımların Kalamış Yelken Kulübü mendireğinde fiziksel olarak hayat bulmasına katkı sağladım. Tasarımlar Türkiye'de ilk kez blokzincir teknolojisiyle NFT eserlere dönüştürüldü ve elde edilen gelirin tamamı Tohum Otizm Vakfı'na bağışlandı.",
+        "en": "I took part in a multidisciplinary project combining public space design with digital art practices for social benefit, helping realise designs inspired by the imagination of children with autism on the Kalamış Sailing Club breakwater. The designs were converted into NFT works using blockchain technology for the first time in Türkiye, with all proceeds donated to the Tohum Autism Foundation."
+      }
+    },
+    {
+      "id": "semtini-yasat",
+      "title": {
+        "tr": "Semtini Yaşat",
+        "en": "Keep Your Neighbourhood Alive"
+      },
+      "org": {
+        "tr": "Beşiktaş Belediyesi — Merkez ve Arnavutköy",
+        "en": "Beşiktaş Municipality — Merkez and Arnavutköy"
+      },
+      "year": 2022,
+      "description": {
+        "tr": "Beşiktaş Belediyesi ile yürütülen projede önce katılımcılar ve yürütücülerle semtin sorunlu noktalarını tartıştık. Ardından sahaya inip Beşiktaş'ta yaşayanlarla sorunları ve talepleri üzerine görüştük. Topladığımız verileri birleştirerek çözüm önerileri geliştirdik ve projelerimizi Beşiktaş Belediyesi'ne sunduk.",
+        "en": "In this project with Beşiktaş Municipality we first discussed the problem areas of the district with participants and coordinators, then went into the field to speak with residents about their problems and requests. Combining what we gathered, we developed proposals and presented our projects to the municipality."
+      }
+    }
+  ],
+  "leadership": [
+    {
+      "title": {
+        "tr": "Bilim-Kurgu ve Fantazya Kulübü — Kurucu Başkan",
+        "en": "Science Fiction and Fantasy Club — Founding President"
+      },
+      "note": {
+        "tr": "İlk dönemde 400+ aktif üye. Danışman: Doç. Dr. Emre Kavut",
+        "en": "400+ active members in the first term. Advisor: Assoc. Prof. Emre Kavut"
+      }
+    },
+    {
+      "title": {
+        "tr": "BaykuşCon Festivali — Baş Yürütücü",
+        "en": "BaykuşCon Festival — Lead Coordinator"
+      },
+      "note": {
+        "tr": "Bütçelendirme, lojistik, sponsorluk ve operasyon",
+        "en": "Budgeting, logistics, sponsorship and operations"
+      }
+    },
+    {
+      "title": {
+        "tr": "MSGSÜ Kulüpler Birliği — Başkan",
+        "en": "MSGSÜ Union of Student Clubs — President"
+      },
+      "note": {
+        "tr": "Tüm kulüplerin idari ve yönetim şemalarının yeniden kurgulanması",
+        "en": "Restructuring the administrative and governance schemes of all clubs"
+      }
+    },
+    {
+      "title": {
+        "tr": "MSGSÜ EcoFest — Saha Kriz Yönetimi",
+        "en": "MSGSÜ EcoFest — Field Crisis Management"
+      },
+      "note": {
+        "tr": "",
+        "en": ""
+      }
+    }
+  ],
+  "coursework": {
+    "summary": {
+      "tr": "Temel sanat eğitimi, mimarlık tarihi, bina bilgisi, yapı bilgisi, malzeme ve yapı yönetimi ile ilgili tüm zorunlu dersler.",
+      "en": "All compulsory coursework in basic design, architectural history, building studies, construction, materials and construction management."
+    },
+    "note": {
+      "tr": "Ayrıca rüzgar kapanlarının nasıl modernize edildiğini ve modern sistemlerinin nasıl kullanıldığını inceleyen 3500 kelimelik bir araştırma yürüttüm.",
+      "en": "I also carried out a 3,500-word study examining how windcatchers have been modernised and how their contemporary systems are used."
+    }
+  },
+  "software": [
+    "AutoCAD",
+    "ArchiCAD",
+    "SketchUp",
+    "Photoshop",
+    "Grasshopper",
+    "HTML"
+  ],
+  "languages": [
+    {
+      "name": {
+        "tr": "Türkçe",
+        "en": "Turkish"
+      },
+      "level": {
+        "tr": "Anadil",
+        "en": "Native"
+      }
+    },
+    {
+      "name": {
+        "tr": "İngilizce",
+        "en": "English"
+      },
+      "level": {
+        "tr": "B2",
+        "en": "B2"
+      }
+    },
+    {
+      "name": {
+        "tr": "Fransızca",
+        "en": "French"
+      },
+      "level": {
+        "tr": "A1",
+        "en": "A1"
+      }
+    }
+  ],
+  "competencies": [
+    {
+      "tr": "Proje ve Bütçe Yönetimi",
+      "en": "Project and Budget Management"
+    },
+    {
+      "tr": "Saha ve Kriz Koordinasyonu",
+      "en": "Site and Crisis Coordination"
+    },
+    {
+      "tr": "Disiplinlerarası İletişim",
+      "en": "Interdisciplinary Communication"
+    },
+    {
+      "tr": "Sürdürülebilir Tasarım & Analiz",
+      "en": "Sustainable Design & Analysis"
+    },
+    {
+      "tr": "Kültürel Miras & Rölöve / Restorasyon",
+      "en": "Cultural Heritage & Survey / Restoration"
+    }
+  ]
+}

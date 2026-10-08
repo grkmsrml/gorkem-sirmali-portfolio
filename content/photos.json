@@ -1,0 +1,39 @@
+{
+  "photos": [
+    {
+      "image": "/images/photos/tangle/01.webp",
+      "caption": {
+        "tr": "",
+        "en": ""
+      }
+    },
+    {
+      "image": "/images/photos/tangle/02.webp",
+      "caption": {
+        "tr": "",
+        "en": ""
+      }
+    },
+    {
+      "image": "/images/photos/tangle/03.webp",
+      "caption": {
+        "tr": "",
+        "en": ""
+      }
+    },
+    {
+      "image": "/images/photos/stratification/01.webp",
+      "caption": {
+        "tr": "",
+        "en": ""
+      }
+    },
+    {
+      "image": "/images/photos/stratification/02.webp",
+      "caption": {
+        "tr": "",
+        "en": ""
+      }
+    }
+  ]
+}

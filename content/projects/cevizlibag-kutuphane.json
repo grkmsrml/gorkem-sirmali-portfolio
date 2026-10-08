@@ -1,0 +1,61 @@
+{
+  "slug": "cevizlibag-kutuphane",
+  "order": 60,
+  "title": {
+    "tr": "Cevizlibağ Multimedya Kütüphanesi",
+    "en": "Cevizlibağ Multimedia Library"
+  },
+  "category": "mimari",
+  "year": 2023,
+  "location": {
+    "tr": "İstanbul / Cevizlibağ",
+    "en": "Istanbul / Cevizlibağ"
+  },
+  "course": {
+    "tr": "Mimari Proje II",
+    "en": "Architectural Design II"
+  },
+  "team": "",
+  "featured": true,
+  "video": "",
+  "art": "plan",
+  "cover": "/images/projects/cevizlibag-kutuphane/02.webp",
+  "images": [
+    {
+      "image": "/images/projects/cevizlibag-kutuphane/01.webp",
+      "caption": {
+        "tr": "",
+        "en": ""
+      }
+    },
+    {
+      "image": "/images/projects/cevizlibag-kutuphane/02.webp",
+      "caption": {
+        "tr": "",
+        "en": ""
+      }
+    },
+    {
+      "image": "/images/projects/cevizlibag-kutuphane/03.webp",
+      "caption": {
+        "tr": "",
+        "en": ""
+      }
+    },
+    {
+      "image": "/images/projects/cevizlibag-kutuphane/04.webp",
+      "caption": {
+        "tr": "",
+        "en": ""
+      }
+    }
+  ],
+  "summary": {
+    "tr": "Eğitim kurumlarına yakın bölgede çalışma alanı eksikliğini gideren, gençlerin dijital üretimine alan açan kütüphane.",
+    "en": "A library close to educational institutions, addressing the lack of study space and opening room for young people's digital production."
+  },
+  "description": {
+    "tr": "Pek çok eğitim kurumuna yakın olan bölgede, hem çalışma alanı eksikliğini gidermek hem de gençlerin dijital üretimine katkıda bulunmasını sağlamak amacıyla planlanan bu proje, sesli alanlarıyla tamamen herkese açıktır.\n\nSessiz alanı ve dijital erişilen kütüphanesi kayıt usulü ile çalışırken, üretim merkezleri ise başvuruyla çalışan sistemler olarak kurgulanmıştır.",
+    "en": "Planned for an area close to many educational institutions, both to address the shortage of study space and to let young people contribute to digital production, this project is entirely open to the public in its sound-permitted areas.\n\nThe quiet zone and the digitally accessed library operate by registration, while the production centres are set up as systems working by application."
+  }
+}

@@ -18,12 +18,14 @@ export function renderPhotos() {
           const dims = item.width && item.height
             ? ` width="${item.width}" height="${item.height}"`
             : '';
+          // Başlıksız fotoğrafta da düğmenin bir adı olsun
+          const label = pick(item.caption) || `${t('photos.item')} ${i + 1}`;
           return `
             <button class="photo-cell reveal reveal--unveil"
                     data-photo-index="${i}"
-                    aria-label="${pick(item.caption) ?? ''}">
+                    aria-label="${label}">
               <span class="ratio ratio--${item.ratio ?? 'landscape'}">
-                <img src="${item.thumb ?? item.src}" alt="${pick(item.caption) ?? ''}" loading="lazy"${dims} />
+                <img src="${item.thumb ?? item.src}" alt="${label}" loading="lazy"${dims} />
               </span>
             </button>
           `;

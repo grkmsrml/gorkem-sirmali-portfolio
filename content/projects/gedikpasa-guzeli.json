@@ -1,0 +1,82 @@
+{
+  "slug": "gedikpasa-guzeli",
+  "order": 80,
+  "title": {
+    "tr": "Gedikpaşa Güzeli",
+    "en": "The Beauty of Gedikpaşa"
+  },
+  "category": "koruma",
+  "year": 2023,
+  "location": {
+    "tr": "İstanbul / Gedikpaşa",
+    "en": "Istanbul / Gedikpaşa"
+  },
+  "course": {
+    "tr": "Mimari Koruma ve Rölöve I",
+    "en": "Architectural Conservation and Survey I"
+  },
+  "team": "Süreyya Timuri",
+  "featured": false,
+  "video": "",
+  "art": "facade",
+  "cover": "/images/projects/gedikpasa-guzeli/02.webp",
+  "images": [
+    {
+      "image": "/images/projects/gedikpasa-guzeli/01.webp",
+      "caption": {
+        "tr": "",
+        "en": ""
+      }
+    },
+    {
+      "image": "/images/projects/gedikpasa-guzeli/02.webp",
+      "caption": {
+        "tr": "",
+        "en": ""
+      }
+    },
+    {
+      "image": "/images/projects/gedikpasa-guzeli/03.webp",
+      "caption": {
+        "tr": "",
+        "en": ""
+      }
+    },
+    {
+      "image": "/images/projects/gedikpasa-guzeli/04.webp",
+      "caption": {
+        "tr": "",
+        "en": ""
+      }
+    },
+    {
+      "image": "/images/projects/gedikpasa-guzeli/05.webp",
+      "caption": {
+        "tr": "",
+        "en": ""
+      }
+    },
+    {
+      "image": "/images/projects/gedikpasa-guzeli/06.webp",
+      "caption": {
+        "tr": "",
+        "en": ""
+      }
+    },
+    {
+      "image": "/images/projects/gedikpasa-guzeli/07.webp",
+      "caption": {
+        "tr": "",
+        "en": ""
+      }
+    }
+  ],
+  "summary": {
+    "tr": "Bir dönem otel olarak işletilen, bugün her katında ayakkabı üretimi yapılan eski Rum evinin zemin ve ikinci kat rölövesi.",
+    "en": "A survey of the ground and second floors of a former Greek house, once run as a hotel and now producing shoes on every floor."
+  },
+  "description": {
+    "tr": "İstanbul'un önemli iki noktasını birleştiren hat olan Gedikpaşa'da bulunan bu eski Rum evi, bir dönem otel olarak işletildikten sonra günümüzde her katında ayakkabı üretimi yapılan bir duruma gelmiştir.\n\nSon işlevi de binaya hiç iyi bakmamış olup, farklı birçok değişikliğe neden olmuştur.\n\nÜretim alanlarında gerekli ölçümleri yapmamıza izin veren markalar ile zemin ve ikinci katın planları kayda geçirilmiştir.",
+    "en": "This old Greek house in Gedikpaşa — on the line joining two important points of Istanbul — was run for a time as a hotel and has since become a building producing shoes on every floor.\n\nThis latest function has not treated the building well and has caused a great many alterations.\n\nWith the permission of the manufacturers occupying the production areas, the plans of the ground and second floors were recorded."
+  }
+}

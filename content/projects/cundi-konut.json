@@ -1,0 +1,89 @@
+{
+  "slug": "cundi-konut",
+  "order": 50,
+  "title": {
+    "tr": "Cundi'de Konut",
+    "en": "House in Cundi"
+  },
+  "category": "koruma",
+  "year": 2024,
+  "location": {
+    "tr": "İstanbul / Cinci — Cundi Meydanı",
+    "en": "Istanbul / Cinci — Cundi Square"
+  },
+  "course": {
+    "tr": "Mimari Koruma ve Rölöve II",
+    "en": "Architectural Conservation and Survey II"
+  },
+  "team": "Mustafa Can Demirtaş, Semanur Maraş",
+  "featured": true,
+  "video": "",
+  "art": "facade",
+  "cover": "/images/projects/cundi-konut/02.webp",
+  "images": [
+    {
+      "image": "/images/projects/cundi-konut/01.webp",
+      "caption": {
+        "tr": "",
+        "en": ""
+      }
+    },
+    {
+      "image": "/images/projects/cundi-konut/02.webp",
+      "caption": {
+        "tr": "",
+        "en": ""
+      }
+    },
+    {
+      "image": "/images/projects/cundi-konut/03.webp",
+      "caption": {
+        "tr": "",
+        "en": ""
+      }
+    },
+    {
+      "image": "/images/projects/cundi-konut/04.webp",
+      "caption": {
+        "tr": "",
+        "en": ""
+      }
+    },
+    {
+      "image": "/images/projects/cundi-konut/05.webp",
+      "caption": {
+        "tr": "",
+        "en": ""
+      }
+    },
+    {
+      "image": "/images/projects/cundi-konut/06.webp",
+      "caption": {
+        "tr": "",
+        "en": ""
+      }
+    },
+    {
+      "image": "/images/projects/cundi-konut/07.webp",
+      "caption": {
+        "tr": "",
+        "en": ""
+      }
+    },
+    {
+      "image": "/images/projects/cundi-konut/08.webp",
+      "caption": {
+        "tr": "",
+        "en": ""
+      }
+    }
+  ],
+  "summary": {
+    "tr": "İstanbul'un en eski meydanlarından Cundi'ye çıkan sokakta, yıllardır boş bekleyen evin rölövesi ve arşiv araştırması.",
+    "en": "A measured survey and archival study of a long-vacant house on a street leading to Cundi, one of Istanbul's oldest squares."
+  },
+  "description": {
+    "tr": "İstanbul'un en eski meydanlarından olan Cinci/Cundi Meydanına çıkan sokakta bulunan bu eski ev yıllardır boş halde beklemekteymiş.\n\nKonutun izin verilen alanlarında rölövesini alıp, raporlamanın yanı sıra arşiv çalışmaları ile orijinal durumuna dair tespitleri de yaptım.",
+    "en": "This old house, on a street leading up to Cinci/Cundi Square — one of the oldest squares in Istanbul — had stood empty for years.\n\nI produced a measured survey of the areas I was permitted to access and, alongside the report, carried out archival work to establish findings about its original state."
+  }
+}

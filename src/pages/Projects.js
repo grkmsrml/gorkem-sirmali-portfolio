@@ -10,7 +10,7 @@
    ============================================ */
 
 import { t, pick } from '../i18n.js';
-import { projects, categories } from '../data/projects.js';
+import { projects, categories, usedCategories, coverImage } from '../data/projects.js';
 import { drawing, cover } from '../components/Drawing.js';
 
 // Sayfa durumu — dil değişse de korunur
@@ -65,8 +65,8 @@ function catalogView(list) {
             ${open ? `
               <div class="catalog__detail">
                 <div class="catalog__detail-art">
-                  ${p.images?.length
-                    ? `<img src="${p.images[0].thumb ?? p.images[0].src}" alt="${pick(p.title)}" loading="lazy" />`
+                  ${coverImage(p)
+                    ? `<img src="${coverImage(p).thumb ?? coverImage(p).src}" alt="${pick(p.title)}" loading="lazy" />`
                     : drawing(p.art)}
                 </div>
                 <div class="catalog__detail-text">
@@ -103,7 +103,7 @@ export function renderProjects() {
 
       <div class="section__head projects__controls">
         <div class="filters">
-          ${categories.map((c) => `
+          ${usedCategories().map((c) => `
             <button class="filter-btn ${state.filter === c.id ? 'is-active' : ''}"
                     data-filter="${c.id}">${pick(c.name)}</button>
           `).join('')}

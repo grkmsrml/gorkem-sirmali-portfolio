@@ -1,0 +1,57 @@
+# Yönetim panelinden (ya da elle) .jpg/.png yüklendiğinde çalışır:
+# görselleri üç boyutlu .webp'e çevirir, içerik dosyalarındaki
+# adresleri günceller ve sonucu depoya geri yazar. Böylece depoda
+# ham, büyük dosyalar birikmez.
+#
+# Yayın servisi ham dosyalı ilk commit'i zaten doğru kurar (derleme
+# de aynı dönüştürmeyi yapar); bu iş akışı yalnız depoyu toparlar.
+
+name: Görselleri dönüştür
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'public/images/**.jpg'
+      - 'public/images/**.jpeg'
+      - 'public/images/**.png'
+      - 'public/images/**.JPG'
+      - 'public/images/**.JPEG'
+      - 'public/images/**.PNG'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: optimize-images
+  cancel-in-progress: false
+
+jobs:
+  optimize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run optimize:images
+
+      - name: Sonucu depoya yaz
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A public/images content src/data/image-sizes.js
+          if git diff --cached --quiet; then
+            echo "Değişiklik yok."
+          else
+            # [skip netlify]: çıktı bir önceki derlemeyle aynı, yeniden kurmaya gerek yok
+            git commit -m "Görseller dönüştürüldü [skip netlify]"
+            git pull --rebase origin main
+            git push
+          fi

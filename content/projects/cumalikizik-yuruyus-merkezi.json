@@ -1,0 +1,117 @@
+{
+  "slug": "cumalikizik-yuruyus-merkezi",
+  "order": 20,
+  "title": {
+    "tr": "Cumalıkızık'ta Yürüyüş Merkezi",
+    "en": "Walking Centre in Cumalıkızık"
+  },
+  "category": "uygulama",
+  "year": 2025,
+  "location": {
+    "tr": "Bursa / Cumalıkızık",
+    "en": "Bursa / Cumalıkızık"
+  },
+  "course": {
+    "tr": "Uygulama Projesi II",
+    "en": "Construction Project II"
+  },
+  "team": "",
+  "featured": false,
+  "video": "",
+  "art": "section",
+  "cover": "/images/projects/cumalikizik-yuruyus-merkezi/11.webp",
+  "images": [
+    {
+      "image": "/images/projects/cumalikizik-yuruyus-merkezi/01.webp",
+      "caption": {
+        "tr": "Vaziyet Planı ve Kesitler",
+        "en": "Site Plan and Sections"
+      }
+    },
+    {
+      "image": "/images/projects/cumalikizik-yuruyus-merkezi/02.webp",
+      "caption": {
+        "tr": "-3.00 Kotu Planı",
+        "en": "Level -3.00 Plan"
+      }
+    },
+    {
+      "image": "/images/projects/cumalikizik-yuruyus-merkezi/03.webp",
+      "caption": {
+        "tr": "0.00 Kotu Planı",
+        "en": "Level 0.00 Plan"
+      }
+    },
+    {
+      "image": "/images/projects/cumalikizik-yuruyus-merkezi/04.webp",
+      "caption": {
+        "tr": "3.00 Kotu Planı",
+        "en": "Level 3.00 Plan"
+      }
+    },
+    {
+      "image": "/images/projects/cumalikizik-yuruyus-merkezi/05.webp",
+      "caption": {
+        "tr": "A-A Kesiti",
+        "en": "Section A-A"
+      }
+    },
+    {
+      "image": "/images/projects/cumalikizik-yuruyus-merkezi/06.webp",
+      "caption": {
+        "tr": "B-B Kesiti",
+        "en": "Section B-B"
+      }
+    },
+    {
+      "image": "/images/projects/cumalikizik-yuruyus-merkezi/07.webp",
+      "caption": {
+        "tr": "Doğu Görünüşü",
+        "en": "East Elevation"
+      }
+    },
+    {
+      "image": "/images/projects/cumalikizik-yuruyus-merkezi/08.webp",
+      "caption": {
+        "tr": "Kuzey Görünüşü",
+        "en": "North Elevation"
+      }
+    },
+    {
+      "image": "/images/projects/cumalikizik-yuruyus-merkezi/09.webp",
+      "caption": {
+        "tr": "Güney Görünüşü",
+        "en": "South Elevation"
+      }
+    },
+    {
+      "image": "/images/projects/cumalikizik-yuruyus-merkezi/10.webp",
+      "caption": {
+        "tr": "Batı Görünüşü",
+        "en": "West Elevation"
+      }
+    },
+    {
+      "image": "/images/projects/cumalikizik-yuruyus-merkezi/11.webp",
+      "caption": {
+        "tr": "Aksonometrik Strüktür Modeli",
+        "en": "Axonometric Structural Model"
+      }
+    },
+    {
+      "image": "/images/projects/cumalikizik-yuruyus-merkezi/12.webp",
+      "caption": {
+        "tr": "Çatı ve Dere Detayları",
+        "en": "Roof and Valley Details"
+      }
+    }
+  ],
+  "summary": {
+    "tr": "Cumalıkızık'ta, eğimli arazide yarı gömülü bir kütlede kurgulanan, Cor-ten kaplamalı bir yürüyüş merkezi — tam teknik detaylandırmasıyla.",
+    "en": "A part-buried walking centre on a sloping site in Cumalıkızık, clad in Cor-ten steel and developed down to full construction detail."
+  },
+  "description": {
+    "tr": "Bursa'nın tarihi köyü Cumalıkızık'ta, eğimli bir arazide yarı gömülü bir yürüyüş merkezi tasarladım. Yapı, -3.00 kotundaki depo ve teknik hacimlerden 0.00 kotundaki mağaza ve satış alanlarına, oradan da 3.00 kotundaki kafe ve terasa doğru araziyle birlikte yükseliyor.\n\nBu proje bir tasarım stüdyosu değil, bir uygulama projesiydi: her kesiti ve detayı 1/50'den 1/5'e kadar tam olarak çözmem gerekiyordu. Cephe Cor-ten panel, çelik strüktür ve yalıtım katmanlarıyla kurgulandı; çatı biriktirme ve dere detaylarından merdiven bağlantılarına, pencere sularına kadar her nokta ayrıca çizildi.\n\nAmaç, tasarım kararının üretilebilir bir yapıya dönüşmesini göstermekti — malzeme kalınlığından vida boyuna kadar.",
+    "en": "In Cumalıkızık, Bursa's historic village, I designed a part-buried walking centre on a sloping site. The building rises with the terrain, from storage and plant rooms at level -3.00, through the shop and retail floor at 0.00, up to a café and terrace at level 3.00.\n\nThis was not a design studio project but a construction project: every section and detail had to be resolved in full, from 1:50 down to 1:5. The façade is built up in Cor-ten panels, steel structure and insulation layers; roof drainage and valley details, stair connections and window sills are each drawn separately.\n\nThe aim was to show a design decision carried all the way through to a buildable structure — down to material thickness and fastener length."
+  }
+}

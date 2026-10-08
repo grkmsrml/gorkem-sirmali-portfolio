@@ -70,8 +70,27 @@ p, .body-text {
   max-width: 68ch;
 }
 
-.prose p + p {
+.prose > * + * {
   margin-top: 1.25em;
+}
+
+/* Panelden yazılan metinlerdeki ara başlık, alıntı ve liste */
+.prose h2 {
+  margin-top: 2em;
+  font-size: var(--fs-h3);
+}
+
+.prose blockquote {
+  padding-left: var(--space-md);
+  border-left: 2px solid var(--color-accent);
+  font-family: var(--font-serif);
+  font-size: var(--fs-h4);
+  line-height: 1.45;
+}
+
+.prose ul {
+  padding-left: 1.2em;
+  list-style: square;
 }
 
 .text-small {

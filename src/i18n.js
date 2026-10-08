@@ -36,7 +36,7 @@ export const translations = {
     'home.contactBtn': 'İletişime geç',
 
     'projects.title': 'Projeler',
-    'projects.lead': 'Mimari tasarım, kent tasarımı, iç mekan, konsept ve çizim çalışmaları.',
+    'projects.lead': 'Mimari tasarım, uygulama projesi, iç mekan ve koruma / rölöve çalışmaları.',
     'projects.viewGrid': 'Izgara',
     'projects.viewCatalog': 'Katalog',
     'projects.empty': 'Bu kategoride henüz proje yok.',
@@ -47,6 +47,8 @@ export const translations = {
     'detail.location': 'Konum',
     'detail.scale': 'Ölçek',
     'detail.course': 'Ders',
+    'detail.team': 'Ekip',
+    'detail.teamWith': 'Grup çalışması —',
     'detail.prev': 'Önceki',
     'detail.next': 'Sonraki',
     'detail.backToProjects': 'Projelere dön',
@@ -93,7 +95,7 @@ export const translations = {
     'cv.summary': 'Özet',
     'cv.langHint': 'Bu sayfa aktif dile göre çizilir; dili değiştirerek özgeçmişi İngilizce okuyabilirsin.',
     'blog.title': 'Blog',
-    'blog.lead': 'Mimarlık kuramı, bilim-kurgunun mekânsal yansımaları ve atölye notları üzerine yazılar.',
+    'blog.lead': 'Gezi notları, kent ve mimarlık üzerine yazılar.',
     'blog.count': 'yazı',
     'blog.minRead': 'dk okuma',
     'blog.empty': 'Henüz yazı yayınlanmadı.',
@@ -101,10 +103,9 @@ export const translations = {
     'blog.backToList': 'Yazılara dön',
     'blog.newer': 'Daha yeni',
     'blog.older': 'Daha eski',
-    'blog.exampleNotice': 'Bu yazı, sayfanın görünümünü göstermek için hazırlanmış örnek bir metindir.',
 
     'photos.title': 'Fotoğraflar',
-    'photos.lead': 'Kentsel fotoğraf atölyesinde çalıştığım dört tema üzerinden bir görsel envanter.',
+    'photos.lead': 'Gezilerden ve kentten kareler.',
     'photos.empty': 'Fotoğraflar henüz yüklenmedi. Temalar ve yapı hazır; görseller eklendiğinde galeri kendiliğinden dolacak.',
 
     'contact.title': 'İletişim',
@@ -131,6 +132,7 @@ export const translations = {
 
     'footer.tagline': 'Mimarlık & Tasarım',
     'footer.follow': 'Takip et',
+    'photos.item': 'Fotoğraf',
     'footer.location': 'İstanbul / Türkiye',
   },
 
@@ -161,7 +163,7 @@ export const translations = {
     'home.contactBtn': 'Get in touch',
 
     'projects.title': 'Projects',
-    'projects.lead': 'Architectural design, urban design, interiors, concept and drawing studies.',
+    'projects.lead': 'Architectural design, construction documentation, interiors and conservation / survey work.',
     'projects.viewGrid': 'Grid',
     'projects.viewCatalog': 'Catalogue',
     'projects.empty': 'No projects in this category yet.',
@@ -172,6 +174,8 @@ export const translations = {
     'detail.location': 'Location',
     'detail.scale': 'Scale',
     'detail.course': 'Course',
+    'detail.team': 'Team',
+    'detail.teamWith': 'Group work —',
     'detail.prev': 'Previous',
     'detail.next': 'Next',
     'detail.backToProjects': 'Back to projects',
@@ -218,7 +222,7 @@ export const translations = {
     'cv.summary': 'Summary',
     'cv.langHint': 'This page follows the active language, so the CV can be read in full in English here.',
     'blog.title': 'Journal',
-    'blog.lead': 'Writing on architectural theory, the spatial reflections of science fiction, and workshop notes.',
+    'blog.lead': 'Travel notes and writing on cities and architecture.',
     'blog.count': 'posts',
     'blog.minRead': 'min read',
     'blog.empty': 'No posts published yet.',
@@ -226,10 +230,9 @@ export const translations = {
     'blog.backToList': 'Back to journal',
     'blog.newer': 'Newer',
     'blog.older': 'Older',
-    'blog.exampleNotice': 'This is a sample text written to demonstrate how the page looks.',
 
     'photos.title': 'Photographs',
-    'photos.lead': 'A visual inventory across the four themes I worked on in the urban photography workshop.',
+    'photos.lead': 'Frames from travels and from the city.',
     'photos.empty': 'Photographs are not uploaded yet. The themes and structure are ready; the gallery will fill itself once images are added.',
 
     'contact.title': 'Contact',
@@ -256,6 +259,7 @@ export const translations = {
 
     'footer.tagline': 'Architecture & Design',
     'footer.follow': 'Follow',
+    'photos.item': 'Photograph',
     'footer.location': 'Istanbul / Türkiye',
   },
 };

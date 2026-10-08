@@ -1,0 +1,82 @@
+{
+  "slug": "acik-teras-kuzguncuk",
+  "order": 40,
+  "title": {
+    "tr": "Açık Teras Kuzguncuk",
+    "en": "Open Terrace Kuzguncuk"
+  },
+  "category": "icmekan",
+  "year": 2025,
+  "location": {
+    "tr": "İstanbul / Kuzguncuk",
+    "en": "Istanbul / Kuzguncuk"
+  },
+  "course": {
+    "tr": "Mekan Organizasyonu Dersi",
+    "en": "Spatial Organisation Studio"
+  },
+  "team": "",
+  "featured": true,
+  "video": "https://youtu.be/eZkMsbmmEg0",
+  "art": "section",
+  "cover": "/images/projects/acik-teras-kuzguncuk/cover.webp",
+  "images": [
+    {
+      "image": "/images/projects/acik-teras-kuzguncuk/01.webp",
+      "caption": {
+        "tr": "Vaziyet Planı ve Zemin Kat Planı",
+        "en": "Site Plan and Ground Floor Plan"
+      }
+    },
+    {
+      "image": "/images/projects/acik-teras-kuzguncuk/02.webp",
+      "caption": {
+        "tr": "Kat Planları (1-4)",
+        "en": "Floor Plans (1–4)"
+      }
+    },
+    {
+      "image": "/images/projects/acik-teras-kuzguncuk/03.webp",
+      "caption": {
+        "tr": "Kesitler A-A, B-B, C-C, D-D",
+        "en": "Sections A-A, B-B, C-C, D-D"
+      }
+    },
+    {
+      "image": "/images/projects/acik-teras-kuzguncuk/04.webp",
+      "caption": {
+        "tr": "Detay Kesitleri E-E, F-F (1/20)",
+        "en": "Detail Sections E-E, F-F (1:20)"
+      }
+    },
+    {
+      "image": "/images/projects/acik-teras-kuzguncuk/05.webp",
+      "caption": {
+        "tr": "Cephe Kesit Detayları",
+        "en": "Façade Section Details"
+      }
+    },
+    {
+      "image": "/images/projects/acik-teras-kuzguncuk/06.webp",
+      "caption": {
+        "tr": "Kuzey ve Doğu Görünüşler",
+        "en": "North and East Elevations"
+      }
+    },
+    {
+      "image": "/images/projects/acik-teras-kuzguncuk/07.webp",
+      "caption": {
+        "tr": "Aydınlatma Planı, Render ve Detaylar",
+        "en": "Lighting Plan, Renders and Details"
+      }
+    }
+  ],
+  "summary": {
+    "tr": "Reklam panolarıyla kapatılmış eski bir evin duvarları içine, hafif çelik strüktürle kurulan çok katmanlı mekan.",
+    "en": "A multi-layered space built with a light steel structure inside the walls of an old house closed off by advertising boards."
+  },
+  "description": {
+    "tr": "Kuzguncuk'ta dört yol köşesinde, etrafı reklam panoları ile kapatılmış eski evin dış duvarları içine, hafif çelik strüktür ile çok katmanlı bir mekan tasarladım.\n\nÇelik strüktür hem 120 cm aralıklı katları taşımakta hem de eski duvarın korunmasına destek olmaktadır.\n\nKatlar, yükseklik ile algı oyunları yaparken bir yandan da farklı manzaralara yönelir.",
+    "en": "On a crossroads corner in Kuzguncuk, I designed a multi-layered space with a light steel structure set inside the outer walls of an old house closed off by advertising boards.\n\nThe steel structure both carries the floors set at 120 cm intervals and supports the preservation of the old wall.\n\nThe levels play perceptual games with height while turning towards different views."
+  }
+}

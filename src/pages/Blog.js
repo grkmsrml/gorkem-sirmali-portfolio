@@ -3,7 +3,8 @@
    ============================================ */
 
 import { t, pick, getLang } from '../i18n.js';
-import { sortedPosts, postBySlug, adjacentPosts, blogCategories } from '../data/blog-posts.js';
+import { md } from '../markdown.js';
+import { sortedPosts, postBySlug, adjacentPosts, blogCategories, usedBlogCategories } from '../data/blog-posts.js';
 
 const state = { filter: 'all' };
 
@@ -60,7 +61,7 @@ export function renderBlog() {
       ${all.length ? `
         <div class="section__head projects__controls">
           <div class="filters">
-            ${blogCategories.map((c) => `
+            ${usedBlogCategories().map((c) => `
               <button class="filter-btn ${state.filter === c.id ? 'is-active' : ''}"
                       data-blog-filter="${c.id}">${pick(c.name)}</button>
             `).join('')}
@@ -97,7 +98,7 @@ export function renderBlogPost(slug) {
   }
 
   const { prev, next } = adjacentPosts(slug);
-  const paragraphs = pick(post.body).map((p) => `<p>${p}</p>`).join('');
+  const paragraphs = md(pick(post.body));
 
   return `
     <article class="container">
@@ -106,8 +107,6 @@ export function renderBlogPost(slug) {
         <h1 class="page-head__title">${pick(post.title)}</h1>
         <p class="meta post__meta">${postMeta(post)}</p>
       </header>
-
-      ${post.example ? `<p class="post__notice meta">${t('blog.exampleNotice')}</p>` : ''}
 
       <div class="post__body prose">
         ${paragraphs}

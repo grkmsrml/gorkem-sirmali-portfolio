@@ -1,0 +1,68 @@
+{
+  "slug": "kutahya-kutuphane-konser",
+  "order": 10,
+  "title": {
+    "tr": "Kütahya Kütüphane ve Konser Salonu",
+    "en": "Kütahya Library and Concert Hall"
+  },
+  "category": "mimari",
+  "year": 2025,
+  "location": {
+    "tr": "Kütahya",
+    "en": "Kütahya"
+  },
+  "course": {
+    "tr": "Mimari Proje IV",
+    "en": "Architectural Design IV"
+  },
+  "team": "",
+  "featured": true,
+  "video": "",
+  "art": "plan",
+  "cover": "/images/projects/kutahya-kutuphane-konser/05.webp",
+  "images": [
+    {
+      "image": "/images/projects/kutahya-kutuphane-konser/01.webp",
+      "caption": {
+        "tr": "Kentsel Analiz ve Çeşme Envanteri",
+        "en": "Urban Analysis and Fountain Inventory"
+      }
+    },
+    {
+      "image": "/images/projects/kutahya-kutuphane-konser/02.webp",
+      "caption": {
+        "tr": "Ahmet Yakupoğlu Araştırması",
+        "en": "Research on Ahmet Yakupoğlu"
+      }
+    },
+    {
+      "image": "/images/projects/kutahya-kutuphane-konser/03.webp",
+      "caption": {
+        "tr": "Kat Planları",
+        "en": "Floor Plans"
+      }
+    },
+    {
+      "image": "/images/projects/kutahya-kutuphane-konser/04.webp",
+      "caption": {
+        "tr": "Vaziyet Planı",
+        "en": "Site Plan"
+      }
+    },
+    {
+      "image": "/images/projects/kutahya-kutuphane-konser/05.webp",
+      "caption": {
+        "tr": "Kesitler ve Görünüşler",
+        "en": "Sections and Elevations"
+      }
+    }
+  ],
+  "summary": {
+    "tr": "Kütahya kent merkezinde, 154 kültür varlığının haritalandığı bir araştırmayla başlayan kütüphane ve konser salonu kompleksi.",
+    "en": "A library and concert hall complex in central Kütahya, growing out of a survey that mapped all 154 heritage assets in the historic core."
+  },
+  "description": {
+    "tr": "Kütahya'da başlayan proje için önce kentin geçmişte nasıl olduğunu, neleri yitirdiğini ve neleri koruduğunu araştırdım. Kütahya merkezde 154 kültür varlığı bulunuyor; bunların durumunu (çeşmelerin akıp akmadığından kayıp yapılara kadar) haritaladım ve ziyaret için üç alternatif yürüyüş rotası önerdim.\n\nBu okumadan çıkan sonuç, kütüphane ve konser salonunu ressam Ahmet Yakupoğlu'nun mirasına bağladı: kendi tasarladığı ve inşasına bizzat katıldığı Çinili Cami'nin yakınında, onun kültürel restorasyon çabasını sürdüren bir kamusal kompleks kurguladım.\n\nProgram iki ayrı kütleye ayrılıyor: kütüphane (ana kütüphane, dijital/süreli yayınlar, çocuk kütüphanesi, sesli/sessiz çalışma alanları, atölyeler) ve konser salonu (salon, fuaye, kulis, kafe, lobi). İkisi ortak bir peyzaj zemininde, kentin eğimine oturuyor.",
+    "en": "For this project in Kütahya I first researched what the city used to be, what it has lost and what it has kept. The historic core holds 154 registered heritage assets; I mapped their condition — from fountains that still run to buildings that no longer exist — and proposed three alternative walking routes for visiting them.\n\nThat reading tied the library and concert hall to the legacy of the painter Ahmet Yakupoğlu: sited near the Çinili Mosque he designed and helped build himself, the complex continues his cultural restoration effort as a public programme.\n\nThe programme splits into two volumes: a library (main collection, digital/periodicals, children's library, quiet and vocal study rooms, workshops) and a concert hall (auditorium, foyer, backstage, café, lobby), sharing one landscaped ground that steps with the city's slope."
+  }
+}

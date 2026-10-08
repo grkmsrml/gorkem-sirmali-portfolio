@@ -1,0 +1,28 @@
+# Netlify yayın ayarları. Depoyu Netlify'a bağlamak yeterli;
+# aşağıdakileri panelden elle girmeye gerek yok.
+
+[build]
+  command = "npm run build"   # önce görselleri dönüştürür (prebuild), sonra siteyi kurar
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Vite'ın ürettiği dosyaların adında içerik özeti var; sonsuza dek önbelleklenebilir.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Görseller aynı adla değiştirilebilir; bir hafta yeter.
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+# Yönetim paneli arama motorlarına kapalı ve önbelleksiz.
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    Cache-Control = "no-cache"

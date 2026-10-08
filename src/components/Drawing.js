@@ -5,6 +5,8 @@
    ve temanın rengini kendiliğinden alırlar.
    ============================================ */
 
+import { coverImage } from '../data/projects.js';
+
 const drawings = {
   // Vaziyet / kat planı
   plan: `
@@ -37,7 +39,7 @@ const drawings = {
  * Izgara kartlarında küçük (thumb), büyük yüzeylerde tam sürüm kullanılır.
  */
 export function cover(project, { thumb = true } = {}) {
-  const first = project.images?.[0];
+  const first = coverImage(project);
 
   if (!first) {
     return `<div class="cell__art">${drawing(project.art)}</div>`;

@@ -5,18 +5,22 @@
    ============================================ */
 
 import { t, pick } from '../i18n.js';
+import { md } from '../markdown.js';
 import {
   profile, education, coursework, experience, involvement,
   leadership, software, languages, competencies,
 } from '../data/personal.js';
 
 function bioSection() {
-  const paragraphs = pick(profile.bio).map((p) => `<p>${p}</p>`).join('');
+  const paragraphs = md(pick(profile.bio));
 
   return `
     <section class="frame frame--split about__bio">
       <div class="cell">
-        <span class="overline">${t('about.title')}</span>
+        <div>
+          <span class="overline">${t('about.title')}</span>
+          <p class="about__intro">${pick(profile.intro)}</p>
+        </div>
         <div class="about__identity">
           <h2 class="about__name">${profile.name}</h2>
           <p class="meta">${pick(profile.title)}</p>

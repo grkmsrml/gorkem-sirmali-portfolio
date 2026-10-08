@@ -1,0 +1,61 @@
+{
+  "slug": "han-adasi",
+  "order": 30,
+  "title": {
+    "tr": "İstanbullular Hanı Çevresi Yeniden Değerlendirilmesi",
+    "en": "Reassessment of the İstanbullular Han Surroundings"
+  },
+  "category": "mimari",
+  "year": 2025,
+  "location": {
+    "tr": "Edremit / Balıkesir",
+    "en": "Edremit / Balıkesir"
+  },
+  "course": {
+    "tr": "Mimari Proje III",
+    "en": "Architectural Design III"
+  },
+  "team": "",
+  "featured": true,
+  "video": "",
+  "art": "plan",
+  "cover": "/images/projects/han-adasi/cover.webp",
+  "images": [
+    {
+      "image": "/images/projects/han-adasi/01.webp",
+      "caption": {
+        "tr": "Alan Analizi ve Vaziyet Planı",
+        "en": "Site Analysis and Plan"
+      }
+    },
+    {
+      "image": "/images/projects/han-adasi/02.webp",
+      "caption": {
+        "tr": "Mevcut Durum Fotoğrafları ve Kütle Çalışması",
+        "en": "Existing Condition Photographs and Massing Study"
+      }
+    },
+    {
+      "image": "/images/projects/han-adasi/03.webp",
+      "caption": {
+        "tr": "Kesitler (A-A, D-D) ve Kat Planları",
+        "en": "Sections (A-A, D-D) and Floor Plans"
+      }
+    },
+    {
+      "image": "/images/projects/han-adasi/04.webp",
+      "caption": {
+        "tr": "Kesitler (B-B, C-C) ve Kat Planları",
+        "en": "Sections (B-B, C-C) and Floor Plans"
+      }
+    }
+  ],
+  "summary": {
+    "tr": "Edremit'teki İstanbullular Hanı korunurken çevresinin dönüşümü: konutlar yeniden kurgulanıyor, hurdacıların işgal ettiği alan sinemaya, han avlusu kamusal alana dönüşüyor.",
+    "en": "Preserving Edremit's İstanbullular Han while transforming what surrounds it: housing reconfigured, the scrap dealers' plot becomes a cinema, and the han's courtyard turns public."
+  },
+  "description": {
+    "tr": "Projem, en temelinde Edremit'in nadir ayakta kalan taş yapılarından İstanbullular Hanı'nı alarak başladı. Han yeniden işlevlendirilirken orijinal yapısına dokunulmadı; hanın işlevini koruması adına çevresinin dönüşümü mühimdi, bu sebeple konut alanları yeniden kurgulandı ve ticaret alanı artırıldı.\n\nBir bina Edremit Tarımsal ve Hayvansal Ürün Üreticileri Kooperatifi'ne ayrıldı. 1980'lerde hurdacılar tarafından işgal edilen bölgeye ise sinema planladım.\n\nTüm bunların yanında, hanın otopark olarak kullanılan avlusu herkese açık, çoğunlukla sert zemin bir alan olarak yeniden düzenlendi. Bu ikisi bir araya gelince sinema salonunun cephesine görüntü yansıtılarak açık hava sineması imkânı oluştu.",
+    "en": "The project starts from İstanbullular Han, one of the few surviving stone masonry buildings in Edremit. The han itself was re-purposed without touching its original fabric; keeping that function intact meant the real design problem lay in its surroundings, so the housing stock around it was reconfigured and commercial space expanded.\n\nOne building was set aside for the Edremit Agricultural and Livestock Producers' Cooperative. The site occupied by scrap dealers since the 1980s became a cinema.\n\nThe han's courtyard, long used as a car park, was reopened as a mostly hard-paved public space. Together with the cinema, this let the cinema's façade double as a screen for open-air screenings."
+  }
+}

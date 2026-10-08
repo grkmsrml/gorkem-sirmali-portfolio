@@ -13,6 +13,17 @@
   gap: var(--space-xs);
 }
 
+/* Kısa tanıtım — sol hücrede, uzun biyografinin özeti */
+.about__intro {
+  margin-top: var(--space-md);
+  max-width: 34ch;
+  font-family: var(--font-serif);
+  font-size: var(--fs-h4);
+  font-weight: var(--fw-light);
+  line-height: 1.4;
+  color: var(--color-text);
+}
+
 .about__name {
   font-size: var(--fs-h2);
   font-weight: var(--fw-light);

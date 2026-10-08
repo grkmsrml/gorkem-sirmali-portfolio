@@ -8,7 +8,8 @@ import { initRouter, redraw } from './router.js';
 import { applyTranslations, toggleLang, otherLangLabel, getLang } from './i18n.js';
 import { handleProjectsClick } from './pages/Projects.js';
 import { handleBlogClick } from './pages/Blog.js';
-import { submitContactForm } from './pages/Contact.js';
+import { submitContactForm, socialIcons } from './pages/Contact.js';
+import { contact } from './data/personal.js';
 import { moveSlider } from './components/ImageSlider.js';
 import { downloadEnglishCV } from './pages/CV.js';
 import {
@@ -77,6 +78,22 @@ function initLang() {
   window.addEventListener('langchange', sync);
 
   btn?.addEventListener('click', toggleLang);
+}
+
+/* ============================================
+   FOOTER — sosyal bağlantılar
+   İletişim sayfasıyla aynı kaynaktan (data/personal.js) beslenir;
+   adres tek yerde değişir.
+   ============================================ */
+function initFooter() {
+  const box = document.getElementById('footer-social');
+  if (!box) return;
+
+  box.innerHTML = contact.social.map(({ id, label, url }) => `
+    <a href="${url}" target="_blank" rel="noopener" aria-label="${label}" class="footer__social-link">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">${socialIcons[id] ?? ''}</svg>
+    </a>
+  `).join('');
 }
 
 /* ============================================
@@ -294,6 +311,7 @@ function init() {
   initTheme();
   initLang();
   initNav();
+  initFooter();
   initNavbarScroll();
   initDelegation();
   initLightbox();

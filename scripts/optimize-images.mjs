@@ -16,8 +16,10 @@
    Kaynak dosya işlem sonunda silinir; .webp dosyalarına
    dokunulmaz, o yüzden betiği tekrar çalıştırmak güvenlidir.
 
-   Yeni proje görseli eklerken: dosyaları ilgili klasöre
-   .jpg/.png olarak at, sonra bu betiği çalıştır.
+   Her derlemeden önce kendiliğinden çalışır (package.json: prebuild).
+   Yönetim panelinden yüklenen .jpg/.png dosyaları böylece elle bir
+   şey yapmadan dönüştürülür; content/ altındaki içerik dosyalarında
+   o görsele verilen adres de .webp olarak güncellenir.
    ============================================ */
 
 import sharp from 'sharp';
@@ -54,7 +56,10 @@ async function writeManifest() {
     if (file.includes('-thumb') || file.includes('-full')) continue;
     const meta = await sharp(file).metadata();
     const key = '/' + path.relative('public', file).replace(/\\/g, '/');
-    entries[key] = { w: meta.width, h: meta.height };
+    // v: yanında -thumb/-full sürümleri var (kırpılmış kapaklarda yok)
+    const hasVariants = await fs.access(file.replace(/\.webp$/i, '-thumb.webp'))
+      .then(() => true, () => false);
+    entries[key] = { w: meta.width, h: meta.height, ...(hasVariants ? { v: true } : {}) };
   }
 
   const sorted = Object.fromEntries(Object.entries(entries).sort());
@@ -72,6 +77,28 @@ export default ${JSON.stringify(sorted, null, 2)};
   await fs.writeFile('src/data/image-sizes.js', body, 'utf8');
 
   console.log(`\nManifest yazıldı: src/data/image-sizes.js (${Object.keys(sorted).length} görsel)`);
+}
+
+/* Panelden yüklenen görsel içerik dosyasına .jpg/.png adresiyle
+   yazılır. Dönüştürmeden sonra o adresleri .webp'e çeviririz ki
+   içerik, diskteki dosyayla aynı şeyi göstersin. */
+async function rewriteContentRefs(converted) {
+  if (converted.length === 0) return;
+
+  for (const file of await walk('content', /\.json$/i)) {
+    const before = await fs.readFile(file, 'utf8');
+    let after = before;
+
+    for (const source of converted) {
+      const from = '/' + path.relative('public', source).replace(/\\/g, '/');
+      after = after.split(from).join(from.replace(RASTER, '.webp'));
+    }
+
+    if (after !== before) {
+      await fs.writeFile(file, after, 'utf8');
+      console.log(`İçerik güncellendi: ${file.replace(/\\/g, '/')}`);
+    }
+  }
 }
 
 const files = await walk(ROOT);
@@ -138,4 +165,5 @@ console.log(`\nÖnce  : ${(before / 1024 / 1024).toFixed(1)} MB`);
 console.log(`Sonra : ${(after / 1024 / 1024).toFixed(1)} MB`);
 console.log(`Kazanç: %${Math.round((1 - after / before) * 100)}`);
 
+await rewriteContentRefs(files);
 await writeManifest();

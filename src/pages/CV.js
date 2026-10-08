@@ -13,6 +13,7 @@
    ============================================ */
 
 import { t, pick, getLang, setLang } from '../i18n.js';
+import { md } from '../markdown.js';
 import {
   profile, contact, cvFiles, education, experience,
   involvement, leadership, software, languages, competencies,
@@ -98,7 +99,7 @@ function inlineList(items) {
 }
 
 function renderSheet() {
-  const summary = `<div class="prose cv-summary">${pick(profile.bio).map((p) => `<p>${p}</p>`).join('')}</div>`;
+  const summary = `<div class="prose cv-summary">${md(pick(profile.bio))}</div>`;
 
   const educationBody = education.map((e) => entry({
     period: `${e.start} — ${e.end ?? t('about.present')}`,
