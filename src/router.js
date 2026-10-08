@@ -92,7 +92,9 @@ function draw(path) {
   if (matched) {
     const { route, params } = matched;
     app.innerHTML = route.render(...params);
-    document.title = `${route.title(...params)} — Görkem Sırmalı`;
+    // Ana sayfanın başlığı zaten adı içeriyor; ikinci kez ekleme
+    const title = route.title(...params);
+    document.title = title.includes('Görkem Sırmalı') ? title : `${title} — Görkem Sırmalı`;
   } else {
     app.innerHTML = renderNotFound();
     document.title = `${t('page.notFound')} — Görkem Sırmalı`;

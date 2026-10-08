@@ -50,7 +50,7 @@ function heroSection() {
 
           <div class="hero__meta meta meta-row">
             <span><b>${t('hero.location')}</b></span>
-            <span>41.0082° K — 28.9784° D</span>
+            <span>${t('hero.coords')}</span>
             <span><b>${projects.length}</b> ${t('hero.projectCount')}</span>
           </div>
         </div>

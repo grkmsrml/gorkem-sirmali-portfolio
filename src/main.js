@@ -5,7 +5,7 @@
 import './styles/index.css';
 
 import { initRouter, redraw } from './router.js';
-import { applyTranslations, toggleLang, otherLangLabel, getLang } from './i18n.js';
+import { applyTranslations, toggleLang, otherLangLabel, getLang, t } from './i18n.js';
 import { handleProjectsClick } from './pages/Projects.js';
 import { handleBlogClick } from './pages/Blog.js';
 import { submitContactForm, socialIcons } from './pages/Contact.js';
@@ -68,7 +68,11 @@ function initLang() {
   applyTranslations();
 
   const sync = () => {
-    if (btn) btn.textContent = otherLangLabel();
+    if (!btn) return;
+    btn.textContent = otherLangLabel();
+    // Erişilebilir ad görünen metinle başlamalı ("EN"), yoksa sesle
+    // kontrol eden kullanıcı düğmeyi adıyla çağıramıyor.
+    btn.setAttribute('aria-label', `${otherLangLabel()} — ${t('a11y.lang')}`);
   };
 
   sync();
@@ -107,11 +111,14 @@ function initNav() {
   const close = () => {
     menu.classList.remove('is-open');
     toggle.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('is-nav-open');
   };
 
   toggle.addEventListener('click', () => {
     const open = menu.classList.toggle('is-open');
     toggle.setAttribute('aria-expanded', String(open));
+    // Menü açıkken arkadaki sayfa kaymasın
+    document.body.classList.toggle('is-nav-open', open);
   });
 
   // Bağlantıya tıklanınca menü kapansın

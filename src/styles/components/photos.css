@@ -36,15 +36,18 @@
 }
 
 .photo-cell {
-  display: block;
+  display: grid;
   width: 100%;
   background: var(--color-bg);
   overflow: hidden;
   cursor: pointer;
 }
 
+/* Yatay kare, yanındaki dikey karenin satır yüksekliğine uzar;
+   görsel cover olduğu için hücreyi boşluksuz doldurur. */
 .photo-cell .ratio {
   display: block;
+  height: 100%;
 }
 
 .photo-cell img {
@@ -168,7 +171,8 @@
 
 .lightbox__hint {
   position: absolute;
-  bottom: calc(var(--space-lg) + 46px);
+  /* Üstte durur: altta görsel başlığı ve sayaçla üst üste biniyordu */
+  top: var(--space-lg);
   left: 50%;
   transform: translateX(-50%);
   width: max-content;

@@ -54,6 +54,13 @@
 }
 
 .footer__social-link {
+  /* Simge 18px; dokunma alanı en az 40px olsun */
+  display: inline-grid;
+  place-items: center;
+  min-width: 40px;
+  min-height: 40px;
+  margin: -11px;
+  margin-right: 0;
   color: var(--color-text-muted);
   transition:
     color var(--duration-normal) var(--ease-out),

@@ -27,6 +27,11 @@ export const translations = {
     'hero.lead': 'Mimar Sinan Güzel Sanatlar Üniversitesi Mimarlık Bölümü son sınıf öğrencisiyim. Mimari tasarım, kent tasarımı ve iç mekan üzerine çalışıyorum.',
     'hero.scroll': 'Aşağı kaydır',
     'hero.location': 'İstanbul / Türkiye',
+    'hero.coords': '41.0082° K — 28.9784° D',
+    'a11y.skip': 'İçeriğe geç',
+    'a11y.menu': 'Menü',
+    'a11y.lang': 'Dili değiştir',
+    'a11y.theme': 'Temayı değiştir',
     'hero.projectCount': 'proje',
 
     'home.selected': 'Seçili İşler',
@@ -165,6 +170,11 @@ export const translations = {
     'hero.lead': 'Final-year architecture student at Mimar Sinan Fine Arts University. I work on architectural design, urban design and interiors.',
     'hero.scroll': 'Scroll',
     'hero.location': 'Istanbul / Türkiye',
+    'hero.coords': '41.0082° N — 28.9784° E',
+    'a11y.skip': 'Skip to content',
+    'a11y.menu': 'Menu',
+    'a11y.lang': 'Change language',
+    'a11y.theme': 'Change theme',
     'hero.projectCount': 'projects',
 
     'home.selected': 'Selected Work',

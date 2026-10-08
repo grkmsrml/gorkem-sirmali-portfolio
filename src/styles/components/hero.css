@@ -57,21 +57,40 @@
 .hero__work {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  /* Satırlar eşit ve hero'nun tüm yüksekliğini paylaşır; hücreye sabit
+     oran verilirse satır hücreden uzun kalıp altında boş bant bırakıyor */
+  grid-auto-rows: 1fr;
   gap: var(--grid-line);
   background: var(--color-border);
 }
 
 .hero__work .cell {
   --cell-pad: var(--space-md);
-  aspect-ratio: var(--ratio-landscape);
+  min-height: 0;
 }
 
-/* Hero hücresi zaten sabit oranda; içerideki kapak kendi oranını
-   dayatmasın, kalan alanı doldursun. */
+/* Kapak, başlıktan artan alanı doldurur. Tek sütunlu (dar) düzende
+   hücrenin yüksekliği belirsiz olduğu için alt sınır görseli korur. */
 .hero__work .cell__media {
   aspect-ratio: auto;
   flex: 1;
-  min-height: 0;
+  min-height: 130px;
+  /* Görsel hücreye sığsın: iz sınırlanmazsa büyük görsel taşıp kırpılıyor */
+  grid-template: minmax(0, 1fr) / minmax(0, 1fr);
+}
+
+/* İki sütunlu düzende hero tam bir ekran yüksekliğindedir: ızgara o
+   yüksekliği iki eşit satıra böler, kapaklar kalan alana sığar. */
+@media (min-width: 900px) {
+  .hero__work {
+    height: calc(100vh - var(--navbar-height));
+    min-height: 520px;
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+  }
+
+  .hero__work .cell__media {
+    min-height: 0;
+  }
 }
 
 /* Hücre kapağı — gerçek proje görseli

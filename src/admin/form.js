@@ -81,7 +81,10 @@ export function fieldAt(fields, path) {
 
 function input(field, value, path, ctx) {
   const locked = field.lockOnEdit && !ctx.isNew ? ' readonly' : '';
-  const attrs = `class="field__control" data-path="${path}"${locked}`;
+  // Görünen etiket bir <span>; ekran okuyucu için ad girdinin kendisinde
+  const lang = /\.(tr|en)$/.exec(path)?.[1];
+  const name = ` aria-label="${esc(field.label)}${lang ? ` (${lang.toUpperCase()})` : ''}"`;
+  const attrs = `class="field__control" data-path="${path}"${locked}${name}`;
 
   switch (field.type) {
     case 'text':
@@ -100,7 +103,7 @@ function input(field, value, path, ctx) {
             <button type="button" class="amd__btn" data-md="${kind}" data-for="${path}" title="${title}">${label}</button>
           `).join('')}
         </div>
-        <textarea class="field__control afield__md" data-path="${path}" rows="12">${esc(value)}</textarea>
+        <textarea class="field__control afield__md" data-path="${path}" rows="12"${name}>${esc(value)}</textarea>
         <button type="button" class="alink" data-preview="${path}">Önizle</button>
         <div class="apreview prose" data-preview-for="${path}" hidden></div>`;
     case 'number':

@@ -19,7 +19,7 @@
 }
 
 /* Izgara çizgisinin çizilmesi — pafta çizilir gibi.
-   Perde açılımı (clip-path) keyframe değil geçiş olarak
+   Perde açılımı keyframe değil geçiş olarak
    kuruluyor; aşağıdaki .reveal--unveil'e bak. */
 @keyframes draw-x {
   from { transform: scaleX(0); }
@@ -53,21 +53,36 @@
   transform: none;
 }
 
-/* Panel gibi açılan varyant — proje/foto ızgaralarında */
+/* Panel gibi açılan varyant — proje/foto ızgaralarında.
+   Hücrenin üstünü kâğıt renginde bir perde örter ve aşağı doğru
+   çekilir. Hücrenin kendisi kırpılmaz: clip-path ile tamamen
+   kırpılmış bir elemanı IntersectionObserver "görünmüyor" sayıyor,
+   .is-visible hiç eklenmiyor ve kartlar boş kalıyordu. */
 .reveal--unveil {
+  position: relative;
   opacity: 1;
   transform: none;
-  clip-path: inset(0 0 100% 0);
-  transition: clip-path var(--duration-slow) var(--ease-out);
-  transition-delay: calc(var(--i, 0) * 55ms);
 }
 
-.reveal--unveil.is-visible {
-  clip-path: inset(0 0 0 0);
+.reveal--unveil::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: var(--color-bg);
+  transform-origin: bottom;
+  transition: transform var(--duration-slow) var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 55ms);
+  pointer-events: none;
+}
+
+.reveal--unveil.is-visible::after {
+  transform: scaleY(0);
 }
 
 /* Kademelenme uzun listelerde birikmesin: 8. elemandan sonra sabitlenir */
-.reveal:nth-child(n + 9) {
+.reveal:nth-child(n + 9),
+.reveal--unveil:nth-child(n + 9)::after {
   transition-delay: 440ms;
 }
 
@@ -214,8 +229,11 @@
   .reveal--unveil {
     opacity: 1;
     transform: none;
-    clip-path: none;
     transition: none;
+  }
+
+  .reveal--unveil::after {
+    display: none;
   }
 
   .page,
