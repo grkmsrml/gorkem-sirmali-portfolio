@@ -6,12 +6,10 @@
   Bu, deploy'u basitleştiren (redirect kuralı gerektirmeyen) bilinçli
   bir mimari seçimin yan etkisi. Path-based routing'e geçiş ayrı bir
   iş — şimdilik kapsam dışı.
-
-  TODO: Netlify domaini belli olunca <loc> adresini güncelle.
 -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://TODO-domain/</loc>
+    <loc>https://roaring-zabaione-191619.netlify.app/</loc>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>

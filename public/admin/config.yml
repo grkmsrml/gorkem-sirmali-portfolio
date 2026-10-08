@@ -22,6 +22,8 @@ backend:
 
 # Yüklenen görseller. .jpg/.png olarak yüklenir; derleme sırasında
 # üç boyutlu .webp'e çevrilir (scripts/optimize-images.mjs).
+site_url: https://roaring-zabaione-191619.netlify.app
+
 media_folder: public/images/uploads
 public_folder: /images/uploads
 

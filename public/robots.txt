@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://TODO-domain/sitemap.xml
+Sitemap: https://roaring-zabaione-191619.netlify.app/sitemap.xml
