@@ -185,6 +185,7 @@ export const singles = {
             caption('Başlık (yer, yıl)'),
             {
               name: 'categories', label: 'Kategoriler', type: 'multiselect',
+              hint: 'Birden çok kategori işaretlenebilir; fotoğraf hepsinde görünür.',
               emptyHint: 'Önce yukarıdan kategori ekle.',
               options: (doc) => (doc.categories ?? []).map((c) => ({ value: c.id, label: c.name?.tr || '(adsız)' })),
             },

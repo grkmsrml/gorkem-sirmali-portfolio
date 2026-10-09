@@ -25,7 +25,11 @@
   <!-- Fraunces (başlık) + Archivo (gövde) + JetBrains Mono (etiket/metadata) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=Archivo:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <!-- Yazı tipleri sayfanın çizilmesini bekletmez: stil dosyası arka planda
+       iner, hazır olunca devreye girer. O ana kadar yedek yazı tipi görünür
+       (açılış ekranı bu geçişi büyük ölçüde örter). -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=Archivo:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=Archivo:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" /></noscript>
 
   <title>Görkem Sırmalı — Mimarlık Portfolyo</title>
 </head>
